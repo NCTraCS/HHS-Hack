@@ -1,3 +1,6 @@
+create database hack;
+#create user webuser and grant * on hack
+use hack;
 CREATE TABLE gaz_county (
   usps text,
   geoid bigint,

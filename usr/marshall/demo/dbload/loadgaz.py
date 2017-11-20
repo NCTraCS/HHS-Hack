@@ -14,7 +14,7 @@ def runSql(conn, sql):
 #or with mysqlimport
 #or with sql>load data
 def loadGazCounty(conn):
-	fname = "/home/gmclark/dev/data/census/gaz_county.csv"
+	fname = "./gaz_county.csv"
 	csvfile = open(fname, encoding='latin-1')
 	reader = csv.reader(csvfile, delimiter=',',quotechar='"')
 	count=0
