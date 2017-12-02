@@ -1,4 +1,5 @@
 import React from 'react';
+import Table from 'react-bootstrap/lib/Table';
 import {log} from './GlobalFunctions';
 // works
 class CountyItem extends React.Component {
@@ -36,14 +37,14 @@ export default class County extends React.Component {
 	render() {
 
 		return(
-			<table>
+			<Table>
 				<thead>
 					<tr><th>County Name</th><th>Pop/SqMi Land</th></tr>
 				</thead>
 				<tbody>
 					{this.props.county_list.map( (county,idx) => { return <CountyItem key={idx} county={county} propMin={this.props.propMin} propMax={this.props.propMax}/> })}
 				</tbody>
-			</table>
+			</Table>
 		);
 	}
 }

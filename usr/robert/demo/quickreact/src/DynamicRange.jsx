@@ -13,7 +13,8 @@ export default class DynamicRange extends React.Component {
             selectMin:100,
             selectMax:0,
             min: 0,
-            max: 100
+            max: 100,
+            marks:{0:'0',100:'100'}
         };
     }
     onSliderChange = (value) => {
@@ -35,13 +36,10 @@ export default class DynamicRange extends React.Component {
     render() {
         return (
             <div>
-                <label>Min: </label>
-                <input type="number" value={this.state.min} onChange={this.onMinChange} />
-                <br />
-                <label>Max: </label>
-                <input type="number" value={this.state.max} onChange={this.onMaxChange} />
-                <br /><br />
-                <Range defaultValue={[this.state.min, this.state.max]} min={this.state.min} max={this.state.max}
+                <Range defaultValue={[this.state.min, this.state.max]}
+                       min={this.state.min}
+                       max={this.state.max}
+                       marks={this.state.marks}
                        onChange={this.onSliderChange}
                 />
             </div>
