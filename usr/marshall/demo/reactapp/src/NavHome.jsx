@@ -53,7 +53,7 @@ class NavHome extends Component {
 			panel = <One /> ;
 		}
 		else if( this.props.currentPanel === 2 ) {
-			panel = <Two /> ;
+			panel = <Two chartData={this.props.chartData} chartCallbacks={this.props.chartCallbacks}/> ;
 		}
 		else if( this.props.currentPanel === 3 ) {
 			panel = <Three /> ;
