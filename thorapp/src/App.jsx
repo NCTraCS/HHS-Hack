@@ -3,11 +3,12 @@ import './App.css';
 import ControlPanel from './ControlPanel';
 import ResultPanel from './ResultPanel';
 import {log} from './GlobalFunctions';
-
+import {flaskHost} from './GlobalFunctions';
 /* Page Layout - Bootstrap*/
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { Panel,Well } from 'react-bootstrap';
+
 
 class App extends React.Component {
 
@@ -62,14 +63,70 @@ class RiskApp extends React.Component {
     constructor(props) {
         super(props);
         log(props);
-        this.state = ({name: this.props.name});
+        this.state = ({name: this.props.name , showResults: false});
+		this.data = {};
+		this.callbacks = {
+			getCounties: this.getCounties.bind(this) ,
+			//getOptions: this.getOptions.bind(this) ,
+			getData: this.getData.bind(this),
+			getAppState: this.getAppState.bind(this),
+        	setPropConstraints: this.setPropConstraints.bind(this),
+			getPropConstraints: this.getPropConstraints.bind(this)
+		};
 
-        this.propConstraints = '';
-        this.setPropConstraints = this.setPropConstraints.bind(this);
+        let propConstraints = '';
+        console.log('Prop:',this.stateList);
     }
 
     setPropConstraints(propVals) {
     	this.propConstraints = propVals;
+	}
+
+	getPropConstraints() {
+        return this.propConstraints;
+    }
+
+    getAppState() {
+    	return this.state.showResults;
+	}
+
+    getCounties(option) {
+        console.log('GetCounties',this.propConstraints[1].propValue);
+        this.setState({showResults: false, displayType: 1});
+        var state = option;
+        var Request = require('request');
+        if(this.propConstraints[1].propValue === '1') {
+            console.log('I Got Here!');
+            Request.get(flaskHost+'/cdc/rates/'+state, (error, response, body) => {
+                if(error) {
+                    return console.log("WHAT ERROR?");
+                }
+                else {
+                    this.setState({data: JSON.parse(body)});
+                    this.setState({showResults: true});
+                }
+                console.log('Data Here:', this.state.data);
+            });
+        }
+        else {
+            Request.get(flaskHost+'/gaz/'+state, (error, response, body) => {
+                if(error) {
+                    return console.log("WHAT ERROR?");
+                }
+                else {
+                    this.setState({data: JSON.parse(body)});
+                    this.setState({showResults: true});
+                }
+                console.log('Data Here:', this.state.data);
+            });
+        }
+        return;
+    }
+
+    getData() {
+    	console.log('getting the Data...');
+    	console.log(this.state.data);
+    	return this.state.data;
 	}
 
     render() {
@@ -81,7 +138,7 @@ class RiskApp extends React.Component {
 					<Row>
 						<Col xs={12}>
 							<Well header={controlPanelTitle}>
-								<ControlPanel constraintHandler={this.setPropConstraints}/>
+								<ControlPanel callbacks={this.callbacks}/>
 							</Well>
 						</Col>
 					</Row>
@@ -90,7 +147,7 @@ class RiskApp extends React.Component {
 							<div id="navHomeSide">sidebar</div>
 						</Col>
 						<Col xs={10}>
-                            <ResultPanel propConstraints={this.propConstraints}/>
+                            <ResultPanel callbacks={this.callbacks} data={this.state.data}/>
 						</Col>
 					</Row>
 				</Grid>

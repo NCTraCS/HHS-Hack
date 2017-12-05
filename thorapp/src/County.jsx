@@ -5,16 +5,19 @@ import {log} from './GlobalFunctions';
 class CountyItem extends React.Component {
     constructor(props) {
         super(props);
-        this.state = ({showCounty: true, showRow: true, popSqMile : (this.props.county['pop2010'] / this.props.county['aland_sqmi']).toFixed(2)});
+        this.state = ({showResults: true, showRow: true, popSqMile : (this.props.county['pop2010'] / this.props.county['aland_sqmi']).toFixed(2)});
         this.checkDisplay;
+        this.propConstraints = this.props.propConstraints();
+        console.log('Data:', this.props.data);
     }
 	checkDisplay() {
         if(!this.checkProperty(0, this.state.popSqMile))
             this.setState({showRow: false});
     }
     checkProperty(propId, propVal) {
-    	var propMin  = this.props.propDef[propId]['selectMin'];
-    	var propMax = this.props.propDef[propId]['selectMax'];
+    	console.log(this.props);
+    	var propMin  = this.propConstraints[propId]['selectMin'];
+    	var propMax = this.propConstraints[propId]['selectMax'];
         log('Here',propMin, propMax);
         //log(popSqMile,this.props.propMin,this.props.propDef[propId]['propMin']);
 		if(propMin !== null && propMax !== null)
@@ -30,10 +33,10 @@ class CountyItem extends React.Component {
 
 	drawRow(renderCnty, popSqMile, rx_rate){
         var render = []
-		console.log('Prop Def Here:', this.props.propDef);
+		console.log('Prop Def Here:', this.propConstraints);
 		render.push(<td key='cnty'>{renderCnty}</td>);
         render.push(<td key='pop'>{popSqMile}</td>);
-        if(this.props.propDef[1]['propValue']==='1') {
+        if(this.propConstraints[1]['propValue']==='1') {
         	render.push(<td key='rx'>{rx_rate}</td>);
         }
         return render;
@@ -53,15 +56,22 @@ export default class County extends React.Component {
 
     constructor(props) {
         super(props);
-		this.state = ({propOpt: []});
+		this.state = ({ propOpt: [], data: {} });
+		this.propConstraints = this.props.propConstraints;
+		this.propDef = this.propConstraints();
+		console.log('County List:', this.props.county_list);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({ data: nextProps.data });
     }
 
     getHeader() {
     	var header = [];
-        console.log('PropDef:', this.props.propDef[1].propValue);
+        console.log('PropDef:', this.propDef);
     	header.push(<th key={0}>County Name</th>);
     	header.push(<th key={1}>Pop/SqMi Land</th>);
-    	if(this.props.propDef[1]['propValue']==='1') {
+    	if(this.propDef[1]['propValue']==='1') {
     		header.push(<th key={3}>Rx Rate</th>);
 		}
 		return header;
@@ -73,7 +83,7 @@ export default class County extends React.Component {
 					<tr>{this.getHeader()}</tr>
 				</thead>
 				<tbody>
-					{this.props.county_list.map( (county,idx) => { return <CountyItem key={idx} county={county} propDef={this.props.propDef}/> })}
+					{this.props.data.map( (county,idx) => { return <CountyItem key={idx} county={county} propConstraints={this.propConstraints}/> })}
 				</tbody>
 			</Table>
 		);
