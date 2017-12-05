@@ -1,2 +1,2 @@
 set FLASK_APP=main.py
-flask run
+flask run --port=8443
