@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { VictoryChart, VictoryBar, VictoryAxis, VictoryTheme } from 'victory';
 import { Grid, Row, Col } from 'react-bootstrap';
 
+/*
 const data = [
   {decile: 1, rxrate: .3},
   {decile: 2, rxrate: 2},
@@ -14,10 +15,15 @@ const data = [
   {decile: 9, rxrate: 29},
   {decile: 10, rxrate: 37}
 ];
+*/
 
 class Two extends Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
+		this.props.chartCallbacks.getOpRxRateTiles();
+	}
+	updateData(opRxRateTiles) {
+		console.log(opRxRateTiles)
 	}
 	render() {
 		return(
@@ -37,7 +43,7 @@ class Two extends Component {
 					/>
 					<VictoryBar
 						padding={{top: 3, bottom: 3}}
-							data={data}
+							data={this.props.chartData.opRxRateTiles}
 							x="decile"
 							y="rxrate"
 					/>
