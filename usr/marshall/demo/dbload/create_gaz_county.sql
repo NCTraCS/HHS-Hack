@@ -18,5 +18,10 @@ CREATE TABLE gaz_county (
   lng double DEFAULT NULL,
 	index(state_fips),
 	index(county_fips)
-)
+) ENGINE = MyISAM
 
+#### AFTER DATA LOAD !!!!! ###### 
+alter table gaz_county add column geo_point POINT; 
+update gaz_county set geo_point=Point(lat,lng) where lat is not null and lng is not null and state_fips is not null;
+alter table gaz_county modify geo_point POINT NOT NULL;
+create spatial index ix_spatial_gaz_county_geo_point on gaz_county(geo_point);
