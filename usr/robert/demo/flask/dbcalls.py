@@ -22,3 +22,15 @@ def gaz(state_fips=None):
 	cursor.execute(sql,(state_fips))
 	result = cursor.fetchall()
 	return result
+
+#get a list of available states to select from
+def st(state=None):
+    conn = connect()
+    sql = "select distinct usps, state_fips from gaz_county"
+    if state != None:
+        sql += " where state_fips=%s"
+
+    cursor = conn.cursor()
+    cursor.execute(sql,(state))
+    result = cursor.fetchall()
+    return result

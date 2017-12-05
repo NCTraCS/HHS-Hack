@@ -16,8 +16,16 @@ def hello():
 # # one route with param and one without
 @app.route('/gaz', methods=['GET'])
 @app.route('/gaz/<int:state_fips>', methods=['GET'])
-def startup(state_fips=None):
+def cnty(state_fips=None):
     gazdat = dbcalls.gaz(state_fips)
     response = jsonify(gazdat);
+    response.headers.add('Access-Control-Allow-Origin','*');
+    return response
+
+@app.route('/st', methods=['GET'])
+@app.route('/st/<int:state>', methods=['GET'])
+def states(state=None):
+    stdat = dbcalls.st(state);
+    response = jsonify(stdat);
     response.headers.add('Access-Control-Allow-Origin','*');
     return response
