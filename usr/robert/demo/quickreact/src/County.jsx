@@ -5,27 +5,47 @@ import {log} from './GlobalFunctions';
 class CountyItem extends React.Component {
     constructor(props) {
         super(props);
-        this.state = ({showCounty: true});
+        this.state = ({showCounty: true, showRow: true, popSqMile : (this.props.county['pop2010'] / this.props.county['aland_sqmi']).toFixed(2)});
         this.checkDisplay;
     }
-
-    checkDisplay(propId, propVal) {
-    	var propMin  = this.props.propDef[propId]['propMin'];
-    	var propMax = this.props.propDef[propId]['propMax'];
-        log('Here',this.props.propDef[propId]['propMin'], this.props.propDef[propId]['propMin']);
+	checkDisplay() {
+        if(!this.checkProperty(0, this.state.popSqMile))
+            this.setState({showRow: false});
+    }
+    checkProperty(propId, propVal) {
+    	var propMin  = this.props.propDef[propId]['selectMin'];
+    	var propMax = this.props.propDef[propId]['selectMax'];
+        log('Here',propMin, propMax);
         //log(popSqMile,this.props.propMin,this.props.propDef[propId]['propMin']);
-		if (propVal < propMin || propVal > propMax) {
-            return false;
-        }
-        else {
-            return true;
+		if(propMin !== null && propMax !== null)
+        {
+            if (propVal < propMin || propVal > propMax) {
+                return false;
+            }
+            else {
+                return true;
+            }
         }
 	}
 
+	drawRow(renderCnty, popSqMile, rx_rate){
+        var render = []
+		console.log('Prop Def Here:', this.props.propDef);
+		render.push(<td key='cnty'>{renderCnty}</td>);
+        render.push(<td key='pop'>{popSqMile}</td>);
+        if(this.props.propDef[1]['propValue']==='1') {
+        	render.push(<td key='rx'>{rx_rate}</td>);
+        }
+        return render;
+    }
+
 	render() {
-        var popSqMile = (this.props.county['pop2010'] / this.props.county['aland_sqmi']).toFixed(2);
-    	var renderVal = <tr><td>{this.props.county['name']}</td><td>{popSqMile}</td></tr>;
-        return this.checkDisplay(0, popSqMile) ? renderVal : null ;
+		console.log(this.props.propDef);
+		var popSqMile = this.state.popSqMile;
+		var rx_rate = this.props.county['rx_rate'];
+		var renderCnty = this.props.county['name'];
+		return (this.state.showRow ? <tr>{this.drawRow(renderCnty,popSqMile,rx_rate)}</tr> : null);
+		/*return <tr><td>{renderCnty}</td><td>{popSqMile}</td><td>{rx_rate}</td></tr>*/
 	}
 }
 
@@ -36,12 +56,21 @@ export default class County extends React.Component {
 		this.state = ({propOpt: []});
     }
 
+    getHeader() {
+    	var header = [];
+        console.log('PropDef:', this.props.propDef[1].propValue);
+    	header.push(<th key={0}>County Name</th>);
+    	header.push(<th key={1}>Pop/SqMi Land</th>);
+    	if(this.props.propDef[1]['propValue']==='1') {
+    		header.push(<th key={3}>Rx Rate</th>);
+		}
+		return header;
+	}
 	render() {
-
 		return(
 			<Table>
 				<thead>
-					<tr><th>County Name</th><th>Pop/SqMi Land</th></tr>
+					<tr>{this.getHeader()}</tr>
 				</thead>
 				<tbody>
 					{this.props.county_list.map( (county,idx) => { return <CountyItem key={idx} county={county} propDef={this.props.propDef}/> })}

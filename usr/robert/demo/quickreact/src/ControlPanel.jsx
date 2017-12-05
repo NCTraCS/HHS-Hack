@@ -1,6 +1,6 @@
 import React from 'react';
 import County from './County';
-import Criteria from './Criteria';
+import ControlItem from './ControlItem';
 import Panel from 'react-bootstrap/lib/Panel';
 import ControlLabel from 'react-bootstrap/lib/Form';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
@@ -29,7 +29,7 @@ export default class ControlPanel extends React.Component {
             currentState: 2,
             propVal : [
                     {name : 'popsqmile', display:'Population per Square Mile', type:'range', propMin : 0 , propMax: 100, showCriteria: true},
-                    {name : 'rxrate', display:'Include Perscription Rate?', type:'toggle', propValue : false , showCriteria: true}
+                    {name : 'rxrate', display:'Include Perscription Rate?', type:'toggle', propDefValue: 1, propValue : false, showCriteria: false}
                     ]
         });
 
@@ -42,12 +42,13 @@ export default class ControlPanel extends React.Component {
     }
 
     getCounties() {
-        console.log('GetCounties',this.state.currentState);
+        console.log('GetCounties',this.state.propVal[1].propValue);
         this.setState({showCounties: false, displayType: 1});
         var state = this.state.currentState;
         var Request = require('request');
-        if(this.state.propVal[1].propValue === 1) {
-            Request.get('http://localhost:5000/cdc/rates/'+state, (error, response, body) => {
+        if(this.state.propVal[1].propValue === '1') {
+            console.log('I Got Here!');
+            Request.get('http://localhost:8443/cdc/rates/'+state, (error, response, body) => {
                 if(error) {
                     return console.log("WHAT ERROR?");
                 }
@@ -60,7 +61,7 @@ export default class ControlPanel extends React.Component {
             });
         }
         else {
-            Request.get('http://localhost:5000/gaz/'+state, (error, response, body) => {
+            Request.get('http://localhost:8443/gaz/'+state, (error, response, body) => {
                 if(error) {
                     return console.log("WHAT ERROR?");
                 }
@@ -81,7 +82,7 @@ export default class ControlPanel extends React.Component {
     getOptions(optionType) {
         if ( optionType === 'state' ) {
             var Request = require('request');
-            Request.get('http://localhost:5000/st', (error, response, body) => {
+            Request.get('http://localhost:8443/st', (error, response, body) => {
                 if(error) {
                     return console.log("WHAT ERROR?");
                 }
@@ -95,52 +96,50 @@ export default class ControlPanel extends React.Component {
         //console.log(this.state.stateList);
     }
     propUpdate(id, propObj) {
+        console.log('Property ID:', id);
         var tempProps = this.state.propVal;
-        tempProps[id] = propObj;
+        var tempProp = tempProps[id];
+        console.log(propObj);
+        Object.keys(propObj).forEach(function(key) {
+            console.log('Property Obj Val:', propObj[key]);
+            tempProp[key] = propObj[key];
+            console.log('Object Key:', key);
+            console.log('Object Value:', propObj[key]);
+        });
+        tempProps[id] = tempProp;
+        console.log('Temp Prop:', tempProp);
+        console.log('Temp Props:', tempProps[id]);
         this.setState({propVal: tempProps});
+        console.log('New State:', this.state.propVal);
+    }
+
+    toggleCriteria(event) {
+        log(event);
+        var propID = event.target.id;
+        var newVal = event.target.value;
+        var tempProps = this.state.propVal;
+        var tempProp = tempProp[propID];
+        tempProp['showCriteria'] = !tempProp['showCriteria'];
+        if (tempProp['propType'] === 'toggle') {
+            if(tempProp['showCriteria']) {
+                tempProp['propValue'] = newVal;
+            }
+        }
+        tempProps[propID] = tempProp;
+        this.setState({propVal: tempProps});
+        if(this.state.showCounties){
+            this.getCounties();
+        }
     }
 
     handleClick(event) {
         var state=event.target.value;
         this.setState({currentState: state});
-        log(state);
-        log(this.state.currentState);
+        //log(state);
+        //log(this.state.currentState);
         this.getCounties();
     }
 
-    toggleCriteria(event) {
-        log(event);
-        var propID = event.target.value;
-        var propObj = this.state.propVal[propID];
-        propObj.setState({showCrtieria: !this.state.propVal[propID].showCriteria});
-        if (propObj.state.propType === 'toggle') {
-            propObj.setState({propValue: !this.state.propVal[propID].propValue});
-        }
-    }
-
-    /*drawCriteria(crit) {
-        if (crit === 0 && this.state.propVal[crit].showCriteria) {
-            return (
-                <div style={style2}>
-                    <ControlLabel>{this.state.propVal[0]['display']}</ControlLabel>
-                    <DynamicRange propHandler={this.propUpdate} propID={0} propDef={this.state.propVal[0]}/>
-                </div>
-            )
-        }
-        if (crit === 1 && this.state.propVal[crit].showCriteria) {
-            return (
-                <div style={style2}>
-                    <ControlLabel>{this.state.propVal[1]['display']}</ControlLabel>
-                    <ButtonToolbar>
-                        <ToggleButtonGroup type="radio" defaultValue={1} name={this.state.propVal[1].name}>
-                            <ToggleButton value={0} onChange={this.toggleCriteria}>Yes</ToggleButton>
-                            <ToggleButton value={1} onChange={this.toggleCriteria}>No</ToggleButton>
-                        </ToggleButtonGroup>
-                    </ButtonToolbar>
-                </div>
-            )
-        }
-    }*/
     render() {
         var loadDisplay = (<LoadingBar displayType={this.state.displayType}/>);
         var resultDisplay = (
@@ -159,7 +158,7 @@ export default class ControlPanel extends React.Component {
                                 </FormControl>
                             </div>
                             <div style={style2}>
-                                <Criteria id={0} name='Population Per Square Mile'
+                                <ControlItem id={0} name='Population Per Square Mile'
                                     display='Population Per Square Mile'
                                     type= 'range'
                                     propMin= {0}
@@ -169,23 +168,16 @@ export default class ControlPanel extends React.Component {
                                 />
                             </div>
                             <div style={style2}>
-                                <Criteria id={1}
+                                <ControlItem id={1}
                                     name='rx_rates'
                                     display='Include Prescribing Rates?'
                                     type= 'toggle'
-                                    propDefValue={1}
-                                    showCriteria={true}
+                                    propDefValue={0}
+                                    showCriteria={false}
                                     handler = {this.propUpdate}
                                 />
                             </div>
-                            {/*<div style={style2}>
-                                <ControlLabel>{this.state.propVal[0]['display']}</ControlLabel>
-                                <DynamicRange propHandler = {this.propUpdate} propID={0} propDef={this.state.propVal[0]}/>
-                            </div>*/}
                         </FormGroup>
-                        {/*<FormGroup bsSize={'small'}>
-                            <Button bsize="medium" onClick={this.getCounties.bind(this)}>Find Counties</Button>
-                        </FormGroup>*/}
                     </Panel>
                     <Panel header={'Result Panel'}>
                         { this.state.showCounties ? resultDisplay : loadDisplay }

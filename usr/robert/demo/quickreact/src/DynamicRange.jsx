@@ -9,7 +9,8 @@ export default class DynamicRange extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: this.props.propID,
+            id: this.props.id,
+            name: this.props.name,
             selectMin:this.props.propMax,
             selectMax:this.props.propMax,
             min: this.props.propMin,
@@ -20,9 +21,9 @@ export default class DynamicRange extends React.Component {
     onSliderChange = (value) => {
         this.setState({selectMin: value[0]});
         this.setState({selectMax: value[1]});
-        var returnObj = {name: this.state.name , propMin: this.state.selectMin, propMax: this.state.selectMax};
-        this.props.propHandler(this.props.propID, returnObj);
-        console.log(value[0],value[1]);
+        var returnObj = {name: this.state.name , selectMin: this.state.selectMin, selectMax: this.state.selectMax};
+        this.props.propHandler(this.state.id, returnObj);
+        console.log('Property ID -Range:',this.state.id );
     }
     // Following will allow for dynamic setting of the Min and Max values
     onMinChange = (e) => {
