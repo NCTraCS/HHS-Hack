@@ -19,10 +19,3 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-*/workplace.xml
-*/.idea
-
-
-usr/robert/demo/.idea/workspace.xml*
-usr/marshall/demo/.idea/workspace.xml*
