@@ -26,3 +26,13 @@ yarn-error.log*
 
 usr/robert/demo/.idea/workspace.xml*
 usr/marshall/demo/.idea/workspace.xml*
+.idea/HHS-Hack.iml
+.idea/inspectionProfiles/Project_Default.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/workspace.xml
+*.iml
+usr/robert/demo/.idea/workspace.xml
+usr/marshall/demo/.idea/modules.xml
+usr/marshall/demo/.idea/jsLibraryMappings.xml
+usr/marshall/demo/.idea/workspace.xml
