@@ -1,4 +1,4 @@
-from flask import Flask,jsonify
+from flask import Flask,jsonify,request
 app = Flask(__name__)
 
 import dbgaz
@@ -27,7 +27,9 @@ def gazRoute(state_fips=None):
 @app.route('/op_rx_rate_decile', methods=['GET'])
 @app.route('/op_rx_rate_decile/<int:state_fips>', methods=['GET'])
 def opRxRate(state_fips=None):
-	res = dbOpRxRate.rateTile(state_fips,10)
+	#if 'id_stcou_fips' in request.args:
+	idStcouFips = request.args.get('id_stcou_fips')
+	res = dbOpRxRate.rateTile(state_fips,10,idStcouFips)
 	response = jsonify(res)
 	response.headers.add('Access-Control-Allow-Origin','*')
 	return response

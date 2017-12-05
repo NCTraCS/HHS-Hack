@@ -27,11 +27,11 @@ def rate(state_fips=None):
 
 def rateTile(state_fips,ntiles=10,idStCouFips=None):
 	counties = rate(state_fips)
-	tiles = xtile.calcTiles(counties,'rx_rate','pop2010',ntiles)
+	tileout = xtile.calcTiles(counties,'rx_rate','pop2010',ntiles)
 	ret = {}
+	idTiles = []
 	if idStCouFips:
-		idTiles = []
-		for county in tiles['data']:
+		for county in tileout['data']:
 			if idStCouFips == county['stcou_fips']:
 				idTiles = county['tiles']
 				break
@@ -39,9 +39,21 @@ def rateTile(state_fips,ntiles=10,idStCouFips=None):
 		ret['id_stcou_fips'] = idStCouFips
 		ret['id_tiles'] = idTiles
 
+	#set x and int score
+	for tile in tileout['tiles']:
+		tile['x'] = tile['id']+1
+		tile['scoreInt'] = round(tile['score'])
+
+	idX = []
+	for id in idTiles:
+		idX.append(id+1)
+	ret['idX'] = idX
+	ret['idTiles'] = idTiles
+
+
 	ret['filter_state_fips'] = state_fips
 	ret['ntiles'] = ntiles
-	ret['tiles'] = tiles['tiles']
+	ret['tiles'] = tileout['tiles']
 	return(ret)
 
 def test():
