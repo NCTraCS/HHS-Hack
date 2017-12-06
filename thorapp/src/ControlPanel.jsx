@@ -27,41 +27,22 @@ export default class ControlPanel extends React.Component {
             name: this.props.name,
             showCounties: false,
             currentState: 2,
-            propVal : [
-                    {name : 'popsqmile', display:'Population per Square Mile', type:'range', propMin : 0 , propMax: 100, showCriteria: true},
-                    {name : 'rxrate', display:'Include Perscription Rate?', type:'toggle', propDefValue: 1, propValue : false, showCriteria: false}
-                    ]
+            propVal: this.props.propConstraints
         });
         this.getOptions('state');
         this.drawOptions = this.drawOptions.bind(this);
         //this.getOptions = this.props.callbacks.getOptions;
         this.getCounties = this.props.callbacks.getCounties;
         this.setPropConstraints = this.props.callbacks.setPropConstraints;
-        this.setPropConstraints(this.state.propVal);
+        //this.setPropConstraints(this.state.propVal);
         this.propUpdate = this.propUpdate.bind(this);
         this.handleClick = this.handleClick.bind(this);
-        this.toggleCriteria = this.toggleCriteria.bind(this);
+        this.setDataCall = this.props.callbacks.setDataCall;
+        this.getDataCall = this.props.callbacks.getDataCall;
+        //this.toggleCriteria = this.toggleCriteria.bind(this);
         //this.setCurrentState = this.setCurrentState.bind(this);
 
         console.log('State List:',this.state.stateList);
-    }
-
-    propUpdate(id, propObj) {
-        console.log('Property ID:', id);
-        var tempProps = this.state.propVal;
-        var tempProp = tempProps[id];
-        console.log(propObj);
-        Object.keys(propObj).forEach(function(key) {
-            console.log('Property Obj Val:', propObj[key]);
-            tempProp[key] = propObj[key];
-            console.log('Object Key:', key);
-            console.log('Object Value:', propObj[key]);
-        });
-        tempProps[id] = tempProp;
-        console.log('Temp Prop:', tempProp);
-        console.log('Temp Props:', tempProps[id]);
-        this.setState({propVal: tempProps});
-        console.log('New State:', this.state.propVal);
     }
 
     getOptions(optionType) {
@@ -69,9 +50,9 @@ export default class ControlPanel extends React.Component {
         if ( optionType === 'state' ) {
             console.log('Call Made:', optionType);
             var Request = require('request');
-            console.log(flaskHost+'/st');
+            //console.log(flaskHost+'/st');
             Request.get(flaskHost+'/st', (error, response, body) => {
-                console.log('HERE');
+                //console.log('HERE');
                 if(error) {
                     return console.log("WHAT ERROR?");
                 }
@@ -85,14 +66,34 @@ export default class ControlPanel extends React.Component {
         };
         //console.log(this.state.stateList);
     }
+    propUpdate(id, propObj) {
+        //console.log('Property ID:', id);
+        var tempProps = this.state.propVal;
+        var tempProp = tempProps[id];
+        //console.log(propObj);
+        Object.keys(propObj).forEach(function(key) {
+            //console.log('Property Obj Val:', propObj[key]);
+            tempProp[key] = propObj[key];
+            //console.log('Object Key:', key);
+            //console.log('Object Value:', propObj[key]);
+        });
+        tempProps[id] = tempProp;
+        //console.log('Temp Prop:', tempProp);
+        console.log('Temp Props:', tempProps[id]);
+        //this.setState({propVal: tempProps});
+        this.setPropConstraints(tempProps);
+        console.log('New State PropVal:', this.state.propVal);
+    }
+    /*
     toggleCriteria(event) {
-        log(event);
+        //log(event);
         var propID = event.target.id;
         var newVal = event.target.value;
         var tempProps = this.state.propVal;
         var tempProp = tempProp[propID];
         tempProp.showCriteria = !tempProp.showCriteria;
         if (tempProp.propType === 'toggle') {
+            tempProp.showCriteria = !tempProp.showCriteria;
             if(tempProp.showCriteria) {
                 tempProp.propValue = newVal;
             }
@@ -102,14 +103,15 @@ export default class ControlPanel extends React.Component {
         if(this.state.showCounties){
             return this.getCounties;
         }
-    }
+    }*/
 
     handleClick(event) {
         let opt=event.target.value;
         this.setState({currentOption: opt});
         //log(state);
         //log(this.state.currentState);
-        this.getCounties(opt);
+        var dataCallConfig = {dataCallId: '1', params: [opt]};
+        this.setDataCall(dataCallConfig);
         return;
     }
 
@@ -118,6 +120,8 @@ export default class ControlPanel extends React.Component {
     }
 
     render() {
+        console.log('Contorl panel Render');
+        console.log('');
         return (
             <div className="App">
                 <FormGroup bsSize='small' controlId="formControlsSelect">
@@ -146,6 +150,8 @@ export default class ControlPanel extends React.Component {
                             propDefValue={0}
                             showCriteria={false}
                             handler = {this.propUpdate}
+                            setDataCall= {this.setDataCall}
+                            getDataCall={this.getDataCall}
                         />
                     </div>
                 </FormGroup>

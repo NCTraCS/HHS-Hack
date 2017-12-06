@@ -5,20 +5,23 @@ import {log} from './GlobalFunctions';
 class CountyItem extends React.Component {
     constructor(props) {
         super(props);
-        this.state = ({showResults: true, showRow: true, popSqMile : (this.props.county['pop2010'] / this.props.county['aland_sqmi']).toFixed(2)});
+        //console.log(this.props.propConstraints);
+        this.state = ({showResults: true, showRow: true, popSqMile : (this.props.county['pop2010'] / this.props.county['aland_sqmi']).toFixed(2)
+        	, propVal: this.props.propConstraints});
         this.checkDisplay;
-        this.propConstraints = this.props.propConstraints();
-        console.log('Data:', this.props.data);
+        //this.propConstraints = this.props.propConstraints();
+        //console.log('Data:', this.props.data);
     }
 	checkDisplay() {
         if(!this.checkProperty(0, this.state.popSqMile))
             this.setState({showRow: false});
     }
+
     checkProperty(propId, propVal) {
-    	console.log(this.props);
-    	var propMin  = this.propConstraints[propId]['selectMin'];
-    	var propMax = this.propConstraints[propId]['selectMax'];
-        log('Here',propMin, propMax);
+    	//console.log(this.props);
+    	var propMin  = this.state.propVal[propId]['selectMin'];
+    	var propMax = this.state.propVal[propId]['selectMax'];
+        //log('Here',propMin, propMax);
         //log(popSqMile,this.props.propMin,this.props.propDef[propId]['propMin']);
 		if(propMin !== null && propMax !== null)
         {
@@ -33,17 +36,19 @@ class CountyItem extends React.Component {
 
 	drawRow(renderCnty, popSqMile, rx_rate){
         var render = []
-		console.log('Prop Def Here:', this.propConstraints);
-		render.push(<td key='cnty'>{renderCnty}</td>);
-        render.push(<td key='pop'>{popSqMile}</td>);
-        if(this.propConstraints[1]['propValue']==='1') {
-        	render.push(<td key='rx'>{rx_rate}</td>);
+		//console.log('DrawRow PropVa:', this.state.propVal);
+        if(this.checkProperty(0,popSqMile)){
+        	render.push(<td key='cnty'>{renderCnty}</td>);
+        	render.push(<td key='pop'>{popSqMile}</td>);
+        	if(this.state.propVal[1]['propValue']==='1') {
+                render.push(<td key='rx'>{rx_rate}</td>);
+            }
         }
         return render;
     }
 
 	render() {
-		console.log(this.props.propDef);
+		//console.log('Item Render PropVal: ', this.state.propVal);
 		var popSqMile = this.state.popSqMile;
 		var rx_rate = this.props.county['rx_rate'];
 		var renderCnty = this.props.county['name'];
@@ -56,10 +61,11 @@ export default class County extends React.Component {
 
     constructor(props) {
         super(props);
-		this.state = ({ propOpt: [], data: {} });
-		this.propConstraints = this.props.propConstraints;
-		this.propDef = this.propConstraints();
-		console.log('County List:', this.props.county_list);
+
+		this.state = ({ propOpt: [], data: {} , propVal: this.props.propConstraints});
+		//this.propConstraints = this.props.propConstraints;
+		//this.propDef = this.propConstraints();
+		//console.log('Prop Val County:', this.props.propConstraints);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -68,10 +74,10 @@ export default class County extends React.Component {
 
     getHeader() {
     	var header = [];
-        console.log('PropDef:', this.propDef);
+        //console.log('PropDef:', this.state.propVal);
     	header.push(<th key={0}>County Name</th>);
     	header.push(<th key={1}>Pop/SqMi Land</th>);
-    	if(this.propDef[1]['propValue']==='1') {
+    	if(this.state.propVal[1]['propValue']==='1') {
     		header.push(<th key={3}>Rx Rate</th>);
 		}
 		return header;
@@ -83,7 +89,7 @@ export default class County extends React.Component {
 					<tr>{this.getHeader()}</tr>
 				</thead>
 				<tbody>
-					{this.props.data.map( (county,idx) => { return <CountyItem key={idx} county={county} propConstraints={this.propConstraints}/> })}
+					{this.props.data.map( (county,idx) => { return <CountyItem key={idx} county={county} propConstraints={this.state.propVal}/> })}
 				</tbody>
 			</Table>
 		);

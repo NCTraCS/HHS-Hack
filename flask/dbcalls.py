@@ -40,12 +40,14 @@ def cdc_rates(state=None, county=None):
     sql = "select distinct * from gaz_county gaz left join cdc_county_rx_rate_2016 cdc on trim(gaz.geoid)=trim(cdc.stcou_fips) where cdc.rx_rate is not null"
     if state != None:
         sql += " and state_fips=%s"
-    if county != None:
-        sql += "  and county_fips=%c"
+        if county != None:
+            sql += "  and county_fips=%c"
     cursor = conn.cursor()
     if state != None and county != None:
         cursor.execute(sql,(state, county))
-    else:
+    elif state != None:
         cursor.execute(sql,(state))
+    else:
+        cursor.execute(sql)
     result = cursor.fetchall()
     return result

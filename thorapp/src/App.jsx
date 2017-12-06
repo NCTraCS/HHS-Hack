@@ -63,9 +63,17 @@ class RiskApp extends React.Component {
     constructor(props) {
         super(props);
         log(props);
-        this.state = ({name: this.props.name , showResults: false});
+        this.state = ({name: this.props.name ,
+			showResults: false,
+			dataCallConfig : {dataCallId: '0', params: []},
+            propVal : [
+                {name : 'popsqmile', display:'Population per Square Mile', type:'range', propMin : 0 , propMax: 100, showCriteria: true},
+                {name : 'rxrate', display:'Include Perscription Rate?', type:'toggle', propDefValue: 1, propValue : false, showCriteria: false}
+            ]});
 		this.data = {};
 		this.callbacks = {
+			setDataCall: this.setDataCall.bind(this),
+			getDataCall: this.getDataCall.bind(this),
 			getCounties: this.getCounties.bind(this) ,
 			//getOptions: this.getOptions.bind(this) ,
 			getData: this.getData.bind(this),
@@ -75,29 +83,70 @@ class RiskApp extends React.Component {
 		};
 
         let propConstraints = '';
-        console.log('Prop:',this.stateList);
+        console.log('StateList:',this.stateList);
     }
+	componentDidUpdate(prevProps, prevState) {
+		if(prevState.dataCallConfig !== this.state.dataCallConfig) {
+			this.getCounties();
+		}
+	}
 
+	setDataCall(callConfig) {
+    	console.log('New Data Config:', callConfig);
+    	console.log('Current Data Config: ', this.state.dataCallConfig);
+		this.setState({dataCallConfig : callConfig});
+    	//this.getCounties();
+	}
+
+	getDataCall() {
+    	console.log('Returning dataCallConfig...', this.state.dataCallConfig);
+    	return this.state.dataCallConfig;
+	}
     setPropConstraints(propVals) {
-    	this.propConstraints = propVals;
+    	this.setState({propVal: propVals});
 	}
 
 	getPropConstraints() {
-        return this.propConstraints;
+        return this.state.propVal;
     }
 
     getAppState() {
     	return this.state.showResults;
 	}
 
-    getCounties(option) {
-        console.log('GetCounties',this.propConstraints[1].propValue);
+	/*
+		Data Call Id's:
+		0 = Default - No data
+		1 = Counties + PopSqMile
+		2 = Counties + PopSqMile + Rx Rate
+	 */
+    getCounties() {
+        console.log('GetCounties',this.state.propVal[1].propValue);
+        console.log('Get Counties Props', this.state.propVal);
+        console.log('Get Counties DataConfig: ', this.state.dataCallConfig);
         this.setState({showResults: false, displayType: 1});
-        var state = option;
+        var callId = this.state.dataCallConfig['dataCallId'];
+        var params = this.state.dataCallConfig['params'];
         var Request = require('request');
-        if(this.propConstraints[1].propValue === '1') {
-            console.log('I Got Here!');
-            Request.get(flaskHost+'/cdc/rates/'+state, (error, response, body) => {
+        if(callId === '2') {
+        	var flaskCall = flaskHost+'/cdc/rates';
+        	if(params[0] !== undefined) {
+        		flaskCall = flaskCall+'/'+params[0];
+			}
+            Request.get(flaskCall, (error, response, body) => {
+                if(error) {
+                    return console.log("WHAT ERROR?");
+                }
+                else {
+                    this.setState({data: JSON.parse(body)});
+                    this.setState({showResults: true});
+                }
+                //console.log('Data Here:', this.state.data);
+            });
+        }
+        else if (callId === '1') {
+        	console.log('Making Call 1...');
+            Request.get(flaskHost+'/gaz/'+params[0], (error, response, body) => {
                 if(error) {
                     return console.log("WHAT ERROR?");
                 }
@@ -109,28 +158,21 @@ class RiskApp extends React.Component {
             });
         }
         else {
-            Request.get(flaskHost+'/gaz/'+state, (error, response, body) => {
-                if(error) {
-                    return console.log("WHAT ERROR?");
-                }
-                else {
-                    this.setState({data: JSON.parse(body)});
-                    this.setState({showResults: true});
-                }
-                console.log('Data Here:', this.state.data);
-            });
-        }
+        	return;
+		}
         return;
     }
 
     getData() {
     	console.log('getting the Data...');
-    	console.log(this.state.data);
+    	//console.log(this.state.data);
     	return this.state.data;
 	}
 
     render() {
 		const controlPanelTitle='Risk Assesment Controls';
+		console.log('Risk App Render:');
+		console.log(this.state.dataCallConfig);
         return (
 			<div className="RiskApp">
 				<Navigation setPage={this.props.setPage} currentPanel={this.props.currentPage}/>
@@ -138,7 +180,7 @@ class RiskApp extends React.Component {
 					<Row>
 						<Col xs={12}>
 							<Well header={controlPanelTitle}>
-								<ControlPanel callbacks={this.callbacks}/>
+								<ControlPanel callbacks={this.callbacks} propConstraints={this.state.propVal}/>
 							</Well>
 						</Col>
 					</Row>
@@ -147,7 +189,9 @@ class RiskApp extends React.Component {
 							<div id="navHomeSide">sidebar</div>
 						</Col>
 						<Col xs={10}>
-                            <ResultPanel callbacks={this.callbacks} data={this.state.data}/>
+							<Well>
+								<ResultPanel callbacks={this.callbacks} data={this.state.data} propConstraints={this.state.propVal} dataCallId={this.state.dataCallId}/>
+							</Well>
 						</Col>
 					</Row>
 				</Grid>
