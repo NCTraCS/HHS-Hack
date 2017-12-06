@@ -1,7 +1,9 @@
-from flask import Flask,jsonify
+from flask import Flask,jsonify,request
 app = Flask(__name__)
 
+import dbconnect
 import dbcalls
+import coOccur
 
 #route for hello world
 @app.route("/")
@@ -10,6 +12,7 @@ def hello():
     	"<p>Hello flask!</p>"\
     	"<a href='http://localhost:5000/gaz'>Try Gaz at localhost:5000/gaz</a><br />"\
     	"<a href='http://localhost:5000/gaz/37'>Try Gaz for NC at localhost:5000/gaz/37</a><br />"
+    	"<a href='http://localhost:5000/co_occur_list?op_dx_limit=100&co_dx_limit=200'>Try co_occur_list</a><br />"
     	)
 
 #two route definitions going to one method
@@ -41,3 +44,12 @@ def cdc_rates(state=None, county=None):
     response = jsonify(cntydat);
     response.headers.add('Access-Control-Allow-Origin','*');
     return response
+
+@app.route('/co_occur_list', methods=['GET'])
+def coOccurList(state_fips=None):
+	op_dx_limit = request.args.get('op_dx_limit')
+	co_dx_limit = request.args.get('co_dx_limit')
+	result = coOccur.coDxList(op_dx_limit,co_dx_limit)
+	response = jsonify(result)
+	response.headers.add('Access-Control-Allow-Origin','*')
+	return response
