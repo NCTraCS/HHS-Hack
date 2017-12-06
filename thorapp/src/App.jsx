@@ -65,6 +65,15 @@ class RiskApp extends React.Component {
         log(props);
         this.state = ({name: this.props.name ,
 			showResults: false,
+			dataCalls: [{ callId : '0', name: 'Default', variables:[]},
+			{
+        		callId : '1',
+				name: 'County and Population',
+				variables: ['county','popSqMile']
+			},
+				{callId: '2',
+				name: 'County, population and Rx Rates',
+				variables: ['county','popSqMile','rx_rate']}],
 			dataCallConfig : {dataCallId: '0', params: []},
             propVal : [
                 {name : 'popsqmile', display:'Population per Square Mile', type:'range', propMin : 0 , propMax: 100, showCriteria: true},
@@ -74,6 +83,7 @@ class RiskApp extends React.Component {
 		this.callbacks = {
 			setDataCall: this.setDataCall.bind(this),
 			getDataCall: this.getDataCall.bind(this),
+			checkCallId: this.checkCallId.bind(this),
 			getCounties: this.getCounties.bind(this) ,
 			//getOptions: this.getOptions.bind(this) ,
 			getData: this.getData.bind(this),
@@ -94,8 +104,28 @@ class RiskApp extends React.Component {
 	setDataCall(callConfig) {
     	console.log('New Data Config:', callConfig);
     	console.log('Current Data Config: ', this.state.dataCallConfig);
+    	var prevCallId = this.state.dataCallConfig.dataCallId;
+    	var newCallId = callConfig.dataCallId;
+    	if(this.checkCallId(prevCallId, newCallId)) 
+			callConfig.dataCallId = prevCallId;
 		this.setState({dataCallConfig : callConfig});
     	//this.getCounties();
+	}
+	/* Need to determine if the variables/data scope has actually changed */
+	checkCallId(prevCallId, newCallId) {
+		var inCurrentCall = false;
+		console.log('Previous Call Id: ', prevCallId);
+        console.log('Previous Vars: ', this.state.dataCalls[prevCallId].variables);
+		console.log('New Call Id:', newCallId);
+        console.log('NewVars: ', this.state.dataCalls[newCallId].variables);
+    	var prevCallVars = this.state.dataCalls[prevCallId].variables;
+    	var newCallVars = this.state.dataCalls[newCallId].variables;
+    	var varOverlap = newCallVars.filter(val => prevCallVars.includes(val));
+    	console.log('varOverlap: ', varOverlap);
+    	if(varOverlap.length === newCallVars.length)
+    		inCurrentCall = true;
+    	console.log('In Current Call?' , inCurrentCall);
+    	return inCurrentCall;
 	}
 
 	getDataCall() {

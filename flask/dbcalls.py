@@ -2,10 +2,10 @@
 import pymysql
 
 #connection to local mysql with local credentials
-def connect(cdb='hack',cclass=pymysql.cursors.DictCursor):
-	connection = pymysql.connect(host='localhost',
+def connect(cdb='opiod_dev',cclass=pymysql.cursors.DictCursor):
+	connection = pymysql.connect(host='argus.ad.unc.edu',
 			user='webuser',
-			password='localonly',
+			password='Opiod2017@UNC',
 			db=cdb,
 			cursorclass=cclass)
 	return connection
