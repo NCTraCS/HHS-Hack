@@ -25,9 +25,10 @@ export default class ControlItem extends React.Component {
             propValue: this.props.propDefValue,
             showCriteria: this.props.showCriteria
         });
-
+        this.setDataCall = this.props.setDataCall;
+        this.getDataCall = this.props.getDataCall;
         this.toggleCriteria = this.toggleCriteria.bind(this);
-
+        this.propUpdate = this.props.handler;
     }
 
     drawCriteria() {
@@ -58,10 +59,18 @@ export default class ControlItem extends React.Component {
     toggleCriteria(event) {
         log(event);
         var propValue = event.target.value;
-        var returnObj = {propValue: propValue};
+        var returnObj = {showCriteria: !this.state.showCriteria, propValue: propValue};
         this.setState({showCriteria: !this.state.showCriteria});
         this.setState({propValue: propValue});
-        this.props.handler(this.state.id, returnObj);
+        this.propUpdate(this.state.id, returnObj);
+        if(propValue === '1') {
+            var params = [];
+            var currDataConfig = this.getDataCall();
+            console.log('Toggle Crit Data Config: ', currDataConfig);
+            if(currDataConfig['params'].length > 0)
+                params = currDataConfig['params'];
+            this.setDataCall({dataCallId: '2', params: params});
+        }
         console.log('PropValue:', propValue);
     }
     render() {

@@ -2,6 +2,7 @@ import React from 'react';
 export function log(value) {
     console.log(value);
 }
+export const flaskHost = 'http://localhost:8080'; //Do Not Include the last backslash!
 
 export class  LoadingBar extends React.Component {
     constructor(props) {
