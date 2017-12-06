@@ -1,0 +1,242 @@
+import React from 'react';
+import './App.css';
+import ControlPanel from './ControlPanel';
+import ResultPanel from './ResultPanel';
+import {log} from './GlobalFunctions';
+import {flaskHost} from './GlobalFunctions';
+/* Page Layout - Bootstrap*/
+import { Nav, Navbar, NavItem } from 'react-bootstrap';
+import { Grid, Row, Col } from 'react-bootstrap';
+import { Panel,Well } from 'react-bootstrap';
+
+
+class App extends React.Component {
+
+	constructor(props) {
+		super(props);
+		log(props);
+        this.state = ({name: this.props.name, currentPanel: 0});
+
+        this.togglePanel = this.togglePanel.bind(this);
+	}
+
+    togglePanel(panelNum) {
+        this.setState( {currentPanel: panelNum} );
+    }
+
+	renderPage() {
+		var currentPage = this.state.currentPanel;
+		if (currentPage === 0)
+			return <Home setPage={this.togglePanel}/>;
+		else if (currentPage === 1)
+			return <RiskApp setPage={this.togglePanel} currentPage={currentPage}/>;
+		else
+			return <Home/>;
+
+	}
+    render() {
+		let page = this.renderPage();
+	    return (
+	      <div className="App">
+			  {page}
+	      </div>
+	    );
+	  }
+}
+
+class Home extends React.Component {
+    render() {
+        return(
+			<div>
+				<header className="App-header">
+					<h1 className="App-title">THOR App</h1>
+				</header>
+				<p>...understanding risk of opioid misuse, see: <a href="/" onClick={(e)=>{this.props.setPage(1);e.preventDefault();return(false);}} >My Risk</a></p>
+				<p>...seeking resource to help prevent opioid misuse, see: <a href="/" onClick={(e)=>{this.props.setPage(2);e.preventDefault();return(false);}} >Resources</a></p>
+				<p>...want to collaborate with us?, see: <a href="/" onClick={(e)=>{this.props.setPage(3);e.preventDefault();return(false);}} >Collaborate</a></p>
+			</div>
+        );
+    }
+}
+
+class RiskApp extends React.Component {
+    constructor(props) {
+        super(props);
+        log(props);
+        this.state = ({name: this.props.name ,
+			showResults: false,
+			dataCallConfig : {dataCallId: '0', params: []},
+            propVal : [
+                {name : 'popsqmile', display:'Population per Square Mile', type:'range', propMin : 0 , propMax: 100, showCriteria: true},
+                {name : 'rxrate', display:'Include Perscription Rate?', type:'toggle', propDefValue: 1, propValue : false, showCriteria: false}
+            ]});
+		this.data = {};
+		this.callbacks = {
+			setDataCall: this.setDataCall.bind(this),
+			getDataCall: this.getDataCall.bind(this),
+			getCounties: this.getCounties.bind(this) ,
+			//getOptions: this.getOptions.bind(this) ,
+			getData: this.getData.bind(this),
+			getAppState: this.getAppState.bind(this),
+        	setPropConstraints: this.setPropConstraints.bind(this),
+			getPropConstraints: this.getPropConstraints.bind(this)
+		};
+
+        let propConstraints = '';
+        console.log('StateList:',this.stateList);
+    }
+	componentDidUpdate(prevProps, prevState) {
+		if(prevState.dataCallConfig !== this.state.dataCallConfig) {
+			this.getCounties();
+		}
+	}
+
+	setDataCall(callConfig) {
+    	console.log('New Data Config:', callConfig);
+    	console.log('Current Data Config: ', this.state.dataCallConfig);
+		this.setState({dataCallConfig : callConfig});
+    	//this.getCounties();
+	}
+
+	getDataCall() {
+    	console.log('Returning dataCallConfig...', this.state.dataCallConfig);
+    	return this.state.dataCallConfig;
+	}
+    setPropConstraints(propVals) {
+    	this.setState({propVal: propVals});
+	}
+
+	getPropConstraints() {
+        return this.state.propVal;
+    }
+
+    getAppState() {
+    	return this.state.showResults;
+	}
+
+	/*
+		Data Call Id's:
+		0 = Default - No data
+		1 = Counties + PopSqMile
+		2 = Counties + PopSqMile + Rx Rate
+	 */
+    getCounties() {
+        console.log('GetCounties',this.state.propVal[1].propValue);
+        console.log('Get Counties Props', this.state.propVal);
+        console.log('Get Counties DataConfig: ', this.state.dataCallConfig);
+        this.setState({showResults: false, displayType: 1});
+        var callId = this.state.dataCallConfig['dataCallId'];
+        var params = this.state.dataCallConfig['params'];
+        var Request = require('request');
+        if(callId === '2') {
+        	var flaskCall = flaskHost+'/cdc/rates';
+        	if(params[0] !== undefined) {
+        		flaskCall = flaskCall+'/'+params[0];
+			}
+            Request.get(flaskCall, (error, response, body) => {
+                if(error) {
+                    return console.log("WHAT ERROR?");
+                }
+                else {
+                    this.setState({data: JSON.parse(body)});
+                    this.setState({showResults: true});
+                }
+                //console.log('Data Here:', this.state.data);
+            });
+        }
+        else if (callId === '1') {
+        	console.log('Making Call 1...');
+            Request.get(flaskHost+'/gaz/'+params[0], (error, response, body) => {
+                if(error) {
+                    return console.log("WHAT ERROR?");
+                }
+                else {
+                    this.setState({data: JSON.parse(body)});
+                    this.setState({showResults: true});
+                }
+                console.log('Data Here:', this.state.data);
+            });
+        }
+        else {
+        	return;
+		}
+        return;
+    }
+
+    getData() {
+    	console.log('getting the Data...');
+    	//console.log(this.state.data);
+    	return this.state.data;
+	}
+
+    render() {
+		const controlPanelTitle='Risk Assesment Controls';
+		console.log('Risk App Render:');
+		console.log(this.state.dataCallConfig);
+        return (
+			<div className="RiskApp">
+				<Navigation setPage={this.props.setPage} currentPanel={this.props.currentPage}/>
+				<Grid>
+					<Row>
+						<Col xs={12}>
+							<Well header={controlPanelTitle}>
+								<ControlPanel callbacks={this.callbacks} propConstraints={this.state.propVal}/>
+							</Well>
+						</Col>
+					</Row>
+					<Row>
+						<Col xs={2}>
+							<div id="navHomeSide">sidebar</div>
+						</Col>
+						<Col xs={10}>
+							<Well>
+								<ResultPanel callbacks={this.callbacks} data={this.state.data} propConstraints={this.state.propVal} dataCallId={this.state.dataCallId}/>
+							</Well>
+						</Col>
+					</Row>
+				</Grid>
+			</div>
+
+        );
+    }
+}
+
+class Navigation extends React.Component {
+    constructor(props) {
+        super(props);
+        let currentPanel = 1;
+        if( props.currentPage )
+            currentPanel = props.currentPage;
+
+        this.state = {
+            activeKey: currentPanel
+        };
+        this.menuSelect = this.menuSelect.bind(this);
+    }
+
+    menuSelect(selectedKey) {
+        this.setState( {activeKey: selectedKey} );
+        this.props.setPage(selectedKey);
+    }
+
+	render() {
+        return(
+			<Navbar fixedTop inverse collapseOnSelect>
+				<Navbar.Header>
+					<Navbar.Brand>
+						<a href='/' onClick={(e)=>{this.props.setPage(0),e.preventDefault();return(false);}}>THOR App Home</a>
+					</Navbar.Brand>
+					<Navbar.Toggle />
+				</Navbar.Header>
+				<Navbar.Collapse>
+					<Nav activeKey={this.state.activeKey} onSelect={this.menuSelect}>
+						<NavItem eventKey={1} href="/">One</NavItem>
+						<NavItem eventKey={2} href="/">Two</NavItem>
+						<NavItem eventKey={3} href="/">Three</NavItem>
+					</Nav>
+				</Navbar.Collapse>
+			</Navbar>
+        );
+	}
+}
+export default App;
