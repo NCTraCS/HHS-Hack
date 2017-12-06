@@ -1,5 +1,5 @@
 import React from 'react';
-import County from './County';
+import Result from './Results';
 import {LoadingBar} from './GlobalFunctions';
 
 export default class ResultPanel extends React.Component {
@@ -36,7 +36,7 @@ export default class ResultPanel extends React.Component {
         var loadDisplay = 'Loading';/*(<LoadingBar displayType={this.state.displayType}/>)*/
         console.log('Result Panel render Prop Val: ',this.state.propVal);
         var resultDisplay = (
-            <County data={this.state.data} propConstraints={this.state.propVal}/>
+            <Result data={this.state.data} propConstraints={this.state.propVal}/>
         );
         return (
             <div>
