@@ -24,7 +24,7 @@ class EduChart extends Component {
 
 	render() {
 
-    const data = this.props.ChartData;
+    const data = this.props.ChartData.data;
 
     if( data ){
 ``
