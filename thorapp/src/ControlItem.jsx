@@ -27,10 +27,11 @@ export default class ControlItem extends React.Component {
             propDefValue: this.props.propDefValue,
             propValue: this.props.propDefValue,
             showCriteria: this.props.showCriteria,
-            coDxList: []
+            optionsList: [],
+            dataCallId: this.props.dataCallId
         });
-        this.getOptions('coDx');
-
+        this.getOptions(this.state.name);
+        this.callFlask = this.props.callFlask;
         this.setDataCall = this.props.setDataCall;
         this.getDataCall = this.props.getDataCall;
         this.toggleCriteria = this.toggleCriteria.bind(this);
@@ -47,33 +48,38 @@ export default class ControlItem extends React.Component {
     getOptions(optionType) {
         var options = [];
         console.log('Option Type: ', optionType);
-        if ( optionType === 'coDx' ) {
-            var Request = require('request');
-            //console.log(flaskHost+'/st');
-            Request.get(flaskHost+'/co_occur_list', (error, response, body) => {
-                //console.log('HERE');
-                if(error) {
-                    return console.log("WHAT ERROR?");
+        var flaskCall =  flaskHost;
+        if ( optionType === 'co_dx' ) {
+            flaskCall = flaskHost+'/co_occur_list';
+        }
+        else if ( optionType === 'county_name' ) {
+            flaskCall = flaskHost+'/county_list';
+        }
+
+        var Request = require('request');
+        Request.get(flaskCall, (error, response, body) => {
+            //console.log('HERE');
+            if(error) {
+                return console.log("WHAT ERROR?");
+            }
+            else {
+                console.log('Call Made:', JSON.parse(body));
+                options = JSON.parse(body);
+                for(var i = 0; i<options.length; i++){
+                    options[i].key = i;
                 }
-                else {
-                    console.log('Call Made:', JSON.parse(body));
-                    options = JSON.parse(body);
-                    for(var i = 0; i<options.length; i++){
-                        options[i].key = i;
-                    }
-                    this.setState({coDxList: options});
-                    return options;
-                }
-            });
-        };
+                this.setState({optionsList: options});
+                return options;
+            }
+        });
     }
 
-    drawOptions(optionType, dataCallId) {
-        if(optionType === 'coDx') {
-            var options = this.state.coDxList;
+    drawOptions() {
+        //if(optionType === 'co_dx') {
+            var options = this.state.optionsList;
             console.log('drawOptions: ', options);
-            return options.map((item, idx) => <option key={idx} value={dataCallId}>{item.co_dx}</option>);
-        }
+            return options.map((item, idx) => <option key={idx} value={item.key}>{item.display_name} </option>);
+        //}
     }
 
     drawCriteria() {
@@ -114,7 +120,7 @@ export default class ControlItem extends React.Component {
                 <FormGroup>
                     <FormControl defaultValue='Select A Value...' componentClass="select" placeholder="select" onChange={this.handleClick} inputRef={ref => {this.input= 'drop_select'}}>
                         <option key='default' disabled={true}>Select A Value...</option>
-                        {this.drawOptions('coDx',1)}
+                        {this.drawOptions(this.state.name,this.state.dataCallId)}
                     </FormControl>
                 </FormGroup>
             )
@@ -122,14 +128,25 @@ export default class ControlItem extends React.Component {
     }
 
     handleClick(event) {
-        let opt=[{key: 'id_county', value: 'orange'}];
-        let call=event.target.value;
-        this.setState({currentOption: call});
+        let opt = [];
+        let valueKey = event.target.value;
+        let value = this.state.optionsList[valueKey];
+        //this.setState({currentOption: call});
         //log(state);
         console.log(event.target.value);
-        var dataCallConfig = {dataCallId: call, params: opt};
-        console.log('HandleClick: Data Call Config:', dataCallConfig);
-        this.setDataCall(dataCallConfig);
+        var dataCalls = this.state.dataCallId;
+        console.log('current Data Call ID: ', dataCalls);
+        let defDataCallConfig = this.props.defCallConfig;
+        for(var i=0; i<dataCalls.length; i++){
+            console.log('current Data Call Config: ', dataCalls[i], '-', defDataCallConfig);
+            //opt = [{key: defDataCallConfig[dataCalls[i]].params[0], value: value[defDataCallConfig[dataCalls[i]].variables[0]]}];
+            //defDataCallConfig[dataCalls[i]] = {callId: dataCalls[i], params: opt};
+            opt = [{key: defDataCallConfig.params[0], value: value[defDataCallConfig.variables[0]]}];
+            defDataCallConfig = {callId: dataCalls, params: opt};
+        }
+        this.setDataCall(dataCalls, defDataCallConfig);
+        console.log('HandleClick: Data Call Config:', defDataCallConfig, ' ', this.getDataCall());
+        //this.callFlask();
         return;
     }
 
@@ -146,7 +163,7 @@ export default class ControlItem extends React.Component {
 			console.log('Toggle Crit Data Config: ', currDataConfig);
 			if(currDataConfig['params'].length > 0)
 				params = currDataConfig['params'];
-			this.setDataCall({dataCallId: '2', params: params});
+			this.setDataCall({dataCallId: 2, params: params});
 		}
 		console.log('PropValue:', propValue);
 	}
@@ -164,7 +181,7 @@ export default class ControlItem extends React.Component {
 			console.log('Toggle Crit Data Config: ', currDataConfig);
 			if(currDataConfig['params'].length > 0)
 				params = currDataConfig['params'];
-			this.setDataCall({dataCallId: '2', params: params});
+			this.setDataCall({dataCallId: 2, params: params});
 		}
 		console.log('PropValue:', propValue);
 	}
