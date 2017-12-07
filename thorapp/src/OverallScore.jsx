@@ -37,10 +37,10 @@ class OverallScore extends Component {
       		<h1>Overall Risk Score</h1>
 	        <C3Chart 
 	          data={{json: {data: totalScore}, type: 'gauge'}}
-	          gauge={{min: 0, max: maxScore, label: {format: (value, ratio) => { value;}},units: 'risk socore',width:40}}
+	          gauge={{min: 0, max: maxScore, label: {format: (value, ratio) => { return(value) } } , units: 'risk score',width:40}}
 	          color={{
-	              //pattern: ['#FF0000', '#F97600', '#F6C600', '#60B044'],
-	              pattern: ['#60B044','#F6C600', '#F97600','#FF0000', ],
+	              //pattern: ['#60B044','#F6C600', '#F97600','#FF0000', ],
+	              pattern: ['#4933FF','#8633FF', '#B533FF','#FF33F0', ],
 	              threshold: {values: [2.5,5,7.5,9]}
 	            }}
 	        />
