@@ -34,7 +34,11 @@ export default class ControlItem extends React.Component {
         this.setDataCall = this.props.setDataCall;
         this.getDataCall = this.props.getDataCall;
         this.toggleCriteria = this.toggleCriteria.bind(this);
+
         this.handleClick = this.handleClick.bind(this);
+
+        this.radioSubstanceAbuseCriteria = this.radioSubstanceAbuseCriteria.bind(this);
+
         this.propUpdate = this.props.handler;
         this.drawOptions = this.drawOptions.bind(this);
         //this.getOptions = this.getOptions.bind(this);
@@ -84,16 +88,27 @@ export default class ControlItem extends React.Component {
                 />
             )
         }
-        else if (this.state.type === 'toggle') {
-            return (
-            <ButtonToolbar>
-                <ToggleButtonGroup id={this.props.id} type="radio" defaultValue={this.props.propDefValue} name={this.state.name}>
-                    <ToggleButton value={1} onChange={this.toggleCriteria}>Yes</ToggleButton>
-                    <ToggleButton value={0} onChange={this.toggleCriteria}>No</ToggleButton>
-                </ToggleButtonGroup>
-            </ButtonToolbar>
-            )
-        }
+		  else if (this.state.type === 'toggle') {
+			  return (
+				  <ButtonToolbar>
+					  <ToggleButtonGroup id={this.props.id} type="radio" defaultValue={this.props.propDefValue} name={this.state.name}>
+						  <ToggleButton value={1} onChange={this.toggleCriteria}>Yes</ToggleButton>
+						  <ToggleButton value={0} onChange={this.toggleCriteria}>No</ToggleButton>
+					  </ToggleButtonGroup>
+				  </ButtonToolbar>
+			  )
+		  }
+		  else if (this.state.type === 'substanceAbuseRadio') {
+			  return (
+				  <ButtonToolbar>
+					  <ToggleButtonGroup id={this.props.id} type="checkbox" defaultValue={this.props.propDefValue} name={this.state.name}>
+						  <ToggleButton value={"Alcohol"} onChange={this.radioSubstanceAbuseCriteria}>Alcohol</ToggleButton>
+						  <ToggleButton value={"Illegal Drugs"} onChange={this.radioSubstanceAbuseCriteria}>Illegal Drugs</ToggleButton>
+						  <ToggleButton value={"Rx Drugs"} onChange={this.radioSubstanceAbuseCriteria}>Rx Drugs</ToggleButton>
+					  </ToggleButtonGroup>
+				  </ButtonToolbar>
+			  )
+		  }
         else if (this.state.type ==='dropdown') {
             return (
                 <FormGroup>
@@ -104,24 +119,6 @@ export default class ControlItem extends React.Component {
                 </FormGroup>
             )
         }
-    }
-
-    toggleCriteria(event) {
-        log(event);
-        var propValue = event.target.value;
-        var returnObj = {showCriteria: !this.state.showCriteria, propValue: propValue};
-        this.setState({showCriteria: !this.state.showCriteria});
-        this.setState({propValue: propValue});
-        this.propUpdate(this.state.id, returnObj);
-        if(propValue === '1') {
-            var params = [];
-            var currDataConfig = this.getDataCall();
-            console.log('Toggle Crit Data Config: ', currDataConfig);
-            if(currDataConfig['params'].length > 0)
-                params = currDataConfig['params'];
-            this.setDataCall({dataCallId: '2', params: params});
-        }
-        console.log('PropValue:', propValue);
     }
 
     handleClick(event) {
@@ -135,6 +132,42 @@ export default class ControlItem extends React.Component {
         this.setDataCall(dataCallConfig);
         return;
     }
+
+	toggleCriteria(event) {
+		log(event);
+		var propValue = event.target.value;
+		var returnObj = {showCriteria: !this.state.showCriteria, propValue: propValue};
+		this.setState({showCriteria: !this.state.showCriteria});
+		this.setState({propValue: propValue});
+		this.propUpdate(this.state.id, returnObj);
+		if(propValue === '1') {
+			var params = [];
+			var currDataConfig = this.getDataCall();
+			console.log('Toggle Crit Data Config: ', currDataConfig);
+			if(currDataConfig['params'].length > 0)
+				params = currDataConfig['params'];
+			this.setDataCall({dataCallId: '2', params: params});
+		}
+		console.log('PropValue:', propValue);
+	}
+
+	radioSubstanceAbuseCriteria(event) {
+		log(event);
+		var propValue = event.target.value;
+		var returnObj = {showCriteria: !this.state.showCriteria, propValue: propValue};
+		this.setState({showCriteria: !this.state.showCriteria});
+		this.setState({propValue: propValue});
+		this.propUpdate(this.state.id, returnObj);
+		if(propValue === 'Alcohol') {
+			var params = [];
+			var currDataConfig = this.getDataCall();
+			console.log('Toggle Crit Data Config: ', currDataConfig);
+			if(currDataConfig['params'].length > 0)
+				params = currDataConfig['params'];
+			this.setDataCall({dataCallId: '2', params: params});
+		}
+		console.log('PropValue:', propValue);
+	}
 
     render() {
         return (

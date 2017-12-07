@@ -293,11 +293,20 @@ class Resources extends React.Component {
 			<div className="Resources">
 				<Navigation setPage={this.props.setPage} currentPanel={this.props.currentPage}/>
 				<div class="topCopy">
-					Lorem ipsum dolor sit amet, ad error noster antiopam ius. Everti labitur neglegentur an his. Nulla senserit no his, cum alia volumus fabellas ne, ea has detracto pertinax. Tota tamquam disputando has id, his at saepe nonumes concludaturque.
+					Though opioids can be safe and effective if taken exactly as described by a physician, they carry a risk of abuse and overdose. Now that you've examined your risk, learn more at the links below.
+					
+					To get the facts:
 
-					Quo choro instructior te, etiam aliquam ex quo. Ut eos dolor aliquando, mel invenire iracundia in. Vel ea mundi tractatos. In convenire patrioque vel, ea nostrud accusamus splendide has.
+					Facts on opioids for teens: https://teens.drugabuse.gov/sites/default/files/peerx/pdf/PEERx_Toolkit_FactSheets_Opioids.pdf
+					Recent opioids research: https://www.drugabuse.gov/drugs-abuse/opioids/nida-funded-opioid-research
+					Overdose infographic: https://www.cdc.gov/drugoverdose/data/overdose.html
+					
+					To find assistance: 
+					
+					Behavioral Treatment services locator: https://findtreatment.samhsa.gov/
+					SAMHSA's National Helpline: https://www.samhsa.gov/find-help/national-helpline
+					Buprenorphine (medication-assisted) treatment locator: https://www.samhsa.gov/medication-assisted-treatment/physician-program-data/treatment-physician-locator
 
-					Et vis legendos interpretaris, erroribus comprehensam ad pri. Has odio aperiam inermis at, pri id equidem evertitur. Nonumes verterem mel in, id pri docendi ullamcorper. Tation fuisset eos at, eu nec accumsan molestie elaboraret. Lorem convenire ea vix.
 				</div>
 			</div>
 
@@ -319,17 +328,19 @@ class Collaborate extends React.Component {
 			<div className="Collaborate">
 				<Navigation setPage={this.props.setPage} currentPanel={this.props.currentPage}/>
 				<div class="topCopy">
-					Lorem ipsum dolor sit amet, vis id consul intellegebat, eu ubique postea eos. An eripuit eruditi perpetua vis, gloriatur percipitur vis at, meis inermis no his. Veri dignissim efficiantur ut mei, nam velit eripuit ne. Duo sonet minimum ut, facilis contentiones id vis.
+					Are you a researcher, activist, or citizen scientist? We would love to collaborate with you! THOR app becomes more robust every time new data is added, or analytical techniques applied.
+					
+					Shoot us an email at opioiddata@unctest.edu:
+					*To discuss contributing a curated dataset of your own
+					*For questions on THOR app or the underlying data
+					
+					Looking to go further? UNC participates in a number of Clinical Data Research Networks (CDRNs)--groups of academic institutions who have agreed to share their clinical data with one another, and with researchers. These CDRNs can you guide you through the regulatory processes to request data from several institutions, enabling big data-driven clinical research. We'd love to help you combine CDRN data with THOR app to answer your opioid research question.
 
-					Id has dolore quaestio. Vide adhuc partem ne nam, per id impedit invenire, quod sensibus evertitur at vix. Ea quo scripta prompta equidem. Vix eu eligendi platonem. Sed nostrum conclusionemque eu, vim cu deterruisset mediocritatem. Ius ut cibo commune.
-
-					In minim veniam voluptatum per. Cum ad verear viderer volutpat. Assum oblique dissentiunt no mei. Errem propriae efficiendi duo an. Illum graeco disputationi per an, te dicat qualisque vis. Ut dolore utamur delicata eos, vis an erat explicari, ex alii tibique philosophia per.
-
-					At eam vitae latine convenire, veri civibus qui ut. Essent vituperata mel an, affert menandri sea in. Vix ludus forensibus ex, vidit perfecto invenire pri et. Cum quis harum scriptorem cu, et his errem bonorum. An nec elit mandamus, magna labore id his.
-
-					Ne dolorum prodesset mel, vix id quas sonet lucilius. Id per choro repudiandae accommodare. Duo at doming consulatu. Molestiae moderatius vel at. Illum aeterno accommodare sea et, cu dolor aliquam mea. Te eam tation molestie, eum sumo velit legimus id.
-
-					Nibh aperiam feugait te usu, duis aperiam repudiandae has ad. Atqui essent est eu, nostro alterum eu per, saepe audire eu pro. Posse semper petentium eu pri, nec no sanctus conclusionemque. Nihil alienum quo te, nec ea alia stet eius. Mei scribentur dissentiet no. Eirmod feugiat id nam, alterum accusamus dissentiet per ex.
+					To learn more about CDRNs, reach out to us at the email above, or click the logos below to learn more about each network.
+					
+					Insert PCORnet logo--hyperlink to--http://www.pcornet.org/
+					Insert Carolinas Collaborative logo--hyperlink to: https://carolinascollaborative.org/
+					Insert CTSAct logo--hyperlink to: https://www.act-network.org/node/29
 
 				</div>
 			</div>
