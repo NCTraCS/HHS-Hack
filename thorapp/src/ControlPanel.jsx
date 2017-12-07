@@ -210,6 +210,7 @@ export default class ControlPanel extends React.Component {
 												 getDataCall={this.getDataCall}
 								/>
 							</div>
+							
 						</div>
 					</FormGroup>
 				</Form>
