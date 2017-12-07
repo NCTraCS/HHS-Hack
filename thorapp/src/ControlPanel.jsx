@@ -47,8 +47,8 @@ export default class ControlPanel extends React.Component {
 
     getOptions(optionType) {
         var options = [];
+        console.log('Option Type: ', optionType);
         if ( optionType === 'state' ) {
-            console.log('Call Made:', optionType);
             var Request = require('request');
             //console.log(flaskHost+'/st');
             Request.get(flaskHost+'/st', (error, response, body) => {
@@ -116,7 +116,8 @@ export default class ControlPanel extends React.Component {
     }
 
     drawOptions(optionType) {
-        return this.state.stateList.map((item) => <option key={item.state_fips} value={item.state_fips}>{item.usps}</option>);
+        if(optionType === 'state')
+            return this.state.stateList.map((item) => <option key={item.state_fips} value={item.state_fips}>{item.usps}</option>);
     }
 
     render() {

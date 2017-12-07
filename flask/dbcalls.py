@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import pymysql
+import dbconnect
 
 #connection to local mysql with local credentials
 def connect(cdb='opiod_dev',cclass=pymysql.cursors.DictCursor):
@@ -13,8 +14,8 @@ def connect(cdb='opiod_dev',cclass=pymysql.cursors.DictCursor):
 #get data from gaz_county table
 #return as json
 def gaz(state_fips=None):
-	conn = connect()
-	sql = "select * from gaz_county"
+	conn = dbconnect.connect()
+	sql = "select name, geoid as county_id, (pop2010/aland_sqmi) as popSqMil from gaz_county"
 	if state_fips != None:
 		sql += " where state_fips=%s"
 
@@ -25,7 +26,7 @@ def gaz(state_fips=None):
 
 #get a list of available states to select from
 def st(state=None):
-    conn = connect()
+    conn = dbconnect.connect()
     sql = "select distinct usps, state_fips from gaz_county"
     if state != None:
         sql += " where state_fips=%s"
@@ -36,7 +37,7 @@ def st(state=None):
     return result
 
 def cdc_rates(state=None, county=None):
-    conn = connect()
+    conn = dbconnect.connect()
     sql = "select distinct * from gaz_county gaz left join cdc_county_rx_rate_2016 cdc on trim(gaz.geoid)=trim(cdc.stcou_fips) where cdc.rx_rate is not null"
     if state != None:
         sql += " and state_fips=%s"

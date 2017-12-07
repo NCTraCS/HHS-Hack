@@ -4,10 +4,11 @@ import ControlPanel from './ControlPanel';
 import ResultPanel from './ResultPanel';
 import {log} from './GlobalFunctions';
 import {flaskHost} from './GlobalFunctions';
+
 /* Page Layout - Bootstrap*/
-import { Nav, Navbar, NavItem } from 'react-bootstrap';
-import { Grid, Row, Col } from 'react-bootstrap';
-import { Panel,Well } from 'react-bootstrap';
+import { Nav, Navbar, NavItem, NavbarHeader } from 'react-bootstrap';
+import { Jumbotron, Grid, Row, Col } from 'react-bootstrap';
+import { Panel, Well, Button } from 'react-bootstrap';
 
 
 class App extends React.Component {
@@ -80,12 +81,15 @@ class Home extends React.Component {
 
         	/*
 			<div>
-				<header className="App-header">
+				<Jumbotron className="App-header">
 					<h1 className="App-title">THOR App</h1>
-				</header>
-				<p>...understanding risk of opioid misuse, see: <a href="/" onClick={(e)=>{this.props.setPage(1);e.preventDefault();return(false);}} >My Risk</a></p>
-				<p>...seeking resource to help prevent opioid misuse, see: <a href="/" onClick={(e)=>{this.props.setPage(2);e.preventDefault();return(false);}} >Resources</a></p>
-				<p>...want to collaborate with us?, see: <a href="/" onClick={(e)=>{this.props.setPage(3);e.preventDefault();return(false);}} >Collaborate</a></p>
+					<h2>TraCS and HHS Opiod Risk Application</h2>
+					<p>THOR is an application designed to help do awesome things....</p>
+					<p><Button onClick={(e)=>{this.props.setPage(1);e.preventDefault();return(false);}} >Take Me to The App!</Button></p>
+				</Jumbotron>
+					<p>...understanding risk of opioid misuse, see: <a href="/" onClick={(e)=>{this.props.setPage(1);e.preventDefault();return(false);}} >My Risk</a></p>
+					<p>...seeking resource to help prevent opioid misuse, see: <a href="/" onClick={(e)=>{this.props.setPage(2);e.preventDefault();return(false);}} >Resources</a></p>
+					<p>...want to collaborate with us?, see: <a href="/" onClick={(e)=>{this.props.setPage(3);e.preventDefault();return(false);}} >Collaborate</a></p>
 			</div>
 */
         );
@@ -101,12 +105,12 @@ class RiskApp extends React.Component {
 			dataCalls: [{ callId : '0', name: 'Default', variables:[]},
 			{
         		callId : '1',
-				name: 'County and Population',
-				variables: ['county','popSqMile']
+				name: 'Opiod Abuse DX by Patient Conditions',
+				variables: ['op_dx','co_dx']
 			},
 				{callId: '2',
-				name: 'County, population and Rx Rates',
-				variables: ['county','popSqMile','rx_rate']}],
+				name: 'Opiod Abuse by Perscriptions for Condition',
+				variables: ['op_drug','op_dx','co_dx']}],
 			dataCallConfig : {dataCallId: '0', params: []},
             propVal : [
                 {name : 'popsqmile', display:'Population per Square Mile', type:'range', propMin : 0 , propMax: 100, showCriteria: true},
@@ -131,6 +135,9 @@ class RiskApp extends React.Component {
 	componentDidUpdate(prevProps, prevState) {
 		if(prevState.dataCallConfig !== this.state.dataCallConfig) {
 			this.getCounties();
+		}
+		if(prevState.data !== this.state.data && this.state.data !== undefined) {
+            this.setState({showResults: true});
 		}
 	}
 
@@ -202,7 +209,6 @@ class RiskApp extends React.Component {
                 }
                 else {
                     this.setState({data: JSON.parse(body)});
-                    this.setState({showResults: true});
                 }
                 //console.log('Data Here:', this.state.data);
             });
@@ -215,15 +221,15 @@ class RiskApp extends React.Component {
                 }
                 else {
                     this.setState({data: JSON.parse(body)});
-                    this.setState({showResults: true});
+                    //this.setState({showResults: true});
+                    console.log('Data Here:', this.state.data);
+                    return;
                 }
-                console.log('Data Here:', this.state.data);
             });
         }
         else {
         	return;
 		}
-        return;
     }
 
     getData() {
@@ -241,7 +247,7 @@ class RiskApp extends React.Component {
 				<Navigation setPage={this.props.setPage} currentPanel={this.props.currentPage}/>
 				<Grid>
 					<Row>
-						<Col xs={12}>
+						<Col xs={10}>
 							<Well header={controlPanelTitle}>
 								<ControlPanel callbacks={this.callbacks} propConstraints={this.state.propVal}/>
 							</Well>
@@ -251,9 +257,11 @@ class RiskApp extends React.Component {
 						<Col xs={2}>
 							<div id="navHomeSide">sidebar</div>
 						</Col>
-						<Col xs={10}>
+						<Col xs={8}>
 							<Well>
-								<ResultPanel callbacks={this.callbacks} data={this.state.data} propConstraints={this.state.propVal} dataCallId={this.state.dataCallId}/>
+								{this.state.data !== undefined ?
+									<ResultPanel callbacks={this.callbacks} data={this.state.data} propConstraints={this.state.propVal} dataCallId={this.state.dataCallId}/>
+									: 'Please Select a State'}
 							</Well>
 						</Col>
 					</Row>
@@ -347,7 +355,7 @@ class Navigation extends React.Component {
 
 	render() {
         return(
-			<Navbar fixedTop inverse collapseOnSelect>
+			<Navbar fixedTop collapseOnSelect>
 				<Navbar.Header>
 					<Navbar.Brand>
 						<a href='/' onClick={(e)=>{this.props.setPage(0),e.preventDefault();return(false);}}>THOR App Home</a>
