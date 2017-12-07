@@ -1,12 +1,9 @@
 import React from 'react';
-import County from './County';
 import ControlItem from './ControlItem';
 import Panel from 'react-bootstrap/lib/Panel';
 import ControlLabel from 'react-bootstrap/lib/Form';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import FormControl from 'react-bootstrap/lib/FormControl';
-//import Input from 'react-bootstrap/lib/Input';
-import {log} from './GlobalFunctions';
 import {flaskHost} from './GlobalFunctions';
 
 
@@ -141,6 +138,16 @@ export default class ControlPanel extends React.Component {
                             propMax= {100}
                             showCriteria={true}
                             handler = {this.propUpdate}
+                        />
+                    </div>
+                    <div style={style2}>
+                        <ControlItem id={3} name='num_rats'
+                                     display='Number of Rats'
+                                     type= 'range'
+                                     propMin= {10}
+                                     propMax= {50}
+                                     showCriteria={true}
+                                     handler = {this.propUpdate}
                         />
                     </div>
                     <div style={style2}>

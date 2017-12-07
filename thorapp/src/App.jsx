@@ -83,7 +83,7 @@ class Home extends React.Component {
 			<div>
 				<Jumbotron className="App-header">
 					<h1 className="App-title">THOR App</h1>
-					<h2>TraCS and HHS Opiod Risk Application</h2>
+					<h2>Technical Health Opiod Research</h2>
 					<p>THOR is an application designed to help do awesome things....</p>
 					<p><Button onClick={(e)=>{this.props.setPage(1);e.preventDefault();return(false);}} >Take Me to The App!</Button></p>
 				</Jumbotron>
@@ -253,18 +253,9 @@ class RiskApp extends React.Component {
 							</Well>
 						</Col>
 					</Row>
-					<Row>
-						<Col xs={2}>
-							<div id="navHomeSide">sidebar</div>
-						</Col>
-						<Col xs={8}>
-							<Well>
-								{this.state.data !== undefined ?
-									<ResultPanel callbacks={this.callbacks} data={this.state.data} propConstraints={this.state.propVal} dataCallId={this.state.dataCallId}/>
-									: 'Please Select a State'}
-							</Well>
-						</Col>
-					</Row>
+                    {this.state.data !== undefined ?
+						<ResultPanel callbacks={this.callbacks} data={this.state.data} propConstraints={this.state.propVal} dataCallId={this.state.dataCallId}/>
+                        : 'Please Select a State'}
 				</Grid>
 			</div>
 
