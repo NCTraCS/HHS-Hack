@@ -326,17 +326,19 @@ class Collaborate extends React.Component {
 			<div className="Collaborate">
 				<Navigation setPage={this.props.setPage} currentPanel={this.props.currentPage}/>
 				<div class="topCopy">
-					Lorem ipsum dolor sit amet, vis id consul intellegebat, eu ubique postea eos. An eripuit eruditi perpetua vis, gloriatur percipitur vis at, meis inermis no his. Veri dignissim efficiantur ut mei, nam velit eripuit ne. Duo sonet minimum ut, facilis contentiones id vis.
+					Are you a researcher, activist, or citizen scientist? We would love to collaborate with you! THOR app becomes more robust every time new data is added, or analytical techniques applied.
+					
+					Shoot us an email at opioiddata@unctest.edu:
+					*To discuss contributing a curated dataset of your own
+					*For questions on THOR app or the underlying data
+					
+					Looking to go further? UNC participates in a number of Clinical Data Research Networks (CDRNs)--groups of academic institutions who have agreed to share their clinical data with one another, and with researchers. These CDRNs can you guide you through the regulatory processes to request data from several institutions, enabling big data-driven clinical research. We'd love to help you combine CDRN data with THOR app to answer your opioid research question.
 
-					Id has dolore quaestio. Vide adhuc partem ne nam, per id impedit invenire, quod sensibus evertitur at vix. Ea quo scripta prompta equidem. Vix eu eligendi platonem. Sed nostrum conclusionemque eu, vim cu deterruisset mediocritatem. Ius ut cibo commune.
-
-					In minim veniam voluptatum per. Cum ad verear viderer volutpat. Assum oblique dissentiunt no mei. Errem propriae efficiendi duo an. Illum graeco disputationi per an, te dicat qualisque vis. Ut dolore utamur delicata eos, vis an erat explicari, ex alii tibique philosophia per.
-
-					At eam vitae latine convenire, veri civibus qui ut. Essent vituperata mel an, affert menandri sea in. Vix ludus forensibus ex, vidit perfecto invenire pri et. Cum quis harum scriptorem cu, et his errem bonorum. An nec elit mandamus, magna labore id his.
-
-					Ne dolorum prodesset mel, vix id quas sonet lucilius. Id per choro repudiandae accommodare. Duo at doming consulatu. Molestiae moderatius vel at. Illum aeterno accommodare sea et, cu dolor aliquam mea. Te eam tation molestie, eum sumo velit legimus id.
-
-					Nibh aperiam feugait te usu, duis aperiam repudiandae has ad. Atqui essent est eu, nostro alterum eu per, saepe audire eu pro. Posse semper petentium eu pri, nec no sanctus conclusionemque. Nihil alienum quo te, nec ea alia stet eius. Mei scribentur dissentiet no. Eirmod feugiat id nam, alterum accusamus dissentiet per ex.
+					To learn more about CDRNs, reach out to us at the email above, or click the logos below to learn more about each network.
+					
+					Insert PCORnet logo--hyperlink to--http://www.pcornet.org/
+					Insert Carolinas Collaborative logo--hyperlink to: https://carolinascollaborative.org/
+					Insert CTSAct logo--hyperlink to: https://www.act-network.org/node/29
 
 				</div>
 			</div>
