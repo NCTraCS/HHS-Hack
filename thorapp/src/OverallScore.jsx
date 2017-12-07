@@ -11,11 +11,11 @@ class OverallScore extends Component {
 
 			scores = {
 				education: 1.0,
-				employment: 2.0,
-				death_per_cap: 1.5,
+				employment: 1.4,
+				death_per_cap: 1.0,
 				op_disch_per_cap: 1.0,
 				co_dx: 1.0,
-				ort: 4.0
+				ort: 2.1
 			};
 		}
 		else {
@@ -31,26 +31,21 @@ class OverallScore extends Component {
 			scores['ort'];
 
 		const maxScore = 10.5;
-
+		const footerStyle={margin: '40px', width: '100%', textAlign:'center'};
+		const headerStyle={textAlign: 'center'};
 		return(
-			<div>
-      		<h1>Overall Risk Score</h1>
-	        <C3Chart 
-	          data={{json: {data: totalScore}, type: 'gauge'}}
-	          gauge={{min: 0, max: maxScore, label: {format: (value, ratio) => { return(value) } } , units: 'risk score',width:40}}
-	          color={{
-	              //pattern: ['#60B044','#F6C600', '#F97600','#FF0000', ],
-	              pattern: ['#4933FF','#8633FF', '#B533FF','#FF33F0', ],
-	              threshold: {values: [2.5,5,7.5,9]}
-	            }}
-	        />
-	        <Panel>
-	        	<p>Overall score is based on user input... see breakdown to the left...</p>
-	        	<p>Disclaimer here</p>
-
+			<Panel header={'Overall Risk Score'} style={headerStyle}>
+				<C3Chart
+				  data={{json: {data: totalScore}, type: 'gauge'}}
+				  gauge={{min: 0, max: maxScore, label: {format: (value, ratio) => { return(value) } } , units: 'risk score',width:40}}
+				  color={{
+					  //pattern: ['#60B044','#F6C600', '#F97600','#FF0000', ],
+					  pattern: ['#4933FF','#8633FF', '#B533FF','#FF33F0', ],
+					  threshold: {values: [2,5,7,9]}
+					}}
+				/>
+				<div style={footerStyle}>Overall score is based on user input. Change parameters above to change the score.</div>
 	        </Panel>
-	        </div>
-
       );
 	}
 }

@@ -10,8 +10,8 @@ import actlogo from './assets/ACT.JPG';
 import tracslogo from './assets/tracs.png';
 /* Page Layout - ;Bootstrap*/
 import { Nav, Navbar, NavItem, NavbarHeader } from 'react-bootstrap';
-import { Jumbotron, Grid, Row, Col } from 'react-bootstrap';
-import { Panel, Well, Button, Image, Glyphicon } from 'react-bootstrap';
+import { Jumbotron, Grid, Row, Col , Button} from 'react-bootstrap';
+import { Panel, Well, Image, Glyphicon } from 'react-bootstrap';
 
 class App extends React.Component {
 
@@ -113,17 +113,23 @@ class RiskApp extends React.Component {
 			dataCalls: [{ callId : '0', name: 'Default', variables:[]},
 			{
         		callId : '3',
-				name: 'Opiod Related Death Per Capita',
+				name: 'Opioid Related Death Per Capita',
 				variables: ['county_name'], //First one needs to be the value source for a parameter
 				params: ['id_county'] //Parameter to be passed in flaskCall
 			},
 				{callId: '2',
+<<<<<<< HEAD
 				name: 'Opiod Abuse by Prescriptions for Condition',
 				variables: ['emp_status','count']},
                 {callId: '7',
                     name: 'Employed?',
                     variables: ['op_drug','op_dx','co_dx']}],
 			dataCallConfig : [{dataCallId: '0', params: []}, {callId:'7',params:[]}],
+=======
+				name: 'Opioid Abuse by Prescriptions for Condition',
+				variables: ['op_drug','op_dx','co_dx']}],
+			dataCallConfig : [{dataCallId: '0', params: []}],
+>>>>>>> a382d0d... update spelling errors
             propVal : [
                 {name : 'popsqmile', display:'Population per Square Mile', type:'range', propMin : 0 , propMax: 100, showCriteria: true},
                 {name : 'rxrate', display:'Include Perscription Rate?', type:'toggle', propDefValue: 1, propValue : false, showCriteria: false},
@@ -165,14 +171,23 @@ class RiskApp extends React.Component {
     	console.log('Current Data Config: ', this.state.dataCallConfig);
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> 7c11ecc... App Sync
+=======
+
+>>>>>>> 4bc302f... local
+=======
+>>>>>>> 19e2292... Update App.jsx
 		var updCallConfig = this.state.dataCallConfig;
     	updCallConfig[dataCallId] = newCallConfig;
 		/*if(this.checkCallId(prevCallId, newCallId))
 			callConfig.dataCallId = prevCallId;*/
 		this.setState({dataCallConfig : updCallConfig});
+<<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
     	var prevCallId = this.state.dataCallConfig.dataCallId;
@@ -184,6 +199,11 @@ class RiskApp extends React.Component {
 =======
 
 >>>>>>> 7c11ecc... App Sync
+=======
+
+>>>>>>> 4bc302f... local
+=======
+>>>>>>> 19e2292... Update App.jsx
     	//this.getCounties();
         console.log('Updated Data Config:', this.state.dataCallConfig);
         this.callFlask();
@@ -353,6 +373,7 @@ class RiskApp extends React.Component {
 
     render() {
 		const controlPanelTitle='Risk Assesment Controls';
+
 		console.log('Risk App Render:');
 		console.log(this.state.dataCallConfig);
         return (
@@ -360,15 +381,24 @@ class RiskApp extends React.Component {
 				<Navigation setPage={this.props.setPage} currentPanel={this.props.currentPage}/>
 				<Grid>
 					<Row>
-						<Col xs={10}>
+<<<<<<< HEAD
+						<Col>
+=======
+						<Col xs={10} xsOffset={1}>
+>>>>>>> cfb4be2... Adding some styling changes and tweaking the displays and trigger - 0.2.1
 							<Well header={controlPanelTitle}>
 								<ControlPanel callbacks={this.callbacks} propConstraints={this.state.propVal}/>
 							</Well>
 						</Col>
 					</Row>
-                    {this.state.data !== undefined ?
-						<ResultPanel callbacks={this.callbacks} data={this.state.data} propConstraints={this.state.propVal} dataCallId={this.state.dataCallId}/>
-                        : 'Please Select a State'}
+                    <Row>
+                        <Col xs={10} xsOffset={1}>
+                        {this.state.data.length > 0 ?
+                            <ResultPanel callbacks={this.callbacks} data={this.state.data} scores={this.state.allScores} propConstraints={this.state.propVal} dataCallId={this.state.dataCallId}/>
+                            : <Panel>We need additional information before we can provide results.</Panel>}
+
+                        </Col>
+                    </Row>
 				</Grid>
 			</div>
 

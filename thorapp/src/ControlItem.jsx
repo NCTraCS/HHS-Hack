@@ -174,14 +174,15 @@ export default class ControlItem extends React.Component {
 
 		console.log('current Data Call ID: ', dataCalls);
 		let defDataCallConfig = this.props.defCallConfig;
-		for(var i=0; i<dataCalls.length; i++){
+		/*for(var i=0; i<dataCalls.length; i++){
 			console.log('current Data Call Config: ', dataCalls[i], '-', defDataCallConfig);
 			//opt = [{key: defDataCallConfig[dataCalls[i]].params[0], value: value[defDataCallConfig[dataCalls[i]].variables[0]]}];
 			//defDataCallConfig[dataCalls[i]] = {callId: dataCalls[i], params: opt};
 			opt = [{key: defDataCallConfig.params[0], value: value[defDataCallConfig.variables[0]]}];
 			defDataCallConfig = {callId: dataCalls, params: opt};
-		}
-		this.setDataCall(dataCalls, defDataCallConfig);
+		}*/
+        this.setDataCall({callId: '5', params: []});
+		//this.setDataCall(dataCalls, defDataCallConfig);
 		console.log('HandleClick: Data Call Config:', defDataCallConfig, ' ', this.getDataCall());
 		//this.callFlask();
 		return;
@@ -212,12 +213,12 @@ export default class ControlItem extends React.Component {
 		this.setState({propValue: propValue});
 		this.propUpdate(this.state.id, returnObj);
 		if(propValue === 'Alcohol') {
-			var params = [];
+			/*var params = [];
 			var currDataConfig = this.getDataCall();
 			console.log('Toggle Crit Data Config: ', currDataConfig);
 			if(currDataConfig['params'].length > 0)
-				params = currDataConfig['params'];
-			this.setDataCall({callId: '2', params: params});
+				params = currDataConfig['params'];*/
+			this.setDataCall({callId: '2', params: []});
 		}
 		console.log('PropValue:', propValue);
 	}
@@ -248,10 +249,10 @@ export default class ControlItem extends React.Component {
 		this.propUpdate(this.state.id, returnObj);
 		if(propValue === 'Alcohol') {
 			var params = [];
-			var currDataConfig = this.getDataCall();
+			/*var currDataConfig = this.getDataCall();
 			console.log('Toggle Crit Data Config: ', currDataConfig);
 			if(currDataConfig['params'].length > 0)
-				params = currDataConfig['params'];
+				params = currDataConfig['params'];*/
 			this.setDataCall({dataCallId: '2', params: params});
 		}
 		console.log('PropValue:', propValue);

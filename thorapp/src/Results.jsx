@@ -11,6 +11,7 @@ export default class Result extends React.Component {
         super(props);
         this.state = ({ propOpt: [],
             data: this.props.data ,
+            scores: this.props.scores,
             propVal: this.props.propConstraints,
             resultPanelStatus: this.props.resultPanelStatus});
         console.log('Result Construct resultStatus: ', this.props.resultPanelStatus);
@@ -30,7 +31,7 @@ export default class Result extends React.Component {
         console.log('showResults: ', this.state.resultPanelStatus);
         return(
             <div>
-                <ResultItem panelId={0} display={'gauge'} showResult={this.state.resultPanelStatus[0]}/>
+                <ResultItem panelId={0} display={'gauge'} scores={this.props.scores} showResult={this.state.resultPanelStatus[0]}/>
                 <ResultItem panelId={1}
                     display='EduChart'
                     type='bar'
@@ -60,20 +61,20 @@ export default class Result extends React.Component {
                             type='bar'
                             data={this.state.data[5]}
                             propConstraints={this.state.propVal}
-                            showResult={this.state.resultPanelStatus[1]}/>
+                            showResult={this.state.resultPanelStatus[5]}/>
                 <ResultItem panelId={6}
                             display='text'
                             textvalue=''
                             data={this.state.data[1]}
                             propConstraints={this.state.propVal}
-                            showResult={this.state.resultPanelStatus[1]}/>
+                            showResult={this.state.resultPanelStatus[6]}/>
                 <ResultItem panelId={7}
                             display='text'
                             textvalue=''
                             type='bar'
                             data={this.state.data[1]}
                             propConstraints={this.state.propVal}
-                            showResult={this.state.resultPanelStatus[1]}/>
+                            showResult={this.state.resultPanelStatus[7]}/>
             </div>
         );
     }

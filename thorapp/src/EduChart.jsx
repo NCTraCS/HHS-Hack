@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { VictoryChart, VictoryBar, VictoryAxis, VictoryTheme } from 'victory';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Grid, Row, Col, Panel } from 'react-bootstrap';
 
 /************
 
@@ -28,9 +28,10 @@ class EduChart extends Component {
 
     if( data ){
 ``
-		return(
-			<div>
-      			<h1>Risk by Education Level</h1>
+        const footerStyle={margin: '40px', width: '100%', textAlign:'center'};
+        const headerStyle={textAlign: 'center'};
+        return(
+			<Panel header={'Risk by Level of Education'} style={headerStyle}>
 				<VictoryChart  
 					domainPadding={{x: 50, y: 50}}
 				>
@@ -46,7 +47,7 @@ class EduChart extends Component {
 							y="count"
 					/>
 				</VictoryChart>						
-	      	</div>
+			</Panel>
       	);
 
   		}

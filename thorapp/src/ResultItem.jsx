@@ -145,6 +145,7 @@ export default class ResultItem extends React.Component {
     }
     drawResult() {
         var resultType = this.props.display;
+        console.log('Result Type: ', resultType);
         if(resultType === 'EduChart') {
             console.log(this.props.data);
             console.log('ChartData: ',this.state.chartData);
