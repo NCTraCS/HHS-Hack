@@ -85,6 +85,58 @@ export default class ControlPanel extends React.Component {
         console.log('Contorl panel Render');
         console.log('');
         return (
+            <div className="App">
+                <FormGroup bsSize='small' controlId="formControlsSelect">
+                    <div style={style2}>
+                        <ControlItem id={0} name={'Diagnosis'}
+                             display={'Test'}
+                             type={'dropdown'}
+                             handler={this.propUpdate}
+                             setDataCall= {this.setDataCall}
+                             getDataCall={this.getDataCall}
+                             showCriteria={true} />
+                    </div>
+					<div style={style2}>
+                        <ControlItem id={1}
+                            name='rx_rates'
+                            display='Include Prescribing Rates?'
+                            type= 'toggle'
+                            propDefValue={0}
+                            showCriteria={false}
+                            handler = {this.propUpdate}
+                            setDataCall= {this.setDataCall}
+                            getDataCall={this.getDataCall}
+                        />
+                    </div>
+						 <div style={style2}>
+							 <ControlItem id={4}
+											  name='educational_level'
+											  display='Your Highest Educational Level'
+											  type= 'toggle'
+											  propDefValue={0}
+											  showCriteria={false}
+											  handler = {this.propUpdate}
+											  setDataCall= {this.setDataCall}
+											  getDataCall={this.getDataCall}
+							 />
+						 </div>
+						 <div style={style2}>
+							 <ControlItem id={4}
+											  name='current_employment'
+											  display='Your Employmnent Status'
+											  type= 'toggle'
+											  propDefValue={0}
+											  showCriteria={false}
+											  handler = {this.propUpdate}
+											  setDataCall= {this.setDataCall}
+											  getDataCall={this.getDataCall}
+							 />
+						 </div>
+                </FormGroup>
+                {/*<Panel header={'Result Panel'}>
+                        { this.state.showCounties ? resultDisplay : loadDisplay }
+                    </Panel>*/}
+
         		<div className="topCopy">
 					<Form horizontal>
 					<div className="App">
@@ -135,14 +187,14 @@ export default class ControlPanel extends React.Component {
 							  <div>
 								  <div style={style2}>
 									  <ControlItem id={7}
-														name='ort_family_history_substance_abuse'
-														display='Family History of Substance Abuse'
-														type= 'substanceAbuseRadio'
-														propDefValue={'None'}
-														showCriteria={false}
-														handler = {this.propUpdate}
-														setDataCall= {this.setDataCall}
-														getDataCall={this.getDataCall}
+										name='ort_family_history_substance_abuse'
+										display='Family History of Substance Abuse'
+										type= 'substanceAbuseRadio'
+										propDefValue={'None'}
+										showCriteria={false}
+										handler = {this.propUpdate}
+										setDataCall= {this.setDataCall}
+										getDataCall={this.getDataCall}
 									  />
 								  </div>
 								  <div style={style2}>
@@ -189,6 +241,7 @@ export default class ControlPanel extends React.Component {
 					</div>
 					</Form>
 				</div>
+			</div>
         );
     }
 };
