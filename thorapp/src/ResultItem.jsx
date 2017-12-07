@@ -1,6 +1,7 @@
 import React from 'react';
 import Table from 'react-bootstrap/lib/Table';
 import { VictoryChart, VictoryBar, VictoryAxis, VictoryTheme, VictoryTooltip } from 'victory';
+import OverallScore from './OverallScore'
 //import C3Chart from 'react-c3js';
 //import 'c3/c3.css';
 
@@ -160,7 +161,7 @@ export default class ResultItem extends React.Component {
         }
     }
     getGauge () {
-        return <marshallgauge/>
+        return <OverallScore score={37} />
     }
     drawResult() {
         var resultType = this.props.display;
