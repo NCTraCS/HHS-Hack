@@ -27,14 +27,38 @@ class App extends React.Component {
 
 	renderPage() {
 		var currentPage = this.state.currentPanel;
+/*
+		switch (currentPage) {
+			case 0: //Homw Page
+				return <Home setPage={this.togglePanel}/>;
+				break;
+			case 1: //Risk Assessment
+				<RiskApp setPage={this.togglePanel} currentPage={currentPage}/>;
+				break;
+			case 2: //Resources
+				<Resources setPage={this.togglePanel} currentPage={currentPage}/>;
+				break;
+			case 3: //Collaborate
+				<Collaborate setPage={this.togglePanel} currentPage={currentPage}/>;
+				break;
+			default:
+				return <Home setPage={this.togglePanel}/>;
+		}
+	}
+*/
+
 		if (currentPage === 0)
 			return <Home setPage={this.togglePanel}/>;
 		else if (currentPage === 1)
 			return <RiskApp setPage={this.togglePanel} currentPage={currentPage}/>;
+		else if (currentPage === 1)
+			return <Resources setPage={this.togglePanel} currentPage={currentPage}/>;
 		else
-			return <Home/>;
+			return <Home setPage={this.togglePanel} currentPage={currentPage}/>;
 
 	}
+
+
     render() {
 		let page = this.renderPage();
 	    return (
@@ -43,11 +67,19 @@ class App extends React.Component {
 	      </div>
 	    );
 	  }
+
 }
 
 class Home extends React.Component {
-    render() {
-        return(
+	render() {
+		const controlPanelTitle='Hello';
+		console.log('Home Top Navbar Render:');
+		return (
+			<div className="Home">
+				<Navigation setPage={this.props.setPage} currentPanel={this.props.currentPage}/>
+			</div>
+
+        	/*
 			<div>
 				<Jumbotron className="App-header">
 					<h1 className="App-title">THOR App</h1>
@@ -59,6 +91,7 @@ class Home extends React.Component {
 					<p>...seeking resource to help prevent opioid misuse, see: <a href="/" onClick={(e)=>{this.props.setPage(2);e.preventDefault();return(false);}} >Resources</a></p>
 					<p>...want to collaborate with us?, see: <a href="/" onClick={(e)=>{this.props.setPage(3);e.preventDefault();return(false);}} >Collaborate</a></p>
 			</div>
+*/
         );
     }
 }
@@ -230,6 +263,69 @@ class RiskApp extends React.Component {
     }
 }
 
+class Resources extends React.Component {
+	constructor(props) {
+		super(props);
+		log(props);
+		this.state = ({name: this.props.name})
+	}
+	render() {
+		const controlPanelTitle='Resources';
+		console.log('Resources:');
+		console.log(this.state.dataCallConfig);
+		return (
+			<div className="Resources">
+				<Navigation setPage={this.props.setPage} currentPanel={this.props.currentPage}/>
+				<Grid>
+					<Row>
+						<Col xs={12}>
+							<Well header={controlPanelTitle}>
+								Lorem ipsum dolor sit amet, ad error noster antiopam ius. Everti labitur neglegentur an his. Nulla senserit no his, cum alia volumus fabellas ne, ea has detracto pertinax. Tota tamquam disputando has id, his at saepe nonumes concludaturque.
+
+								Quo choro instructior te, etiam aliquam ex quo. Ut eos dolor aliquando, mel invenire iracundia in. Vel ea mundi tractatos. In convenire patrioque vel, ea nostrud accusamus splendide has.
+
+								Et vis legendos interpretaris, erroribus comprehensam ad pri. Has odio aperiam inermis at, pri id equidem evertitur. Nonumes verterem mel in, id pri docendi ullamcorper. Tation fuisset eos at, eu nec accumsan molestie elaboraret. Lorem convenire ea vix.
+							</Well>
+						</Col>
+					</Row>
+				</Grid>
+			</div>
+
+		);
+	}
+}
+
+class Collaborate extends React.Component {
+	constructor(props) {
+		super(props);
+		log(props);
+	}
+	render() {
+		const controlPanelTitle='Resources';
+		console.log('Resources:');
+		console.log(this.state.dataCallConfig);
+		return (
+			<div className="Collaborate">
+				<Navigation setPage={this.props.setPage} currentPanel={this.props.currentPage}/>
+				<Grid>
+					<Row>
+						<Col xs={12}>
+							<Well header={controlPanelTitle}>
+								Lorem ipsum dolor sit amet, ad error noster antiopam ius. Everti labitur neglegentur an his. Nulla senserit no his, cum alia volumus fabellas ne, ea has detracto pertinax. Tota tamquam disputando has id, his at saepe nonumes concludaturque.
+
+								Quo choro instructior te, etiam aliquam ex quo. Ut eos dolor aliquando, mel invenire iracundia in. Vel ea mundi tractatos. In convenire patrioque vel, ea nostrud accusamus splendide has.
+
+								Et vis legendos interpretaris, erroribus comprehensam ad pri. Has odio aperiam inermis at, pri id equidem evertitur. Nonumes verterem mel in, id pri docendi ullamcorper. Tation fuisset eos at, eu nec accumsan molestie elaboraret. Lorem convenire ea vix.
+							</Well>
+						</Col>
+					</Row>
+				</Grid>
+			</div>
+
+		);
+	}
+}
+
 class Navigation extends React.Component {
     constructor(props) {
         super(props);
@@ -259,13 +355,16 @@ class Navigation extends React.Component {
 				</Navbar.Header>
 				<Navbar.Collapse>
 					<Nav activeKey={this.state.activeKey} onSelect={this.menuSelect}>
-						<NavItem eventKey={1} href="/">One</NavItem>
-						<NavItem eventKey={2} href="/">Two</NavItem>
-						<NavItem eventKey={3} href="/">Three</NavItem>
+						<NavItem eventKey={1} href="/">My Risk Assessment</NavItem>
+						<NavItem eventKey={2} href="/">Resources</NavItem>
+						<NavItem eventKey={3} href="/">Collaborate</NavItem>
+                        <NavItem eventKey={4} href="/">About</NavItem>
+                        <NavItem eventKey={5} href="/">Feedback</NavItem>
 					</Nav>
 				</Navbar.Collapse>
 			</Navbar>
         );
 	}
 }
+
 export default App;
