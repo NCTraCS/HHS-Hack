@@ -12,7 +12,7 @@ def hello():
     	"<p>Hello flask!</p>"\
     	"<a href='http://localhost:5000/gaz'>Try Gaz at localhost:5000/gaz</a><br />"\
     	"<a href='http://localhost:5000/gaz/37'>Try Gaz for NC at localhost:5000/gaz/37</a><br />"
-    	"<a href='http://localhost:5000/co_occur_list?op_dx_limit=100&co_dx_limit=200'>Try co_occur_list</a><br />"
+    	"<a href='http://localhost:5000/co_occur_list'>Try co_occur_list</a><br />"
     	)
 
 #two route definitions going to one method
