@@ -88,7 +88,7 @@ class Home extends React.Component {
 				<div>
 					<Jumbotron className="App-header">
 						<h1 className="App-title">tHOR App</h1>
-						<h2>the Heuristics Opiod Risk Application</h2>
+						<h2>the Heuristics Opioid Risk Application</h2>
 						<h4><i>an application designed to help assess opioid abuse risk with the power of data!</i></h4>
 						<p><Button onClick={(e)=>{this.props.setPage(1);e.preventDefault();return(false);}} >Take Me to The App!</Button></p>
 					</Jumbotron>
@@ -119,8 +119,11 @@ class RiskApp extends React.Component {
 			},
 				{callId: '2',
 				name: 'Opiod Abuse by Prescriptions for Condition',
-				variables: ['op_drug','op_dx','co_dx']}],
-			dataCallConfig : [{dataCallId: '0', params: []}],
+				variables: ['emp_status','count']},
+                {callId: '7',
+                    name: 'Employed?',
+                    variables: ['op_drug','op_dx','co_dx']}],
+			dataCallConfig : [{dataCallId: '0', params: []}, {callId:'7',params:[]}],
             propVal : [
                 {name : 'popsqmile', display:'Population per Square Mile', type:'range', propMin : 0 , propMax: 100, showCriteria: true},
                 {name : 'rxrate', display:'Include Perscription Rate?', type:'toggle', propDefValue: 1, propValue : false, showCriteria: false},

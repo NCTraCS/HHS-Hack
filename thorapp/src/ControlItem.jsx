@@ -39,6 +39,7 @@ export default class ControlItem extends React.Component {
 		this.handleClick = this.handleClick.bind(this);
 
 		this.radioSubstanceAbuseCriteria = this.radioSubstanceAbuseCriteria.bind(this);
+		this.checkBoxPsychologicalCriteria = this.checkBoxPsychologicalCriteria.bind(this);
 
 		this.propUpdate = this.props.handler;
 		this.drawOptions = this.drawOptions.bind(this);
@@ -55,6 +56,9 @@ export default class ControlItem extends React.Component {
 		else if ( optionType === 'county_name' ) {
 			flaskCall = flaskHost+'/county_list';
 		}
+        else if ( optionType === 'co_pcd' ) {
+            flaskCall = flaskHost+'/co_occur_px_list';
+        }
         console.log('HERE : ', flaskCall);
 		var Request = require('request');
 		Request.get(flaskCall, (error, response, body) => {
@@ -98,8 +102,8 @@ export default class ControlItem extends React.Component {
 			return (
 				<ButtonToolbar>
 					<ToggleButtonGroup id={this.props.id} type="radio" defaultValue={this.props.propDefValue} name={this.state.name}>
-						<ToggleButton value={1} onChange={this.toggleCriteria}>Yes</ToggleButton>
-						<ToggleButton value={0} onChange={this.toggleCriteria}>No</ToggleButton>
+						<ToggleButton value={'employed'} onChange={this.toggleCriteria}>Yes</ToggleButton>
+						<ToggleButton value={'unemployed'} onChange={this.toggleCriteria}>No</ToggleButton>
 					</ToggleButtonGroup>
 				</ButtonToolbar>
 			)
@@ -188,16 +192,15 @@ export default class ControlItem extends React.Component {
 		var propValue = event.target.value;
 		var returnObj = {showCriteria: !this.state.showCriteria, propValue: propValue};
 		this.setState({showCriteria: !this.state.showCriteria});
-		this.setState({propValue: propValue});
 		this.propUpdate(this.state.id, returnObj);
-		if(propValue === '1') {
-			var params = [];
-			var currDataConfig = this.getDataCall();
-			console.log('Toggle Crit Data Config: ', currDataConfig);
-			if(currDataConfig['params'].length > 0)
-				params = currDataConfig['params'];
-			this.setDataCall({callId: '2', params: params});
-		}
+		//if(propValue !== '0') {
+			var params = [propValue];
+			//var currDataConfig = this.getDataCall(this.state.dataCallId);
+			//console.log('Toggle Crit Data Config: ', currDataConfig);
+			//if(currDataConfig['params'].length > 0)
+			//	params = currDataConfig['params'];
+			this.setDataCall({callId: '7', params: params});
+		//}
 		console.log('PropValue:', propValue);
 	}
 

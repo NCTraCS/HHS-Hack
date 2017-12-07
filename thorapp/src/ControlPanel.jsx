@@ -76,7 +76,7 @@ export default class ControlPanel extends React.Component {
 				<Form horizontal>
 					<FormGroup bsSize='small' controlId="formControlsSelect">
 						<div className="inLineFormDropDown">
-							<ControlItem id={1} name={'co_dx'}
+							<ControlItem id={1} name={'co_pcd'}
 											 display={'If you recently had a procedure and were sent home with opioids, select that procedure'}
 											 type={'dropdown'}
 											 dataCallId={0}
