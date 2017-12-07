@@ -2,21 +2,20 @@
 import pymysql
 import dbconnect
 
-#MOVED TO file dbconnect.py
 #connection to local mysql with local credentials
-#def connect(cdb='opiod_dev',cclass=pymysql.cursors.DictCursor):
-#	connection = pymysql.connect(host='argus.ad.unc.edu',
-#			user='webuser',
-#			password='Opiod2017@UNC',
-#			db=cdb,
-#			cursorclass=cclass)
-#	return connection
+def connect(cdb='opiod_dev',cclass=pymysql.cursors.DictCursor):
+	connection = pymysql.connect(host='argus.ad.unc.edu',
+			user='webuser',
+			password='Opiod2017@UNC',
+			db=cdb,
+			cursorclass=cclass)
+	return connection
 
 #get data from gaz_county table
 #return as json
 def gaz(state_fips=None):
 	conn = dbconnect.connect()
-	sql = "select * from gaz_county"
+	sql = "select name, geoid as county_id, (pop2010/aland_sqmi) as popSqMil from gaz_county"
 	if state_fips != None:
 		sql += " where state_fips=%s"
 
