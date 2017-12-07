@@ -96,18 +96,7 @@ export default class ControlPanel extends React.Component {
                              getDataCall={this.getDataCall}
                              showCriteria={true} />
                     </div>
-                    {/*
-                    <div style={style2}>
-                        <ControlItem id={0} name='Population Per Square Mile'
-                            display='Population Per Square Mile'
-                            type= 'range'
-                            propMin= {0}
-                            propMax= {100}
-                            showCriteria={true}
-                            handler = {this.propUpdate}
-                        />
-                    </div>  */}
-                    <div style={style2}>
+					<div style={style2}>
                         <ControlItem id={1}
                             name='rx_rates'
                             display='Include Prescribing Rates?'
@@ -147,7 +136,7 @@ export default class ControlPanel extends React.Component {
                 {/*<Panel header={'Result Panel'}>
                         { this.state.showCounties ? resultDisplay : loadDisplay }
                     </Panel>*/}
-            
+
         		<div className="topCopy">
 					<Form horizontal>
 					<div className="App">
@@ -198,14 +187,14 @@ export default class ControlPanel extends React.Component {
 							  <div>
 								  <div style={style2}>
 									  <ControlItem id={7}
-														name='ort_family_history_substance_abuse'
-														display='Family History of Substance Abuse'
-														type= 'substanceAbuseRadio'
-														propDefValue={'None'}
-														showCriteria={false}
-														handler = {this.propUpdate}
-														setDataCall= {this.setDataCall}
-														getDataCall={this.getDataCall}
+										name='ort_family_history_substance_abuse'
+										display='Family History of Substance Abuse'
+										type= 'substanceAbuseRadio'
+										propDefValue={'None'}
+										showCriteria={false}
+										handler = {this.propUpdate}
+										setDataCall= {this.setDataCall}
+										getDataCall={this.getDataCall}
 									  />
 								  </div>
 								  <div style={style2}>
@@ -252,6 +241,7 @@ export default class ControlPanel extends React.Component {
 					</div>
 					</Form>
 				</div>
+			</div>
         );
     }
 };
