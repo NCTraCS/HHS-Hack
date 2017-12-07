@@ -35,11 +35,13 @@ def employment(empStatus=None):
 	result = [
     {
       "count": 53367, 
-      "emp_status": "employed"
+      "emp_status": "employed",
+      "axis_label": "employed"
     }, 
     {
       "count": 240756, 
       "emp_status": "unemployed", 
+      "axis_label": "unemployed", 
     }
   	] 
 
@@ -92,15 +94,18 @@ def education(edLevel=None):
 	result = [
     {
       "count": 212585, 
-      "ed_level": "12_or_less"
+      "ed_level": "12_or_less",
+      "axis_label": "12 or less"
     }, 
     {
       "count": 62723, 
       "ed_level": "13_to_15", 
+      "axis_label": "13 to 15"
     }, 
     {
       "count": 18855, 
-      "ed_level": "16_plus"
+      "ed_level": "16_plus",
+      "axis_label": "16 plus"
     }
   	] 
 
