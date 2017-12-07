@@ -30,6 +30,7 @@ export default class ControlPanel extends React.Component {
         });
         //this.drawOptions = this.drawOptions.bind(this);
         //this.getOptions = this.props.callbacks.getOptions;
+        this.callFlask = this.props.callbacks.callFlask;
         this.getCounties = this.props.callbacks.getCounties;
         this.setPropConstraints = this.props.callbacks.setPropConstraints;
         //this.setPropConstraints(this.state.propVal);
@@ -80,6 +81,7 @@ export default class ControlPanel extends React.Component {
                                      display={'If you’re currently taking an opioid, select the condition for which it was prescribed'}
                                      type={'dropdown'}
                                      dataCallId={0}
+                                     defCallConfig={this.getDataCall(0)}
                                      handler={this.propUpdate}
                                      setDataCall= {this.setDataCall}
                                      getDataCall={this.getDataCall}
@@ -90,9 +92,11 @@ export default class ControlPanel extends React.Component {
                                      display={'Select the county where you currently live'}
                                      type={'dropdown'}
                                      dataCallId={1}
+                                     defCallConfig={this.getDataCall(1)}
                                      handler={this.propUpdate}
                                      setDataCall= {this.setDataCall}
                                      getDataCall={this.getDataCall}
+                                     callFlask={this.callFlask}
                                      showCriteria={true} />
 						  </div>
 					 </FormGroup>
@@ -172,6 +176,44 @@ export default class ControlPanel extends React.Component {
                                          getDataCall={this.getDataCall}
                             />
                         </div>
+<<<<<<< HEAD
+                        <div style={style2}>
+                            <ControlItem id={8}
+                                 name='ort_Personal_history_substance_abuse'
+                                 display='Personal History of Substance Abuse'
+                                 type= 'substanceAbuseRadio'
+                                 propDefValue={'None'}
+                                 showCriteria={false}
+                                 handler = {this.propUpdate}
+                                 setDataCall= {this.setDataCall}
+                                 getDataCall={this.getDataCall}
+                            />
+                        </div>
+                        <div style={style2}>
+                            <ControlItem id={9}
+                                 name='ort_sexual_abuse'
+                                 display='History of Preadolescent Sexual Abuse'
+                                 type= 'toggle'
+                                 propDefValue={0}
+                                 showCriteria={false}
+                                 handler = {this.propUpdate}
+                                 setDataCall= {this.setDataCall}
+                                 getDataCall={this.getDataCall}
+                            />
+                        </div>
+                        <div style={style2}>
+                            <ControlItem id={10}
+                                 name='ort_psychological_disease'
+                                 display='Psychological Disease: i.e. ADD, Bipolor, Schizophrenia, Depression, etc.'
+                                 type= 'toggle'
+                                 propDefValue={0}
+                                 showCriteria={false}
+                                 handler = {this.propUpdate}
+                                 setDataCall= {this.setDataCall}
+                                 getDataCall={this.getDataCall}
+                            />
+                        </div>
+=======
 							  <div className="inLineFormCheckBoxWide">
                             <ControlItem id={10}
                                          name='ort_Personal_history_substance_abuse'
@@ -198,6 +240,7 @@ export default class ControlPanel extends React.Component {
 									 />
 								 </div>
 							 </div>
+>>>>>>> master
                     </div>
                 </FormGroup>
                 </Form>
