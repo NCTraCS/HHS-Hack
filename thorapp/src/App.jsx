@@ -160,11 +160,16 @@ class RiskApp extends React.Component {
     	console.log('New Data Config:', newCallConfig);
     	console.log('Current Data Config: ', this.state.dataCallConfig);
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7c11ecc... App Sync
 		var updCallConfig = this.state.dataCallConfig;
     	updCallConfig[dataCallId] = newCallConfig;
 		/*if(this.checkCallId(prevCallId, newCallId))
 			callConfig.dataCallId = prevCallId;*/
 		this.setState({dataCallConfig : updCallConfig});
+<<<<<<< HEAD
 =======
     	var prevCallId = this.state.dataCallConfig.dataCallId;
     	var newCallId = callConfig.dataCallId;
@@ -172,6 +177,9 @@ class RiskApp extends React.Component {
 			callConfig.dataCallId = prevCallId;
 		this.setState({dataCallConfig : callConfig});
 >>>>>>> 8fb3918... final_display_edit
+=======
+
+>>>>>>> 7c11ecc... App Sync
     	//this.getCounties();
         console.log('Updated Data Config:', this.state.dataCallConfig);
         this.callFlask();
