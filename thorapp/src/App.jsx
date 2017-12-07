@@ -51,7 +51,7 @@ class App extends React.Component {
 			return <Home setPage={this.togglePanel}/>;
 		else if (currentPage === 1)
 			return <RiskApp setPage={this.togglePanel} currentPage={currentPage}/>;
-		else if (currentPage === 1)
+		else if (currentPage === 2)
 			return <Resources setPage={this.togglePanel} currentPage={currentPage}/>;
 		else
 			return <Home setPage={this.togglePanel} currentPage={currentPage}/>;
@@ -77,21 +77,18 @@ class Home extends React.Component {
 		return (
 			<div className="Home">
 				<Navigation setPage={this.props.setPage} currentPanel={this.props.currentPage}/>
-			</div>
-
-        	/*
-			<div>
-				<Jumbotron className="App-header">
-					<h1 className="App-title">THOR App</h1>
-					<h2>Technical Health Opiod Research</h2>
-					<p>THOR is an application designed to help do awesome things....</p>
-					<p><Button onClick={(e)=>{this.props.setPage(1);e.preventDefault();return(false);}} >Take Me to The App!</Button></p>
-				</Jumbotron>
+				<div>
+					<Jumbotron className="App-header">
+						<h1 className="App-title">THOR App</h1>
+						<h2>Technical Health Opiod Research</h2>
+						<p>THOR is an application designed to help do awesome things....</p>
+						<p><Button onClick={(e)=>{this.props.setPage(1);e.preventDefault();return(false);}} >Take Me to The App!</Button></p>
+					</Jumbotron>
 					<p>...understanding risk of opioid misuse, see: <a href="/" onClick={(e)=>{this.props.setPage(1);e.preventDefault();return(false);}} >My Risk</a></p>
 					<p>...seeking resource to help prevent opioid misuse, see: <a href="/" onClick={(e)=>{this.props.setPage(2);e.preventDefault();return(false);}} >Resources</a></p>
 					<p>...want to collaborate with us?, see: <a href="/" onClick={(e)=>{this.props.setPage(3);e.preventDefault();return(false);}} >Collaborate</a></p>
+				</div>
 			</div>
-*/
         );
     }
 }

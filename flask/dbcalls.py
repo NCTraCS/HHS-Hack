@@ -15,7 +15,7 @@ def connect(cdb='opiod_dev',cclass=pymysql.cursors.DictCursor):
 #return as json
 def gaz(state_fips=None):
 	conn = dbconnect.connect()
-	sql = "select name, geoid as county_id, (pop2010/aland_sqmi) as popSqMil from gaz_county"
+	sql = "select name, geoid as county_id, (pop2010/aland_sqmi) as popSqMile from gaz_county"
 	if state_fips != None:
 		sql += " where state_fips=%s"
 
