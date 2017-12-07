@@ -159,19 +159,11 @@ class RiskApp extends React.Component {
 	setDataCall(dataCallId, newCallConfig) {
     	console.log('New Data Config:', newCallConfig);
     	console.log('Current Data Config: ', this.state.dataCallConfig);
-<<<<<<< HEAD
-    	var prevCallId = this.state.dataCallConfig.dataCallId;
-    	var newCallId = callConfig.dataCallId;
-    	if(this.checkCallId(prevCallId, newCallId))
-			callConfig.dataCallId = prevCallId;
-		this.setState({dataCallConfig : callConfig});
-=======
 		var updCallConfig = this.state.dataCallConfig;
     	updCallConfig[dataCallId] = newCallConfig;
 		/*if(this.checkCallId(prevCallId, newCallId))
 			callConfig.dataCallId = prevCallId;*/
 		this.setState({dataCallConfig : updCallConfig});
->>>>>>> 4ae8ac8d6d417cffaeb0cdd81248244d2409c236
     	//this.getCounties();
         console.log('Updated Data Config:', this.state.dataCallConfig);
         this.callFlask();
