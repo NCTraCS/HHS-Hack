@@ -195,7 +195,7 @@ export default class ControlItem extends React.Component {
 			console.log('Toggle Crit Data Config: ', currDataConfig);
 			if(currDataConfig['params'].length > 0)
 				params = currDataConfig['params'];
-			this.setDataCall({dataCallId: 2, params: params});
+			this.setDataCall({callId: '2', params: params});
 		}
 		console.log('PropValue:', propValue);
 	}
@@ -213,7 +213,7 @@ export default class ControlItem extends React.Component {
 			console.log('Toggle Crit Data Config: ', currDataConfig);
 			if(currDataConfig['params'].length > 0)
 				params = currDataConfig['params'];
-			this.setDataCall({dataCallId: 2, params: params});
+			this.setDataCall({callId: '2', params: params});
 		}
 		console.log('PropValue:', propValue);
 	}
