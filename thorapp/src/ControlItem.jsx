@@ -53,6 +53,9 @@ export default class ControlItem extends React.Component {
                 else {
                     console.log('Call Made:', JSON.parse(body));
                     options = JSON.parse(body);
+                    for(var i = 0; i<options.length; i++){
+                        options[i].key = i;
+                    }
                     this.setState({coDxList: options});
                     return options;
                 }
@@ -64,7 +67,7 @@ export default class ControlItem extends React.Component {
         if(optionType === 'coDx') {
             var options = this.state.coDxList;
             console.log('drawOptions: ', options);
-            return options.map((item) => <option key={item.co_dx_code} value={item.co_dx_code}>{item.co_dx}</option>);
+            return options.map((item, idx) => <option key={idx} value={item.co_dx_code}>{item.co_dx}</option>);
         }
     }
 
