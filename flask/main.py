@@ -19,6 +19,7 @@ def hello():
         "<a href='http://localhost:8080/op_disch_per_cap?id_county=erie'>Try op_disch_per_cap</a><br />"
         "<a href='http://localhost:8080/education?id_ed_level=13_to_15'>Try education</a><br />"
         "<a href='http://localhost:8080/employment?id_emp_status=unemployed'>Try employment</a><br />"
+        "<a href='http://localhost:8080/county_list'>Try county_list</a><br />"
     	)
 
 #two route definitions going to one method
@@ -92,4 +93,10 @@ def employment():
     response.headers.add('Access-Control-Allow-Origin','*')
     return response
 
+@app.route('/county_list', methods=['GET'])
+def countyList():
+    result = countyVector.countyList()
+    response = jsonify(result)
+    response.headers.add('Access-Control-Allow-Origin','*')
+    return response
     
