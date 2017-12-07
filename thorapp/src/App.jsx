@@ -4,12 +4,14 @@ import ControlPanel from './ControlPanel';
 import ResultPanel from './ResultPanel';
 import {log} from './GlobalFunctions';
 import {flaskHost} from './GlobalFunctions';
-
-/* Page Layout - Bootstrap*/
+import pcorlogo from './assets/PCORnet.png';
+import cclogo from './assets/cc-logo.jpg';
+import actlogo from './assets/ACT.JPG';
+import tracslogo from './assets/tracs.png';
+/* Page Layout - ;Bootstrap*/
 import { Nav, Navbar, NavItem, NavbarHeader } from 'react-bootstrap';
 import { Jumbotron, Grid, Row, Col } from 'react-bootstrap';
-import { Panel, Well, Button } from 'react-bootstrap';
-
+import { Panel, Well, Button, Image } from 'react-bootstrap';
 
 class App extends React.Component {
 
@@ -55,10 +57,10 @@ class App extends React.Component {
 			return <Resources setPage={this.togglePanel} currentPage={currentPage}/>;
 		else if (currentPage === 3)
 			return <Collaborate setPage={this.togglePanel} currentPage={currentPage}/>;
-		else if (currentPage === 4)
-			return <About setPage={this.togglePanel} currentPage={currentPage}/>;
-		else if (currentPage === 5)
-			return <Feedback setPage={this.togglePanel} currentPage={currentPage}/>;
+		//else if (currentPage === 4)
+		//	return <About setPage={this.togglePanel} currentPage={currentPage}/>;
+		//else if (currentPage === 5)
+			//return <Feedback setPage={this.togglePanel} currentPage={currentPage}/>;
 		else
 			return <Home setPage={this.togglePanel} currentPage={currentPage}/>;
 
@@ -85,16 +87,13 @@ class Home extends React.Component {
 				<Navigation setPage={this.props.setPage} currentPanel={this.props.currentPage}/>
 				<div>
 					<Jumbotron className="App-header">
-						<h1 className="App-title">THOR App</h1>
-						<h2>Technical Health Opiod Research</h2>
-						<p>THOR is an application designed to help do awesome things....</p>
+						<h1 className="App-title">tHOR App</h1>
+						<h2>the Heuristics Opiod Risk application</h2>
+						<p>tHOR is an application designed to help you do awesome things....</p>
 						<p><Button onClick={(e)=>{this.props.setPage(1);e.preventDefault();return(false);}} >Take Me to The App!</Button></p>
 					</Jumbotron>
-					<div class="topCopy">
-						Lorem ipsum dolor sit amet, illum accommodare in sea, possit similique maiestatis ne eos, vocibus praesent has an. Doctus electram suavitate no mei, ea omnesque deseruisse usu, vix ea brute omittam. Id semper phaedrum urbanitas per. Inani menandri cum at, nam ad atomorum sententiae. Simul labitur maiorum ex mel, ex est rebum dicant vituperata.
-						Esse adipisci ne pro, qui ad dictas inermis mediocritatem. Mei an possit delicata. No prima aliquid eam, his case temporibus ei. Voluptaria neglegentur te eos, tation qualisque an ius, et malorum dolores molestiae ius. Usu numquam scaevola eu, quo ullum eligendi id. In vix nulla exerci nominavi, ea vitae eligendi percipit mel, eum assentior signiferumque ut.
-					</div>
 				</div>
+				<div style={{float: 'right'}}><Image src={tracslogo} rounded /></div>
 			</div>
 
         	/*
@@ -110,16 +109,17 @@ class RiskApp extends React.Component {
         this.state = ({name: this.props.name ,
 			showResults: false,
 			data:[],
-			dataCalls: [{ callId : '0', name: 'Default', variables:[]},
+			dataCalls: [{ callId : 0, name: 'Default', variables:[]},
 			{
-        		callId : '1',
-				name: 'Opiod Abuse DX by Patient Conditions',
-				variables: ['op_dx','co_dx']
+        		callId : 1,
+				name: 'County Death Per Capita',
+				variables: ['county_name'], //First one needs to be the value source for a parameter
+				params: ['id_county'] //Parameter to be passed in flaskCall
 			},
-				{callId: '2',
+				{callId: 2,
 				name: 'Opiod Abuse by Perscriptions for Condition',
 				variables: ['op_drug','op_dx','co_dx']}],
-			dataCallConfig : {dataCallId: '0', params: []},
+			dataCallConfig : [{dataCallId: 0, params: []}],
             propVal : [
                 {name : 'popsqmile', display:'Population per Square Mile', type:'range', propMin : 0 , propMax: 100, showCriteria: true},
                 {name : 'rxrate', display:'Include Perscription Rate?', type:'toggle', propDefValue: 1, propValue : false, showCriteria: false},
@@ -144,23 +144,29 @@ class RiskApp extends React.Component {
         console.log('StateList:',this.stateList);
     }
 	componentDidUpdate(prevProps, prevState) {
+        console.log('Check Changes');
+        console.log(prevState.dataCallConfig, this.state.dataCallConfig);
 		if(prevState.dataCallConfig !== this.state.dataCallConfig) {
+			console.log('Data Config Changed');
 			this.callFlask();
 		}
 		if(prevState.data !== this.state.data && this.state.data !== undefined) {
+            console.log('Data Changed');
             this.setState({showResults: true});
 		}
 	}
 
-	setDataCall(callConfig) {
-    	console.log('New Data Config:', callConfig);
+	setDataCall(dataCallId, newCallConfig) {
+    	console.log('New Data Config:', newCallConfig);
     	console.log('Current Data Config: ', this.state.dataCallConfig);
-    	var prevCallId = this.state.dataCallConfig.dataCallId;
-    	var newCallId = callConfig.dataCallId;
-    	if(this.checkCallId(prevCallId, newCallId)) 
-			callConfig.dataCallId = prevCallId;
-		this.setState({dataCallConfig : callConfig});
+		var updCallConfig = this.state.dataCallConfig;
+    	updCallConfig[dataCallId] = newCallConfig;
+		/*if(this.checkCallId(prevCallId, newCallId))
+			callConfig.dataCallId = prevCallId;*/
+		this.setState({dataCallConfig : updCallConfig});
     	//this.getCounties();
+        console.log('Updated Data Config:', this.state.dataCallConfig);
+        this.callFlask();
 	}
 	/* Need to determine if the variables/data scope has actually changed */
 	checkCallId(prevCallId, newCallId) {
@@ -179,9 +185,11 @@ class RiskApp extends React.Component {
     	return inCurrentCall;
 	}
 
-	getDataCall() {
-    	console.log('Returning dataCallConfig...', this.state.dataCallConfig);
-    	return this.state.dataCallConfig;
+	getDataCall(callId) {
+        console.log('dataCallConfig...', this.state.dataCalls);
+		var currDataCallConfig = this.state.dataCalls[callId];
+        console.log('Returning dataCallConfig...', currDataCallConfig);
+    	return currDataCallConfig;
 	}
     setPropConstraints(propVals) {
     	this.setState({propVal: propVals});
@@ -205,50 +213,52 @@ class RiskApp extends React.Component {
         console.log('GetCounties',this.state.propVal[1].propValue);
         console.log('Get Counties Props', this.state.propVal);
         console.log('Get Counties DataConfig: ', this.state.dataCallConfig);
-        this.setState({showResults: false, displayType: 1});
-        var callId = this.state.dataCallConfig['dataCallId'];
-        var params = this.state.dataCallConfig['params'];
-        var Request = require('request');
-        if(callId === '1') {
-        	var flaskCall = flaskHost+'/death_per_cap';
-        	if(params !== undefined && params.length > 0) {
-        		flaskCall = flaskCall+'?';
-        		for(var i=0; i<params.length; i++){
-        			if(i > 0)
-        				flaskCall = flaskCall+'&';
-        			flaskCall = flaskCall+params[i].key+'='+params[i].value;
-				}
-			}
-            Request.get(flaskCall, (error, response, body) => {
+        //this.setState({showResults: false, displayType: 1});
+        for(var i=0; i< this.state.dataCallConfig.length; i++) {
+            var callId = this.state.dataCallConfig[i].callId;
+            var params = this.state.dataCallConfig[i].params;
+            console.log('Here: ', callId,':',params);
+            var Request = require('request');
+            if (callId === 1) {
+            	console.log('Next');
+                var flaskCall = flaskHost + '/death_per_cap';
+                if (params !== undefined && params.length > 0) {
+                    flaskCall = flaskCall + '?';
+                    for (var i = 0; i < params.length; i++) {
+                        if (i > 0)
+                            flaskCall = flaskCall + '&';
+                        flaskCall = flaskCall + params[i].key + '=' + params[i].value;
+                    }
+                }
+                Request.get(flaskCall, (error, response, body) => {
 
-                if(error) {
-                    return console.log("WHAT ERROR?");
-                }
-                else {
-                    var newData = this.state.data;
-                    newData[callId] = JSON.parse(body).counties;
-                    this.setState({data: newData});
-                }
-                //console.log('Data Here:', this.state.data);
-            });
-        }
-        else if (callId === '2') {
-        	console.log('Making Call 2...');
-            Request.get(flaskHost+'/gaz/'+params[0], (error, response, body) => {
-                if(error) {
-                    return console.log("WHAT ERROR?");
-                }
-                else {
-                    this.setState({data: JSON.parse(body)});
-                    //this.setState({showResults: true});
+                    if (error) {
+                        return console.log("WHAT ERROR?");
+                    }
+                    else {
+                        var newData = this.state.data;
+                        newData[callId] = JSON.parse(body).data;
+                        this.setState({data: newData});
+                    }
                     console.log('Data Here:', this.state.data);
-                    return;
-                }
-            });
-        }
-        else {
-        	return;
+                });
+            }
+            else if (callId === 2) {
+                console.log('Making Call 2...');
+                Request.get(flaskHost + '/gaz/' + params[0], (error, response, body) => {
+                    if (error) {
+                        return console.log("WHAT ERROR?");
+                    }
+                    else {
+                        this.setState({data: JSON.parse(body)});
+                        //this.setState({showResults: true});
+                        console.log('Data Here:', this.state.data);
+                        return;
+                    }
+                });
+            }
 		}
+		return;
     }
 
     getData() {
@@ -296,27 +306,35 @@ class Resources extends React.Component {
 			<div className="Resources">
 				<Navigation setPage={this.props.setPage} currentPanel={this.props.currentPage}/>
 				<div class="topCopy">
-					<Panel>
-					<p>
-					Though opioids can be safe and effective if taken exactly as described by a physician, they carry a risk of abuse and overdose. Now that you've examined your risk, learn more at the links below.
-					</p>
-					<p>
-					To get the facts:
-					</p>
-					<p>
-					Facts on opioids for teens: https://teens.drugabuse.gov/sites/default/files/peerx/pdf/PEERx_Toolkit_FactSheets_Opioids.pdf
-					Recent opioids research: https://www.drugabuse.gov/drugs-abuse/opioids/nida-funded-opioid-research
-					Overdose infographic: https://www.cdc.gov/drugoverdose/data/overdose.html
-					</p>
-					<p>
-					To find assistance: 
-					</p>
-					<p>
-					Behavioral Treatment services locator: https://findtreatment.samhsa.gov/
-					SAMHSA's National Helpline: https://www.samhsa.gov/find-help/national-helpline
-					Buprenorphine (medication-assisted) treatment locator: https://www.samhsa.gov/medication-assisted-treatment/physician-program-data/treatment-physician-locator
-					</p>
-					</Panel>
+					<h2>
+						<i>I know my risk ... now what?</i>
+					</h2>
+					<h4>
+					Though opioids can be safe and effective if taken exactly as described by a physician, they carry a risk of abuse and overdose.
+					</h4>
+				   <h4>
+					Now that you've examined your risk, learn more at the links below.
+					</h4>
+					<h3>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To get the facts:
+					</h3>
+					<h4>
+						Facts on opioids for teens:
+						<a href="https://teens.drugabuse.gov/sites/default/files/peerx/pdf/PEERx_Toolkit_FactSheets_Opioids.pdf">
+							https://teens.drugabuse.gov/sites/default/files/peerx/pdf/PEERx_Toolkit_FactSheets_Opioids.pdf </a>
+				</h4><h4>
+							Recent opioids research:
+				<a href="https://www.drugabuse.gov/drugs-abuse/opioids/nida-funded-opioid-research">
+					https://www.drugabuse.gov/drugs-abuse/opioids/nida-funded-opioid-research </a>
+				</h4><h4>
+						Overdose Infographic:
+						<a href="https://www.cdc.gov/drugoverdose/data/overdose.html" >https://www.cdc.gov/drugoverdose/data/overdose.html</a>
+				</h4>
+					<h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To find assistance:
+					</h3>
+					<h4>Behavioral Treatment services locator: <a href="https://findtreatment.samhsa.gov/">https://findtreatment.samhsa.gov</a></h4>
+					<h4>SAMHSA's National Helpline: <a href="https://www.samhsa.gov/find-help/national-helpline">https://www.samhsa.gov/find-help/national-helpline</a></h4>
+					<h4>Buprenorphine (medication-assisted) treatment locator: <a href="https://www.samhsa.gov/medication-assisted-treatment/physician-program-data/treatment-physician-locator"> https://www.samhsa.gov/medication-assisted-treatment/physician-program-data/treatment-physician-locator</a> </h4>
 				</div>
 			</div>
 
@@ -338,22 +356,43 @@ class Collaborate extends React.Component {
 			<div className="Collaborate">
 				<Navigation setPage={this.props.setPage} currentPanel={this.props.currentPage}/>
 				<div class="topCopy">
-					Are you a researcher, activist, or citizen scientist? We would love to collaborate with you! THOR app becomes more robust every time new data is added, or analytical techniques applied.
-					
-					Shoot us an email at opioiddata@unctest.edu:
-					*To discuss contributing a curated dataset of your own
-					*For questions on THOR app or the underlying data
-					
-					Looking to go further? UNC participates in a number of Clinical Data Research Networks (CDRNs)--groups of academic institutions who have agreed to share their clinical data with one another, and with researchers. These CDRNs can you guide you through the regulatory processes to request data from several institutions, enabling big data-driven clinical research. We'd love to help you combine CDRN data with THOR app to answer your opioid research question.
-
+					<h2><i>Are you a researcher, activist, or citizen scientist?</i></h2>
+					<h3>&nbsp;&nbsp;&nbsp;&nbsp;We would love to collaborate with you! </h3>
+					<h4>
+					tHOR App becomes more robust every time new data is added, or analytical techniques applied.
+					</h4>
+					<h4>
+						Shoot us an email at <a href="mailto:opioiddata@unctest.edu"> opioiddata@unctest.edu</a>:
+					<ul>
+						<li>To discuss contributing a curated dataset of your own</li>
+						<li>For questions on tHOR App or the underlying data</li>
+					</ul>
+					</h4>
+				    <h3>
+						&nbsp;&nbsp;&nbsp;&nbsp;Looking to go further?
+					</h3>
+					<h4>
+						UNC participates in a number of Clinical Data Research Networks (CDRNs)--groups of academic institutions who have agreed to share their clinical data with one another, and with researchers. These CDRNs can you guide you through the regulatory processes to request data from several institutions, enabling big data-driven clinical research. We'd love to help you combine CDRN data with THOR app to answer your opioid research question.
+					</h4><h4>
 					To learn more about CDRNs, reach out to us at the email above, or click the logos below to learn more about each network.
-					
-					Insert PCORnet logo--hyperlink to--http://www.pcornet.org/
-					Insert Carolinas Collaborative logo--hyperlink to: https://carolinascollaborative.org/
-					Insert CTSAct logo--hyperlink to: https://www.act-network.org/node/29
+					</h4>
+					<Grid>
+						<Row>
+							<Col xs={6} md={4}>
+								<a href="http://www.pcornet.org/"> <Image src={pcorlogo} thumbnail /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</Col>
+							<Col xs={6} md={4}>
+								<a href="https://www.act-network.org/node/29/"><Image src={actlogo} thumbnail /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</Col>
+							<Col xs={6} md={4}>
+								<a href="https://carolinascollaborative.org/"><Image src={cclogo} thumbnail /></a>
+							</Col>
+						</Row>
+					</Grid>
 
 				</div>
 			</div>
+
 		);
 	}
 }
@@ -445,7 +484,7 @@ class Navigation extends React.Component {
 			<Navbar fixedTop collapseOnSelect>
 				<Navbar.Header>
 					<Navbar.Brand>
-						<a href='/' onClick={(e)=>{this.props.setPage(0),e.preventDefault();return(false);}}>THOR App Home</a>
+						<a href='/' onClick={(e)=>{this.props.setPage(0),e.preventDefault();return(false);}}>tHOR App</a>
 					</Navbar.Brand>
 					<Navbar.Toggle />
 				</Navbar.Header>
@@ -454,8 +493,10 @@ class Navigation extends React.Component {
 						<NavItem eventKey={1} href="/">My Risk Assessment</NavItem>
 						<NavItem eventKey={2} href="/">Resources</NavItem>
 						<NavItem eventKey={3} href="/">Collaborate</NavItem>
-                        <NavItem eventKey={4} href="/">About</NavItem>
-                        <NavItem eventKey={5} href="/">Feedback</NavItem>
+						{
+							//<NavItem eventKey={4} href="/">About</NavItem>
+							//<NavItem eventKey={5} href="/">Feedback</NavItem>
+						}
 					</Nav>
 				</Navbar.Collapse>
 			</Navbar>
