@@ -35,7 +35,7 @@ export default class Result extends React.Component {
                 <ResultItem panelId={1}
                     display='chart'
                     type='bar'
-                    data={this.state.data}
+                    data={this.state.data[1]}
                     propConstraints={this.state.propVal}
                     showResult={this.state.resultPanelStatus[1]}/>
             </div>

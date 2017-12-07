@@ -62,7 +62,7 @@ export default class ResultPanel extends React.Component {
             <div>
                 <Row>
                     <Col xs={2}>
-                        <ButtonToolbar vertical>
+                        <ButtonToolbar>
                             <ToggleButtonGroup vertical type="radio" defaultValue={0} name={'Result Sidebar'} onChange={this.menuSelect}>
                                 <ToggleButton value={0}>Overall Risk</ToggleButton>
                                 <ToggleButton value={1}>Diagnosis Risk</ToggleButton>
