@@ -41,7 +41,7 @@ def deathPerCap(id_county=None):
 	ret = {}
 	ret['id_county'] = id_county
 	ret['score'] = score
-	ret['counties'] = result
+	ret['data'] = result
 	return ret
 
 def opDischPerCap(id_county=None):
@@ -76,7 +76,7 @@ def opDischPerCap(id_county=None):
 	ret = {}
 	ret['id_county'] = id_county
 	ret['score'] = score
-	ret['counties'] = result
+	ret['data'] = result
 	return ret
 
 def test():
@@ -86,7 +86,7 @@ def test():
 	print(res['id_county'])
 	print("score:")
 	print(res['score'])
-	for county in res['counties']:
+	for county in res['data']:
 		print(county)
 
 if len(sys.argv) > 1 and sys.argv[1] == 'test':
