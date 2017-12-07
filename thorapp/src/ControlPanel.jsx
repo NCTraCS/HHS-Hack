@@ -80,7 +80,7 @@ export default class ControlPanel extends React.Component {
                         <ControlItem id={0} name={'co_dx'}
                                      display={'If you’re currently taking an opioid, select the condition for which it was prescribed'}
                                      type={'dropdown'}
-                                     dataCallId={0}
+                                     dataCallId={'0'}
                                      defCallConfig={this.getDataCall(0)}
                                      handler={this.propUpdate}
                                      setDataCall= {this.setDataCall}
@@ -88,10 +88,10 @@ export default class ControlPanel extends React.Component {
                                      showCriteria={true} />
                     </div>
                     <div className="inLineFormDropDown">
-                        <ControlItem id={1} name={'county_name'}
+                        <ControlItem id={3} name={'county_name'}
                                      display={'Select the county where you currently live'}
                                      type={'dropdown'}
-                                     dataCallId={1}
+                                     dataCallId={'3'}
                                      defCallConfig={this.getDataCall(1)}
                                      handler={this.propUpdate}
                                      setDataCall= {this.setDataCall}
@@ -176,7 +176,6 @@ export default class ControlPanel extends React.Component {
                                          getDataCall={this.getDataCall}
                             />
                         </div>
-<<<<<<< HEAD
                         <div style={style2}>
                             <ControlItem id={8}
                                  name='ort_Personal_history_substance_abuse'
@@ -213,8 +212,7 @@ export default class ControlPanel extends React.Component {
                                  getDataCall={this.getDataCall}
                             />
                         </div>
-=======
-							  <div className="inLineFormCheckBoxWide">
+                        <div className="inLineFormCheckBoxWide">
                             <ControlItem id={10}
                                          name='ort_Personal_history_substance_abuse'
                                          display='Do you have any personal history of substance abuse? If so, select the substances below. (Alcohol / Illegal drugs / Prescription drugs)'
@@ -240,7 +238,6 @@ export default class ControlPanel extends React.Component {
 									 />
 								 </div>
 							 </div>
->>>>>>> master
                     </div>
                 </FormGroup>
                 </Form>

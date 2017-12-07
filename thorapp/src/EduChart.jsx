@@ -24,10 +24,10 @@ class EduChart extends Component {
 
 	render() {
 
-    const data = this.props.ChartData.data;
+    const data = this.props.ChartData;
 
     if( data ){
-
+``
 		return(
 			<div>
       			<h1>Risk by Education Level</h1>
