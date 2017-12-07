@@ -101,7 +101,7 @@ export default class ResultItem extends React.Component {
         var y_axis_min = this.state.propVal[0].propMin;
         var y_axis_max = this.state.propVal[0].propMax;
         var y_axis_title = this.state.propVal[0].display;
-        var chartData = this.getChartData([{propId : 0 , propVal: 'popSqMile'}]); //this.getChartData('county_id');
+        var chartData = this.getChartData([{propId : 0 , propVal: 'per_capita_deaths'}]); //this.getChartData('county_id');
         var chartLabels = this.props.data.map((data) => { return data.name; });
         console.log('Chart Data: ', chartData);
         //console.log('Manual Data: ', testData);

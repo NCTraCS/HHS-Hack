@@ -68,7 +68,7 @@ export default class ControlItem extends React.Component {
         if(optionType === 'coDx') {
             var options = this.state.coDxList;
             console.log('drawOptions: ', options);
-            return options.map((item, idx) => <option key={idx} value={[dataCallId, item.co_dx_code]}>{item.co_dx}</option>);
+            return options.map((item, idx) => <option key={idx} value={dataCallId}>{item.co_dx}</option>);
         }
     }
 
@@ -125,12 +125,12 @@ export default class ControlItem extends React.Component {
     }
 
     handleClick(event) {
-        let opt=event.target.value[1];
-        let call=event.target.value[0];
-        this.setState({currentOption: opt});
+        let opt=[{key: 'id_county', value: 'orange'}];
+        let call=event.target.value;
+        this.setState({currentOption: call});
         //log(state);
-        //log(this.state.currentState);
-        var dataCallConfig = {dataCallId: call, params: [opt]};
+        console.log(event.target.value);
+        var dataCallConfig = {dataCallId: call, params: opt};
         console.log('HandleClick: Data Call Config:', dataCallConfig);
         this.setDataCall(dataCallConfig);
         return;

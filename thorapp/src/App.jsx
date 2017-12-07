@@ -109,6 +109,7 @@ class RiskApp extends React.Component {
         log(props);
         this.state = ({name: this.props.name ,
 			showResults: false,
+			data:[],
 			dataCalls: [{ callId : '0', name: 'Default', variables:[]},
 			{
         		callId : '1',
@@ -206,7 +207,7 @@ class RiskApp extends React.Component {
         var params = this.state.dataCallConfig['params'];
         var Request = require('request');
         if(callId === '1') {
-        	var flaskCall = flaskHost+'/death_per_cap?id_county=orange';
+        	var flaskCall = flaskHost+'/death_per_cap';
         	if(params !== undefined && params.length > 0) {
         		flaskCall = flaskCall+'?';
         		for(var i=0; i<params.length; i++){
@@ -222,10 +223,7 @@ class RiskApp extends React.Component {
                 }
                 else {
                     var newData = this.state.data;
-                    if (newData === undefined || newData.length > 0)
-                        newData = {callId: JSON.parse(body)};
-                    else
-                        newData.callId = JSON.parse(body);
+                    newData[callId] = JSON.parse(body).counties;
                     this.setState({data: newData});
                 }
                 //console.log('Data Here:', this.state.data);
