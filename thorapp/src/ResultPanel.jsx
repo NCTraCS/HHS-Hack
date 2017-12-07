@@ -67,11 +67,11 @@ export default class ResultPanel extends React.Component {
                                 <ToggleButton value={0}>Overall Risk</ToggleButton>
                                 <ToggleButton value={1}>Education</ToggleButton>
                                 <ToggleButton value={2}>Employment</ToggleButton>
-                                <ToggleButton value={4}>Opioid Related Death per Capita</ToggleButton>
-                                <ToggleButton value={5}>Opioid Related Discharges per Capita</ToggleButton>
-                                <ToggleButton value={6}>Opioid Risk Tool</ToggleButton>
-                                <ToggleButton value={7}>Diagnosis Impact</ToggleButton>
-                                <ToggleButton value={8}>Procedure Impact</ToggleButton>
+                                <ToggleButton value={3}>Opioid Related Death per Capita</ToggleButton>
+                                <ToggleButton value={4}>Opioid Related Discharges per Capita</ToggleButton>
+                                <ToggleButton value={5}>Opiod Risk Tool</ToggleButton>
+                                <ToggleButton value={6}>Diagnosis Impact</ToggleButton>
+                                <ToggleButton value={7}>Procedure Impact</ToggleButton>
                             </ToggleButtonGroup>
                         </ButtonToolbar>
                         {/*

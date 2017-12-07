@@ -61,6 +61,15 @@ def coOccurList(state_fips=None):
 	response.headers.add('Access-Control-Allow-Origin','*')
 	return response
 
+@app.route('/co_occur_px_list', methods=['GET'])
+def coPcdOccurList(state_fips=None):
+	op_pcd_limit = request.args.get('op_pcd_limit')
+	co_pcd_limit = request.args.get('co_pcd_limit')
+	result = coOccur.coPcdList(op_pcd_limit,co_pcd_limit)
+	response = jsonify(result)
+	response.headers.add('Access-Control-Allow-Origin','*')
+	return response
+
 @app.route('/death_per_cap', methods=['GET'])
 def deathPerCap():
     id_county = request.args.get('id_county')

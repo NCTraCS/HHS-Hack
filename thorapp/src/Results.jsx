@@ -58,7 +58,7 @@ export default class Result extends React.Component {
                 <ResultItem panelId={5}
                             display='OpDischChart'
                             type='bar'
-                            data={this.state.data[1]}
+                            data={this.state.data[5]}
                             propConstraints={this.state.propVal}
                             showResult={this.state.resultPanelStatus[1]}/>
                 <ResultItem panelId={6}
