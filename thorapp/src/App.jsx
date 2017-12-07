@@ -109,6 +109,7 @@ class RiskApp extends React.Component {
         this.state = ({name: this.props.name ,
 			showResults: false,
 			data:[],
+			allScores:{},
 			dataCalls: [{ callId : '0', name: 'Default', variables:[]},
 			{
         		callId : '3',
@@ -216,14 +217,92 @@ class RiskApp extends React.Component {
         console.log('Get Counties Props', this.state.propVal);
         console.log('Get Counties DataConfig: ', this.state.dataCallConfig);
         //this.setState({showResults: false, displayType: 1});
-        for(var k in this.state.dataCallConfig) {
-            var callId = this.state.dataCallConfig[k].callId;
-            var params = this.state.dataCallConfig[k].params;
-            console.log('Here: ', callId,':',params);
+        //for(var k in this.state.dataCallConfig) {
+            //var callId = this.state.dataCallConfig[k].callId;
+            //var params = this.state.dataCallConfig[k].params;
+            //console.log('Here: ', callId,':',params);
             var Request = require('request');
-            if (callId === '1') {
+            var newData = this.state.data;
+            var newScores = this.state.allScores;
+            //if (callId === '1') {
             	console.log('Next');
-                var flaskCall = flaskHost + '/death_per_cap';
+                var flaskCall = flaskHost + '/education?id_ed_level=13_to_15';
+                /*if (params !== undefined && params.length > 0) {
+                    flaskCall = flaskCall + '?';
+                    for (var i = 0; i < params.length; i++) {
+                        if (i > 0)
+                            flaskCall = flaskCall + '&';
+                        flaskCall = flaskCall + params[i].key + '=' + params[i].value;
+                    }
+                }*/
+                Request.get(flaskCall, (error, response, body) => {
+
+                    if (error) {
+                        return console.log("WHAT ERROR?");
+                    }
+                    else {
+                        newData[1] = JSON.parse(body);
+                        newScores['education'] = newData[1].score;
+                        this.setState({data: newData});
+                    }
+                    //console.log('Data Here:', this.state.data, this.state.allScores);
+                });
+				var flaskCall = flaskHost + '/employment?id_emp_status=unemployed';
+				Request.get(flaskCall, (error, response, body) => {
+
+					if (error) {
+						return console.log("WHAT ERROR?");
+					}
+					else {
+						newData[2] = JSON.parse(body);
+						newScores['employment'] = newData[2].score;
+					}
+					//console.log('Data Here:', this.state.data, this.state.allScores);
+				});
+				var flaskCall = flaskHost + '/death_per_cap?id_county=erie';
+				Request.get(flaskCall, (error, response, body) => {
+
+					if (error) {
+						return console.log("WHAT ERROR?");
+					}
+					else {
+						newData[3] = JSON.parse(body);
+						newScores['death_per_cap'] = newData[3].score;
+					}
+					//console.log('Data Here:', this.state.data, this.state.allScores);
+				});
+				var flaskCall = flaskHost + '/op_disch_per_cap?id_county=erie';
+				Request.get(flaskCall, (error, response, body) => {
+
+					if (error) {
+						return console.log("WHAT ERROR?");
+					}
+					else {
+						newData[4] = JSON.parse(body);
+						newScores['op_disch_per_cap'] = newData[4].score;
+					}
+					//console.log('Data Here:', this.state.data, this.state.allScores);
+				});
+        		this.setState({data: newData});
+        		this.setState({allScores: newScores});
+            /*}
+            else if (callId === '2') {
+                console.log('Making Call 2...');
+                Request.get(flaskHost + '/gaz/' + params[0], (error, response, body) => {
+                    if (error) {
+                        return console.log("WHAT ERROR?");
+                    }
+                    else {
+                        this.setState({data: JSON.parse(body)});
+                        //this.setState({showResults: true});
+                        console.log('Data Here:', this.state);
+                        return;
+                    }
+                });
+            }
+            if (callId === '3') {
+                console.log('Next');
+                var flaskCall = flaskHost + '/education?id_ed_level=13_to_15';
                 if (params !== undefined && params.length > 0) {
                     flaskCall = flaskCall + '?';
                     for (var i = 0; i < params.length; i++) {
@@ -245,45 +324,7 @@ class RiskApp extends React.Component {
                     console.log('Data Here:', this.state.data);
                 });
             }
-            else if (callId === '2') {
-                console.log('Making Call 2...');
-                Request.get(flaskHost + '/gaz/' + params[0], (error, response, body) => {
-                    if (error) {
-                        return console.log("WHAT ERROR?");
-                    }
-                    else {
-                        this.setState({data: JSON.parse(body)});
-                        //this.setState({showResults: true});
-                        console.log('Data Here:', this.state);
-                        return;
-                    }
-                });
-            }
-            if (callId === '3') {
-                console.log('Next');
-                var flaskCall = flaskHost + '/education?id_ed_level=13_to_15';/*
-                if (params !== undefined && params.length > 0) {
-                    flaskCall = flaskCall + '?';
-                    for (var i = 0; i < params.length; i++) {
-                        if (i > 0)
-                            flaskCall = flaskCall + '&';
-                        flaskCall = flaskCall + params[i].key + '=' + params[i].value;
-                    }
-                }*/
-                Request.get(flaskCall, (error, response, body) => {
-
-                    if (error) {
-                        return console.log("WHAT ERROR?");
-                    }
-                    else {
-                        var newData = this.state.data;
-                        newData[callId] = JSON.parse(body);
-                        this.setState({data: newData});
-                    }
-                    console.log('Data Here:', this.state.data);
-                });
-            }
-		}
+		}*/
 		return;
     }
 
