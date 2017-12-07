@@ -43,16 +43,22 @@ export default class ControlPanel extends React.Component {
     }
 
     propUpdate(id, propObj) {
-        //console.log('Property ID:', id);
+        console.log('Property ID:', id);
         var tempProps = this.state.propVal;
+        console.log('Prop Update propVal: ', this.state.propVal);
         var tempProp = tempProps[id];
-        //console.log(propObj);
-        Object.keys(propObj).forEach(function(key) {
-            //console.log('Property Obj Val:', propObj[key]);
-            tempProp[key] = propObj[key];
-            //console.log('Object Key:', key);
-            //console.log('Object Value:', propObj[key]);
-        });
+        if(tempProp === undefined) {
+            tempProp = propObj;
+        }
+        else {
+            console.log(propObj);
+            Object.keys(propObj).forEach(function (key) {
+                console.log('Property Obj Val:', propObj[key]);
+                tempProp[key] = propObj[key];
+                //console.log('Object Key:', key);
+                //console.log('Object Value:', propObj[key]);
+            });
+        }
         tempProps[id] = tempProp;
         //console.log('Temp Prop:', tempProp);
         console.log('Temp Props:', tempProps[id]);
@@ -60,26 +66,6 @@ export default class ControlPanel extends React.Component {
         this.setPropConstraints(tempProps);
         console.log('New State PropVal:', this.state.propVal);
     }
-    /*
-    toggleCriteria(event) {
-        //log(event);
-        var propID = event.target.id;
-        var newVal = event.target.value;
-        var tempProps = this.state.propVal;
-        var tempProp = tempProp[propID];
-        tempProp.showCriteria = !tempProp.showCriteria;
-        if (tempProp.propType === 'toggle') {
-            tempProp.showCriteria = !tempProp.showCriteria;
-            if(tempProp.showCriteria) {
-                tempProp.propValue = newVal;
-            }
-        }
-        tempProps[propID] = tempProp;
-        this.setState({propVal: tempProps});
-        if(this.state.showCounties){
-            return this.getCounties;
-        }
-    }*/
 
     render() {
         console.log('Contorl panel Render');
@@ -88,160 +74,146 @@ export default class ControlPanel extends React.Component {
             <div className="App">
                 <FormGroup bsSize='small' controlId="formControlsSelect">
                     <div style={style2}>
-                        <ControlItem id={0} name={'Diagnosis'}
-                             display={'Test'}
-                             type={'dropdown'}
-                             handler={this.propUpdate}
-                             setDataCall= {this.setDataCall}
-                             getDataCall={this.getDataCall}
-                             showCriteria={true} />
+                        <ControlItem id={0} name={'co_dx'}
+                                     display={'Clinical Diagnosis'}
+                                     type={'dropdown'}
+                                     dataCallId={0}
+                                     handler={this.propUpdate}
+                                     setDataCall= {this.setDataCall}
+                                     getDataCall={this.getDataCall}
+                                     showCriteria={true} />
                     </div>
-					<div style={style2}>
-                        <ControlItem id={1}
-                            name='rx_rates'
-                            display='Include Prescribing Rates?'
-                            type= 'toggle'
-                            propDefValue={0}
-                            showCriteria={false}
-                            handler = {this.propUpdate}
-                            setDataCall= {this.setDataCall}
-                            getDataCall={this.getDataCall}
+                    <div style={style2}>
+                        <ControlItem id={1} name={'county_name'}
+                                     display={'State County'}
+                                     type={'dropdown'}
+                                     dataCallId={1}
+                                     handler={this.propUpdate}
+                                     setDataCall= {this.setDataCall}
+                                     getDataCall={this.getDataCall}
+                                     showCriteria={true} />
+                    </div>
+                    <div style={style2}>
+                        <ControlItem id={4}
+                                     name='educational_level'
+                                     display='Your Highest Educational Level'
+                                     type= 'toggle'
+                                     propDefValue={0}
+                                     showCriteria={false}
+                                     handler = {this.propUpdate}
+                                     setDataCall= {this.setDataCall}
+                                     getDataCall={this.getDataCall}
                         />
                     </div>
-						 <div style={style2}>
-							 <ControlItem id={4}
-											  name='educational_level'
-											  display='Your Highest Educational Level'
-											  type= 'toggle'
-											  propDefValue={0}
-											  showCriteria={false}
-											  handler = {this.propUpdate}
-											  setDataCall= {this.setDataCall}
-											  getDataCall={this.getDataCall}
-							 />
-						 </div>
-						 <div style={style2}>
-							 <ControlItem id={4}
-											  name='current_employment'
-											  display='Your Employmnent Status'
-											  type= 'toggle'
-											  propDefValue={0}
-											  showCriteria={false}
-											  handler = {this.propUpdate}
-											  setDataCall= {this.setDataCall}
-											  getDataCall={this.getDataCall}
-							 />
-						 </div>
+                    <div style={style2}>
+                        <ControlItem id={4}
+                                     name='current_employment'
+                                     display='Your Employmnent Status'
+                                     type= 'toggle'
+                                     propDefValue={0}
+                                     showCriteria={false}
+                                     handler = {this.propUpdate}
+                                     setDataCall= {this.setDataCall}
+                                     getDataCall={this.getDataCall}
+                        />
+                    </div>
                 </FormGroup>
-                {/*<Panel header={'Result Panel'}>
-                        { this.state.showCounties ? resultDisplay : loadDisplay }
-                    </Panel>*/}
-
-        		<div className="topCopy">
-					<Form horizontal>
-					<div className="App">
-						 <FormGroup bsSize='small' controlId="formControlsSelect">
-							  <div style={style2}>
-									<ControlItem id={0} name={'Diagnosis'}
-										  display={'Diagnosis'}
-										  type={'dropdown'}
-										  handler={this.propUpdate}
-										  showCriteria={true}/>
-							  </div>
-							 <div style={style2}>
-								 <ControlItem id={4}
-												  name='educational_level'
-												  display='Your Highest Educational Level'
-												  type= 'toggle'
-												  propDefValue={0}
-												  showCriteria={false}
-												  handler = {this.propUpdate}
-												  setDataCall= {this.setDataCall}
-												  getDataCall={this.getDataCall}
-								 />
-							 </div>
-							 <div style={style2}>
-								 <ControlItem id={5}
-												  name='current_employment'
-												  display='Your Employmnent Status'
-												  type= 'toggle'
-												  propDefValue={0}
-												  showCriteria={false}
-												  handler = {this.propUpdate}
-												  setDataCall= {this.setDataCall}
-												  getDataCall={this.getDataCall}
-								 />
-							 </div>
-							 <div style={style2}>
-								 <ControlItem id={6}
-												  name='ort_sex'
-												  display='Sex'
-												  type= 'toggle'
-												  propDefValue={0}
-												  showCriteria={false}
-												  handler = {this.propUpdate}
-												  setDataCall= {this.setDataCall}
-												  getDataCall={this.getDataCall}
-								 />
-							 </div>
-							  <div>
-								  <div style={style2}>
-									  <ControlItem id={7}
-										name='ort_family_history_substance_abuse'
-										display='Family History of Substance Abuse'
-										type= 'substanceAbuseRadio'
-										propDefValue={'None'}
-										showCriteria={false}
-										handler = {this.propUpdate}
-										setDataCall= {this.setDataCall}
-										getDataCall={this.getDataCall}
-									  />
-								  </div>
-								  <div style={style2}>
-									 <ControlItem id={8}
-													  name='ort_Personal_history_substance_abuse'
-													  display='Personal History of Substance Abuse'
-													  type= 'substanceAbuseRadio'
-													  propDefValue={'None'}
-													  showCriteria={false}
-													  handler = {this.propUpdate}
-													  setDataCall= {this.setDataCall}
-													  getDataCall={this.getDataCall}
-									 />
-								  </div>
-								  <div style={style2}>
-									  <ControlItem id={9}
-														name='ort_sexual_abuse'
-														display='History of Preadolescent Sexual Abuse'
-														type= 'toggle'
-														propDefValue={0}
-														showCriteria={false}
-														handler = {this.propUpdate}
-														setDataCall= {this.setDataCall}
-														getDataCall={this.getDataCall}
-									  />
-								  </div>
-								  <div style={style2}>
-									  <ControlItem id={10}
-														name='ort_psychological_disease'
-														display='Psychological Disease: i.e. ADD, Bipolor, Schizophrenia, Depression, etc.'
-														type= 'toggle'
-														propDefValue={0}
-														showCriteria={false}
-														handler = {this.propUpdate}
-														setDataCall= {this.setDataCall}
-														getDataCall={this.getDataCall}
-									  />
-								  </div>
-							  </div>
-							</FormGroup>
-						 {/*<Panel header={'Result Panel'}>
-									{ this.state.showCounties ? resultDisplay : loadDisplay }
-							  </Panel>*/}
-					</div>
-					</Form>
-				</div>
-			</div>
+                <FormGroup bsSize='small' controlId="formControlsSelect">
+                    <div style={style2}>
+                        <ControlItem id={0} name={'Diagnosis'}
+                                     display={'Diagnosis'}
+                                     type={'dropdown'}
+                                     handler={this.propUpdate}
+                                     showCriteria={true}/>
+                    </div>
+                    <div style={style2}>
+                        <ControlItem id={4}
+                                     name='educational_level'
+                                     display='Your Highest Educational Level'
+                                     type= 'toggle'
+                                     propDefValue={0}
+                                     showCriteria={false}
+                                     handler = {this.propUpdate}
+                                     setDataCall= {this.setDataCall}
+                                     getDataCall={this.getDataCall}
+                        />
+                    </div>
+                    <div style={style2}>
+                        <ControlItem id={5}
+                                     name='current_employment'
+                                     display='Your Employmnent Status'
+                                     type= 'toggle'
+                                     propDefValue={0}
+                                     showCriteria={false}
+                                     handler = {this.propUpdate}
+                                     setDataCall= {this.setDataCall}
+                                     getDataCall={this.getDataCall}
+                        />
+                    </div>
+                    <div style={style2}>
+                        <ControlItem id={6}
+                                     name='ort_sex'
+                                     display='Sex'
+                                     type= 'toggle'
+                                     propDefValue={0}
+                                     showCriteria={false}
+                                     handler = {this.propUpdate}
+                                     setDataCall= {this.setDataCall}
+                                     getDataCall={this.getDataCall}
+                        />
+                    </div>
+                    <div>
+                        <div style={style2}>
+                            <ControlItem id={7}
+                                         name='ort_family_history_substance_abuse'
+                                         display='Family History of Substance Abuse'
+                                         type= 'substanceAbuseRadio'
+                                         propDefValue={'None'}
+                                         showCriteria={false}
+                                         handler = {this.propUpdate}
+                                         setDataCall= {this.setDataCall}
+                                         getDataCall={this.getDataCall}
+                            />
+                        </div>
+                        <div style={style2}>
+                            <ControlItem id={8}
+                                         name='ort_Personal_history_substance_abuse'
+                                         display='Personal History of Substance Abuse'
+                                         type= 'substanceAbuseRadio'
+                                         propDefValue={'None'}
+                                         showCriteria={false}
+                                         handler = {this.propUpdate}
+                                         setDataCall= {this.setDataCall}
+                                         getDataCall={this.getDataCall}
+                            />
+                        </div>
+                        <div style={style2}>
+                            <ControlItem id={9}
+                                         name='ort_sexual_abuse'
+                                         display='History of Preadolescent Sexual Abuse'
+                                         type= 'toggle'
+                                         propDefValue={0}
+                                         showCriteria={false}
+                                         handler = {this.propUpdate}
+                                         setDataCall= {this.setDataCall}
+                                         getDataCall={this.getDataCall}
+                            />
+                        </div>
+                        <div style={style2}>
+                            <ControlItem id={10}
+                                         name='ort_psychological_disease'
+                                         display='Psychological Disease: i.e. ADD, Bipolor, Schizophrenia, Depression, etc.'
+                                         type= 'toggle'
+                                         propDefValue={0}
+                                         showCriteria={false}
+                                         handler = {this.propUpdate}
+                                         setDataCall= {this.setDataCall}
+                                         getDataCall={this.getDataCall}
+                            />
+                        </div>
+                    </div>
+                </FormGroup>
+            </div>
         );
     }
 };

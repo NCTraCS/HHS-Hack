@@ -122,7 +122,10 @@ class RiskApp extends React.Component {
 			dataCallConfig : {dataCallId: '0', params: []},
             propVal : [
                 {name : 'popsqmile', display:'Population per Square Mile', type:'range', propMin : 0 , propMax: 100, showCriteria: true},
-                {name : 'rxrate', display:'Include Perscription Rate?', type:'toggle', propDefValue: 1, propValue : false, showCriteria: false}
+                {name : 'rxrate', display:'Include Perscription Rate?', type:'toggle', propDefValue: 1, propValue : false, showCriteria: false},
+				{name: 'test1'},
+				{name: 'toggle'},
+				{name: 'prop5'}
             ]});
 		this.data = {};
 		this.callbacks = {
