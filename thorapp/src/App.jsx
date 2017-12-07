@@ -4,12 +4,14 @@ import ControlPanel from './ControlPanel';
 import ResultPanel from './ResultPanel';
 import {log} from './GlobalFunctions';
 import {flaskHost} from './GlobalFunctions';
-
-/* Page Layout - Bootstrap*/
+import pcorlogo from './assets/PCORnet.png';
+import cclogo from './assets/cc-logo.jpg';
+import actlogo from './assets/ACT.JPG';
+import tracslogo from './assets/tracs.png';
+/* Page Layout - ;Bootstrap*/
 import { Nav, Navbar, NavItem, NavbarHeader } from 'react-bootstrap';
 import { Jumbotron, Grid, Row, Col } from 'react-bootstrap';
-import { Panel, Well, Button } from 'react-bootstrap';
-
+import { Panel, Well, Button, Image } from 'react-bootstrap';
 
 class App extends React.Component {
 
@@ -55,10 +57,10 @@ class App extends React.Component {
 			return <Resources setPage={this.togglePanel} currentPage={currentPage}/>;
 		else if (currentPage === 3)
 			return <Collaborate setPage={this.togglePanel} currentPage={currentPage}/>;
-		else if (currentPage === 4)
-			return <About setPage={this.togglePanel} currentPage={currentPage}/>;
-		else if (currentPage === 5)
-			return <Feedback setPage={this.togglePanel} currentPage={currentPage}/>;
+		//else if (currentPage === 4)
+		//	return <About setPage={this.togglePanel} currentPage={currentPage}/>;
+		//else if (currentPage === 5)
+			//return <Feedback setPage={this.togglePanel} currentPage={currentPage}/>;
 		else
 			return <Home setPage={this.togglePanel} currentPage={currentPage}/>;
 
@@ -85,16 +87,13 @@ class Home extends React.Component {
 				<Navigation setPage={this.props.setPage} currentPanel={this.props.currentPage}/>
 				<div>
 					<Jumbotron className="App-header">
-						<h1 className="App-title">THOR App</h1>
-						<h2>Technical Health Opiod Research</h2>
-						<p>THOR is an application designed to help do awesome things....</p>
+						<h1 className="App-title">tHOR App</h1>
+						<h2>the Heuristics Opiod Risk application</h2>
+						<p>tHOR is an application designed to help you do awesome things....</p>
 						<p><Button onClick={(e)=>{this.props.setPage(1);e.preventDefault();return(false);}} >Take Me to The App!</Button></p>
 					</Jumbotron>
-					<div class="topCopy">
-						Lorem ipsum dolor sit amet, illum accommodare in sea, possit similique maiestatis ne eos, vocibus praesent has an. Doctus electram suavitate no mei, ea omnesque deseruisse usu, vix ea brute omittam. Id semper phaedrum urbanitas per. Inani menandri cum at, nam ad atomorum sententiae. Simul labitur maiorum ex mel, ex est rebum dicant vituperata.
-						Esse adipisci ne pro, qui ad dictas inermis mediocritatem. Mei an possit delicata. No prima aliquid eam, his case temporibus ei. Voluptaria neglegentur te eos, tation qualisque an ius, et malorum dolores molestiae ius. Usu numquam scaevola eu, quo ullum eligendi id. In vix nulla exerci nominavi, ea vitae eligendi percipit mel, eum assentior signiferumque ut.
-					</div>
 				</div>
+				<div style={{float: 'right'}}><Image src={tracslogo} rounded /></div>
 			</div>
 
         	/*
@@ -338,22 +337,43 @@ class Collaborate extends React.Component {
 			<div className="Collaborate">
 				<Navigation setPage={this.props.setPage} currentPanel={this.props.currentPage}/>
 				<div class="topCopy">
-					Are you a researcher, activist, or citizen scientist? We would love to collaborate with you! THOR app becomes more robust every time new data is added, or analytical techniques applied.
-					
-					Shoot us an email at opioiddata@unctest.edu:
-					*To discuss contributing a curated dataset of your own
-					*For questions on THOR app or the underlying data
-					
-					Looking to go further? UNC participates in a number of Clinical Data Research Networks (CDRNs)--groups of academic institutions who have agreed to share their clinical data with one another, and with researchers. These CDRNs can you guide you through the regulatory processes to request data from several institutions, enabling big data-driven clinical research. We'd love to help you combine CDRN data with THOR app to answer your opioid research question.
-
+					<h2><i>Are you a researcher, activist, or citizen scientist?</i></h2>
+					<h3>&nbsp;&nbsp;&nbsp;&nbsp;We would love to collaborate with you! </h3>
+					<h4>
+					THOR app becomes more robust every time new data is added, or analytical techniques applied.
+					</h4>
+					<h4>
+						Shoot us an email at <a href="mailto:opioiddata@unctest.edu"> opioiddata@unctest.edu</a>:
+					<ul>
+						<li>To discuss contributing a curated dataset of your own</li>
+						<li>For questions on THOR app or the underlying data</li>
+					</ul>
+					</h4>
+				    <h3>
+						&nbsp;&nbsp;&nbsp;&nbsp;Looking to go further?
+					</h3>
+					<h4>
+						UNC participates in a number of Clinical Data Research Networks (CDRNs)--groups of academic institutions who have agreed to share their clinical data with one another, and with researchers. These CDRNs can you guide you through the regulatory processes to request data from several institutions, enabling big data-driven clinical research. We'd love to help you combine CDRN data with THOR app to answer your opioid research question.
+					</h4><h4>
 					To learn more about CDRNs, reach out to us at the email above, or click the logos below to learn more about each network.
-					
-					Insert PCORnet logo--hyperlink to--http://www.pcornet.org/
-					Insert Carolinas Collaborative logo--hyperlink to: https://carolinascollaborative.org/
-					Insert CTSAct logo--hyperlink to: https://www.act-network.org/node/29
+					</h4>
+					<Grid>
+						<Row>
+							<Col xs={6} md={4}>
+								<a href="http://www.pcornet.org/"> <Image src={pcorlogo} thumbnail /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</Col>
+							<Col xs={6} md={4}>
+								<a href="https://www.act-network.org/node/29/"><Image src={actlogo} thumbnail /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</Col>
+							<Col xs={6} md={4}>
+								<a href="https://carolinascollaborative.org/"><Image src={cclogo} thumbnail /></a>
+							</Col>
+						</Row>
+					</Grid>
 
 				</div>
 			</div>
+
 		);
 	}
 }
@@ -454,8 +474,10 @@ class Navigation extends React.Component {
 						<NavItem eventKey={1} href="/">My Risk Assessment</NavItem>
 						<NavItem eventKey={2} href="/">Resources</NavItem>
 						<NavItem eventKey={3} href="/">Collaborate</NavItem>
-                        <NavItem eventKey={4} href="/">About</NavItem>
-                        <NavItem eventKey={5} href="/">Feedback</NavItem>
+						{
+							//<NavItem eventKey={4} href="/">About</NavItem>
+							//<NavItem eventKey={5} href="/">Feedback</NavItem>
+						}
 					</Nav>
 				</Navbar.Collapse>
 			</Navbar>
