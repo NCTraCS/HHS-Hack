@@ -60,20 +60,20 @@ export default class Result extends React.Component {
                             type='bar'
                             data={this.state.data[5]}
                             propConstraints={this.state.propVal}
-                            showResult={this.state.resultPanelStatus[1]}/>
+                            showResult={this.state.resultPanelStatus[5]}/>
                 <ResultItem panelId={6}
                             display='text'
                             textvalue=''
                             data={this.state.data[1]}
                             propConstraints={this.state.propVal}
-                            showResult={this.state.resultPanelStatus[1]}/>
+                            showResult={this.state.resultPanelStatus[6]}/>
                 <ResultItem panelId={7}
                             display='text'
                             textvalue=''
                             type='bar'
                             data={this.state.data[1]}
                             propConstraints={this.state.propVal}
-                            showResult={this.state.resultPanelStatus[1]}/>
+                            showResult={this.state.resultPanelStatus[7]}/>
             </div>
         );
     }
