@@ -110,16 +110,17 @@ class RiskApp extends React.Component {
         this.state = ({name: this.props.name ,
 			showResults: false,
 			data:[],
-			dataCalls: [{ callId : '0', name: 'Default', variables:[]},
+			dataCalls: [{ callId : 0, name: 'Default', variables:[]},
 			{
-        		callId : '1',
-				name: 'Opiod Abuse DX by Patient Conditions',
-				variables: ['op_dx','co_dx']
+        		callId : 1,
+				name: 'County Death Per Capita',
+				variables: ['county_name'], //First one needs to be the value source for a parameter
+				params: ['id_county'] //Parameter to be passed in flaskCall
 			},
-				{callId: '2',
+				{callId: 2,
 				name: 'Opiod Abuse by Perscriptions for Condition',
 				variables: ['op_drug','op_dx','co_dx']}],
-			dataCallConfig : {dataCallId: '0', params: []},
+			dataCallConfig : [{dataCallId: 0, params: []}],
             propVal : [
                 {name : 'popsqmile', display:'Population per Square Mile', type:'range', propMin : 0 , propMax: 100, showCriteria: true},
                 {name : 'rxrate', display:'Include Perscription Rate?', type:'toggle', propDefValue: 1, propValue : false, showCriteria: false},
@@ -144,23 +145,29 @@ class RiskApp extends React.Component {
         console.log('StateList:',this.stateList);
     }
 	componentDidUpdate(prevProps, prevState) {
+        console.log('Check Changes');
+        console.log(prevState.dataCallConfig, this.state.dataCallConfig);
 		if(prevState.dataCallConfig !== this.state.dataCallConfig) {
+			console.log('Data Config Changed');
 			this.callFlask();
 		}
 		if(prevState.data !== this.state.data && this.state.data !== undefined) {
+            console.log('Data Changed');
             this.setState({showResults: true});
 		}
 	}
 
-	setDataCall(callConfig) {
-    	console.log('New Data Config:', callConfig);
+	setDataCall(dataCallId, newCallConfig) {
+    	console.log('New Data Config:', newCallConfig);
     	console.log('Current Data Config: ', this.state.dataCallConfig);
-    	var prevCallId = this.state.dataCallConfig.dataCallId;
-    	var newCallId = callConfig.dataCallId;
-    	if(this.checkCallId(prevCallId, newCallId)) 
-			callConfig.dataCallId = prevCallId;
-		this.setState({dataCallConfig : callConfig});
+		var updCallConfig = this.state.dataCallConfig;
+    	updCallConfig[dataCallId] = newCallConfig;
+		/*if(this.checkCallId(prevCallId, newCallId))
+			callConfig.dataCallId = prevCallId;*/
+		this.setState({dataCallConfig : updCallConfig});
     	//this.getCounties();
+        console.log('Updated Data Config:', this.state.dataCallConfig);
+        this.callFlask();
 	}
 	/* Need to determine if the variables/data scope has actually changed */
 	checkCallId(prevCallId, newCallId) {
@@ -179,9 +186,11 @@ class RiskApp extends React.Component {
     	return inCurrentCall;
 	}
 
-	getDataCall() {
-    	console.log('Returning dataCallConfig...', this.state.dataCallConfig);
-    	return this.state.dataCallConfig;
+	getDataCall(callId) {
+        console.log('dataCallConfig...', this.state.dataCalls);
+		var currDataCallConfig = this.state.dataCalls[callId];
+        console.log('Returning dataCallConfig...', currDataCallConfig);
+    	return currDataCallConfig;
 	}
     setPropConstraints(propVals) {
     	this.setState({propVal: propVals});
@@ -205,50 +214,52 @@ class RiskApp extends React.Component {
         console.log('GetCounties',this.state.propVal[1].propValue);
         console.log('Get Counties Props', this.state.propVal);
         console.log('Get Counties DataConfig: ', this.state.dataCallConfig);
-        this.setState({showResults: false, displayType: 1});
-        var callId = this.state.dataCallConfig['dataCallId'];
-        var params = this.state.dataCallConfig['params'];
-        var Request = require('request');
-        if(callId === '1') {
-        	var flaskCall = flaskHost+'/death_per_cap';
-        	if(params !== undefined && params.length > 0) {
-        		flaskCall = flaskCall+'?';
-        		for(var i=0; i<params.length; i++){
-        			if(i > 0)
-        				flaskCall = flaskCall+'&';
-        			flaskCall = flaskCall+params[i].key+'='+params[i].value;
-				}
-			}
-            Request.get(flaskCall, (error, response, body) => {
+        //this.setState({showResults: false, displayType: 1});
+        for(var i=0; i< this.state.dataCallConfig.length; i++) {
+            var callId = this.state.dataCallConfig[i].callId;
+            var params = this.state.dataCallConfig[i].params;
+            console.log('Here: ', callId,':',params);
+            var Request = require('request');
+            if (callId === 1) {
+            	console.log('Next');
+                var flaskCall = flaskHost + '/death_per_cap';
+                if (params !== undefined && params.length > 0) {
+                    flaskCall = flaskCall + '?';
+                    for (var i = 0; i < params.length; i++) {
+                        if (i > 0)
+                            flaskCall = flaskCall + '&';
+                        flaskCall = flaskCall + params[i].key + '=' + params[i].value;
+                    }
+                }
+                Request.get(flaskCall, (error, response, body) => {
 
-                if(error) {
-                    return console.log("WHAT ERROR?");
-                }
-                else {
-                    var newData = this.state.data;
-                    newData[callId] = JSON.parse(body).counties;
-                    this.setState({data: newData});
-                }
-                //console.log('Data Here:', this.state.data);
-            });
-        }
-        else if (callId === '2') {
-        	console.log('Making Call 2...');
-            Request.get(flaskHost+'/gaz/'+params[0], (error, response, body) => {
-                if(error) {
-                    return console.log("WHAT ERROR?");
-                }
-                else {
-                    this.setState({data: JSON.parse(body)});
-                    //this.setState({showResults: true});
+                    if (error) {
+                        return console.log("WHAT ERROR?");
+                    }
+                    else {
+                        var newData = this.state.data;
+                        newData[callId] = JSON.parse(body).data;
+                        this.setState({data: newData});
+                    }
                     console.log('Data Here:', this.state.data);
-                    return;
-                }
-            });
-        }
-        else {
-        	return;
+                });
+            }
+            else if (callId === 2) {
+                console.log('Making Call 2...');
+                Request.get(flaskHost + '/gaz/' + params[0], (error, response, body) => {
+                    if (error) {
+                        return console.log("WHAT ERROR?");
+                    }
+                    else {
+                        this.setState({data: JSON.parse(body)});
+                        //this.setState({showResults: true});
+                        console.log('Data Here:', this.state.data);
+                        return;
+                    }
+                });
+            }
 		}
+		return;
     }
 
     getData() {

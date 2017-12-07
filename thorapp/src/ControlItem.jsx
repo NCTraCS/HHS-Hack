@@ -31,7 +31,7 @@ export default class ControlItem extends React.Component {
             dataCallId: this.props.dataCallId
         });
         this.getOptions(this.state.name);
-
+        this.callFlask = this.props.callFlask;
         this.setDataCall = this.props.setDataCall;
         this.getDataCall = this.props.getDataCall;
         this.toggleCriteria = this.toggleCriteria.bind(this);
@@ -53,7 +53,7 @@ export default class ControlItem extends React.Component {
             flaskCall = flaskHost+'/co_occur_list';
         }
         else if ( optionType === 'county_name' ) {
-            flaskCall = flaskHost+'/';
+            flaskCall = flaskHost+'/county_list';
         }
 
         var Request = require('request');
@@ -74,11 +74,11 @@ export default class ControlItem extends React.Component {
         });
     }
 
-    drawOptions(optionType, dataCallId) {
+    drawOptions() {
         //if(optionType === 'co_dx') {
             var options = this.state.optionsList;
             console.log('drawOptions: ', options);
-            return options.map((item, idx) => <option key={idx} value={dataCallId}>{item.co_dx}</option>);
+            return options.map((item, idx) => <option key={idx} value={item.key}>{item.display_name} </option>);
         //}
     }
 
@@ -128,14 +128,25 @@ export default class ControlItem extends React.Component {
     }
 
     handleClick(event) {
-        let opt=[{key: 'id_county', value: 'orange'}];
-        let call=event.target.value;
-        this.setState({currentOption: call});
+        let opt = [];
+        let valueKey = event.target.value;
+        let value = this.state.optionsList[valueKey];
+        //this.setState({currentOption: call});
         //log(state);
         console.log(event.target.value);
-        var dataCallConfig = {dataCallId: call, params: opt};
-        console.log('HandleClick: Data Call Config:', dataCallConfig);
-        this.setDataCall(dataCallConfig);
+        var dataCalls = this.state.dataCallId;
+        console.log('current Data Call ID: ', dataCalls);
+        let defDataCallConfig = this.props.defCallConfig;
+        for(var i=0; i<dataCalls.length; i++){
+            console.log('current Data Call Config: ', dataCalls[i], '-', defDataCallConfig);
+            //opt = [{key: defDataCallConfig[dataCalls[i]].params[0], value: value[defDataCallConfig[dataCalls[i]].variables[0]]}];
+            //defDataCallConfig[dataCalls[i]] = {callId: dataCalls[i], params: opt};
+            opt = [{key: defDataCallConfig.params[0], value: value[defDataCallConfig.variables[0]]}];
+            defDataCallConfig = {callId: dataCalls, params: opt};
+        }
+        this.setDataCall(dataCalls, defDataCallConfig);
+        console.log('HandleClick: Data Call Config:', defDataCallConfig, ' ', this.getDataCall());
+        //this.callFlask();
         return;
     }
 
@@ -152,7 +163,7 @@ export default class ControlItem extends React.Component {
 			console.log('Toggle Crit Data Config: ', currDataConfig);
 			if(currDataConfig['params'].length > 0)
 				params = currDataConfig['params'];
-			this.setDataCall({dataCallId: '2', params: params});
+			this.setDataCall({dataCallId: 2, params: params});
 		}
 		console.log('PropValue:', propValue);
 	}
@@ -170,7 +181,7 @@ export default class ControlItem extends React.Component {
 			console.log('Toggle Crit Data Config: ', currDataConfig);
 			if(currDataConfig['params'].length > 0)
 				params = currDataConfig['params'];
-			this.setDataCall({dataCallId: '2', params: params});
+			this.setDataCall({dataCallId: 2, params: params});
 		}
 		console.log('PropValue:', propValue);
 	}

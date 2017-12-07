@@ -5,7 +5,7 @@ import dbconnect
 
 def countyList():
 	conn = dbconnect.connect()
-	sql="select county_fips,PatientCountyName as county_name, concat(PatientCountyName,' County, NY') as full_name from countyvector where county_fips like '36%'"
+	sql="select county_fips, PatientCountyName as display_name, PatientCountyName as county_name, concat(PatientCountyName,' County, NY') as full_name from countyvector where county_fips like '36%'"
 	cursor = conn.cursor()
 	cursor.execute(sql)
 	result = cursor.fetchall()

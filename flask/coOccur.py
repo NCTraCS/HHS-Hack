@@ -5,7 +5,7 @@ import sys
 def coDxList(op_dx_limit=100,co_dx_limit=100):
 	conn = dbconnect.connect()
 
-	sql = "select * from co_dx_options"
+	sql = "select * , co_dx as display_name from co_dx_options"
 
 	cursor = conn.cursor()
 	#cursor.execute(sql,(op_dx_limit,co_dx_limit))
