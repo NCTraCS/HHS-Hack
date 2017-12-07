@@ -5,6 +5,7 @@ import ControlLabel from 'react-bootstrap/lib/Form';
 import Form from 'react-bootstrap/lib/Form';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import FormControl from 'react-bootstrap/lib/FormControl';
+import Col from 'react-bootstrap/lib/Col';
 import {flaskHost} from './GlobalFunctions';
 
 
@@ -72,11 +73,12 @@ export default class ControlPanel extends React.Component {
         console.log('Contorl panel Render');
         console.log('');
         return (
-            <div className="App">
+            <div className="formTop">
+                <Form horizontal>
                 <FormGroup bsSize='small' controlId="formControlsSelect">
-                    <div style={style2}>
+                    <div className="inLineFormDropDown">
                         <ControlItem id={0} name={'co_dx'}
-                                     display={'Clinical Diagnosis'}
+                                     display={'If you’re currently taking an opioid, select the condition for which it was prescribed'}
                                      type={'dropdown'}
                                      dataCallId={0}
                                      defCallConfig={this.getDataCall(0)}
@@ -85,9 +87,9 @@ export default class ControlPanel extends React.Component {
                                      getDataCall={this.getDataCall}
                                      showCriteria={true} />
                     </div>
-                    <div style={style2}>
+                    <div className="inLineFormDropDown">
                         <ControlItem id={1} name={'county_name'}
-                                     display={'State County'}
+                                     display={'Select the county where you currently live'}
                                      type={'dropdown'}
                                      dataCallId={1}
                                      defCallConfig={this.getDataCall(1)}
@@ -96,68 +98,13 @@ export default class ControlPanel extends React.Component {
                                      getDataCall={this.getDataCall}
                                      callFlask={this.callFlask}
                                      showCriteria={true} />
-                    </div>
-                    <div style={style2}>
-                        <ControlItem id={4}
-                                     name='educational_level'
-                                     display='Your Highest Educational Level'
-                                     type= 'toggle'
-                                     propDefValue={0}
-                                     showCriteria={false}
-                                     handler = {this.propUpdate}
-                                     setDataCall= {this.setDataCall}
-                                     getDataCall={this.getDataCall}
-                        />
-                    </div>
-                    <div style={style2}>
-                        <ControlItem id={4}
-                                     name='current_employment'
-                                     display='Your Employmnent Status'
-                                     type= 'toggle'
-                                     propDefValue={0}
-                                     showCriteria={false}
-                                     handler = {this.propUpdate}
-                                     setDataCall= {this.setDataCall}
-                                     getDataCall={this.getDataCall}
-                        />
-                    </div>
-                </FormGroup>
-                <FormGroup bsSize='small' controlId="formControlsSelect">
-                    <div style={style2}>
-                        <ControlItem id={0} name={'Diagnosis'}
-                                     display={'Diagnosis'}
-                                     type={'dropdown'}
-                                     handler={this.propUpdate}
-                                     showCriteria={true}/>
-                    </div>
-                    <div style={style2}>
-                        <ControlItem id={4}
-                                     name='educational_level'
-                                     display='Your Highest Educational Level'
-                                     type= 'toggle'
-                                     propDefValue={0}
-                                     showCriteria={false}
-                                     handler = {this.propUpdate}
-                                     setDataCall= {this.setDataCall}
-                                     getDataCall={this.getDataCall}
-                        />
-                    </div>
-                    <div style={style2}>
-                        <ControlItem id={5}
-                                     name='current_employment'
-                                     display='Your Employmnent Status'
-                                     type= 'toggle'
-                                     propDefValue={0}
-                                     showCriteria={false}
-                                     handler = {this.propUpdate}
-                                     setDataCall= {this.setDataCall}
-                                     getDataCall={this.getDataCall}
-                        />
-                    </div>
-                    <div style={style2}>
+						  </div>
+					 </FormGroup>
+						 <FormGroup bsSize='small' controlId="formControlsSelect">
+                    <div className="inLineFormYesNo">
                         <ControlItem id={6}
-                                     name='ort_sex'
-                                     display='Sex'
+                                     name='educational_level'
+                                     display='Select the highest level of education you have received.'
                                      type= 'toggle'
                                      propDefValue={0}
                                      showCriteria={false}
@@ -166,11 +113,61 @@ export default class ControlPanel extends React.Component {
                                      getDataCall={this.getDataCall}
                         />
                     </div>
+							 <div className="inLineFormYesNo">
+                        <ControlItem id={7}
+                                     name='current_employment'
+                                     display='Are you currently employed (full or part-time)?'
+                                     type= 'toggle'
+                                     propDefValue={0}
+                                     showCriteria={false}
+                                     handler = {this.propUpdate}
+                                     setDataCall= {this.setDataCall}
+                                     getDataCall={this.getDataCall}
+                        />
+                    </div>
+							 <div className="inLineFormYesNo">
+                        <ControlItem id={8}
+                                     name='ort_sex'
+                                     display='What is your biological sex?'
+                                     type= 'toggle'
+                                     propDefValue={0}
+                                     showCriteria={false}
+                                     handler = {this.propUpdate}
+                                     setDataCall= {this.setDataCall}
+                                     getDataCall={this.getDataCall}
+                        />
+                    </div>
+							 <div className="inLineFormYesNo">
+								 <ControlItem id={11}
+												  name='ort_sexual_abuse'
+												  display='Have you experienced sexual abuse?)'
+												  type= 'toggle'
+												  propDefValue={0}
+												  showCriteria={false}
+												  handler = {this.propUpdate}
+												  setDataCall= {this.setDataCall}
+												  getDataCall={this.getDataCall}
+								 />
+							 </div>
+							 <div className="inLineFormCheckBoxWide">
+								 <ControlItem id={4}
+												  name='ort_age'
+												  display='Select your age group.)'
+												  type= 'substanceAbuseRadio'
+												  propDefValue={'None'}
+												  showCriteria={false}
+												  handler = {this.propUpdate}
+												  setDataCall= {this.setDataCall}
+												  getDataCall={this.getDataCall}
+								 />
+							 </div>
+						 </FormGroup>
+						 <FormGroup bsSize='small' controlId="formControlsSelect">
                     <div>
-                        <div style={style2}>
-                            <ControlItem id={7}
+							  <div className="inLineFormCheckBoxWide">
+                            <ControlItem id={9}
                                          name='ort_family_history_substance_abuse'
-                                         display='Family History of Substance Abuse'
+                                         display='In your immediate family, is there history of substance abuse? If so, select the substances below. (Alcohol / Illegal drugs / Prescription drugs)'
                                          type= 'substanceAbuseRadio'
                                          propDefValue={'None'}
                                          showCriteria={false}
@@ -179,6 +176,7 @@ export default class ControlPanel extends React.Component {
                                          getDataCall={this.getDataCall}
                             />
                         </div>
+<<<<<<< HEAD
                         <div style={style2}>
                             <ControlItem id={8}
                                  name='ort_Personal_history_substance_abuse'
@@ -215,8 +213,37 @@ export default class ControlPanel extends React.Component {
                                  getDataCall={this.getDataCall}
                             />
                         </div>
+=======
+							  <div className="inLineFormCheckBoxWide">
+                            <ControlItem id={10}
+                                         name='ort_Personal_history_substance_abuse'
+                                         display='Do you have any personal history of substance abuse? If so, select the substances below. (Alcohol / Illegal drugs / Prescription drugs)'
+                                         type= 'substanceAbuseRadio'
+                                         propDefValue={'None'}
+                                         showCriteria={false}
+                                         handler = {this.propUpdate}
+                                         setDataCall= {this.setDataCall}
+                                         getDataCall={this.getDataCall}
+                            />
+                        </div>
+							 <div>
+								 <div className="inLineFormCheckBoxWide">
+									 <ControlItem id={12}
+													  name='ort_psychological_disease'
+													  display='Has a doctor ever told you that you may have one or more of the following conditions? (ADD, OCD, Biopolar, or Schizophrenia / Depression'
+													  type= 'toggle'
+													  propDefValue={0}
+													  showCriteria={false}
+													  handler = {this.propUpdate}
+													  setDataCall= {this.setDataCall}
+													  getDataCall={this.getDataCall}
+									 />
+								 </div>
+							 </div>
+>>>>>>> master
                     </div>
                 </FormGroup>
+                </Form>
             </div>
         );
     }
