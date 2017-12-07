@@ -51,7 +51,7 @@ def employment(empStatus=None):
 				if empStatus == 'employed':
 					score = 0
 				else:
-					score = 1
+					score = 2
 				emp['score'] = score
 
 	ret = {}
