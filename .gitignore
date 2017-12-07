@@ -20,4 +20,23 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-usr/
+*/workplace.xml
+*/.idea
+
+
+usr/robert/demo/.idea/workspace.xml*
+usr/marshall/demo/.idea/workspace.xml*
+.idea/HHS-Hack.iml
+.idea/inspectionProfiles/Project_Default.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/workspace.xml
+*.iml
+usr/robert/demo/.idea/workspace.xml
+usr/marshall/demo/.idea/modules.xml
+usr/marshall/demo/.idea/jsLibraryMappings.xml
+usr/marshall/demo/.idea/workspace.xml
+*.xml___jb_tmp___
+usr/robert/demo/.idea/workspace.xml
+flask/__pycache__/dbcalls.cpython-36.pyc
+thorapp/src/App.jsx
