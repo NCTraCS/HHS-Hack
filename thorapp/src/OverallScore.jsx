@@ -45,8 +45,7 @@ class OverallScore extends Component {
 	            }}
 	        />
 	        <Panel>
-	        	<p>Overall score is based on user input... see breakdown to the left...</p>
-	        	<p>Disclaimer here</p>
+	        	<p>Overall score is based on user input. Change parameters above to change the score.</p>
 
 	        </Panel>
 	        </div>
