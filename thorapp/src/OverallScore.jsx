@@ -46,6 +46,7 @@ class OverallScore extends Component {
 	        />
 	        <Panel>
 	        	<p>Overall score is based on user input. Change parameters above to change the score.</p>
+	        	<button>Export Data</button>
 
 	        </Panel>
 	        </div>
