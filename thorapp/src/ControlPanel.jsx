@@ -134,7 +134,7 @@ export default class ControlPanel extends React.Component {
 						<div className="inLineFormYesNo">
 							<ControlItem id={8}
 											 name='ort_sex'
-											 display='What is your biological sex?'
+											 display='Is your biological sex Male?'
 											 type= 'toggle'
 											 propDefValue={0}
 											 showCriteria={false}

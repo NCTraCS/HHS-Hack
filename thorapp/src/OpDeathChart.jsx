@@ -29,7 +29,7 @@ class OpDeathChart extends Component {
 
 		return(
 			<div>
-      			<h1>Risk by Opioid Related Hospital Discharges</h1>
+      			<h1>Risk by Opioid Related Deaths by County</h1>
 				<VictoryChart  
 				>
 					<VictoryAxis 

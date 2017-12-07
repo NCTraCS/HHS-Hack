@@ -61,7 +61,7 @@ export default class ResultPanel extends React.Component {
         return (
             <div>
                 <Row>
-                    <Col xs={2}>
+                    <Col xs={3}>
                         <ButtonToolbar>
                             <ToggleButtonGroup vertical type="radio" defaultValue={0} name={'Result Sidebar'} onChange={this.menuSelect}>
                                 <ToggleButton value={0}>Overall Risk</ToggleButton>
@@ -85,7 +85,7 @@ export default class ResultPanel extends React.Component {
                             </Navbar.Collapse>
                         </Navbar>*/}
                     </Col>
-                    <Col xs={8}>
+                    <Col xs={7}>
                         <Well>
                             {resultDisplay}
                         </Well>
