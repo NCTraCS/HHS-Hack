@@ -34,6 +34,7 @@ def deathPerCap(id_county=None):
 		if id_county:
 			if county['county_name'].lower() == id_county.lower():
 				county['id_county_flag'] = 'true'
+				county['fill'] = 'red'
 				id_stcou_fips = county['stcou_fips']
 				pcd = county['per_capita_deaths']
 				if pcd <= 0.02:
@@ -72,6 +73,7 @@ def opDischPerCap(id_county=None):
 		if id_county:
 			if county['county_name'].lower() == id_county.lower():
 				county['id_county_flag'] = 'true'
+				county['fill'] = 'red'
 				pcd = county['per_capita_op_disch']
 				if pcd <= 0.0005:
 					score = 0

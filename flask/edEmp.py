@@ -48,6 +48,7 @@ def employment(empStatus=None):
 		if empStatus:
 			if emp['emp_status'] == empStatus:
 				emp['id_emp_status'] = 'true'
+				emp['fill'] = 'red'
 				if empStatus == 'employed':
 					score = 0
 				else:
@@ -108,6 +109,7 @@ def education(edLevel=None):
 		if edLevel:
 			if ed['ed_level'] == edLevel:
 				ed['id_ed_level'] = 'true'
+				ed['fill'] = 'red'
 				if edLevel == '12_or_less':
 					score = 1
 				elif edLevel == '13_to_15':
