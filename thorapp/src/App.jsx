@@ -11,7 +11,7 @@ import tracslogo from './assets/tracs.png';
 /* Page Layout - ;Bootstrap*/
 import { Nav, Navbar, NavItem, NavbarHeader } from 'react-bootstrap';
 import { Jumbotron, Grid, Row, Col } from 'react-bootstrap';
-import { Panel, Well, Button, Image } from 'react-bootstrap';
+import { Panel, Well, Button, Image, Glyphicon } from 'react-bootstrap';
 
 class App extends React.Component {
 
@@ -88,8 +88,8 @@ class Home extends React.Component {
 				<div>
 					<Jumbotron className="App-header">
 						<h1 className="App-title">tHOR App</h1>
-						<h2>the Heuristics Opiod Risk application</h2>
-						<p>tHOR is an application designed to help you do awesome things....</p>
+						<h2>the Heuristics Opiod Risk Application</h2>
+						<h4><i>an application designed to help assess opioid abuse risk with the power of data!</i></h4>
 						<p><Button onClick={(e)=>{this.props.setPage(1);e.preventDefault();return(false);}} >Take Me to The App!</Button></p>
 					</Jumbotron>
 				</div>
@@ -340,7 +340,7 @@ class Resources extends React.Component {
 					Now that you've examined your risk, learn more at the links below.
 					</h4>
 					<h3>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To get the facts:
+					To get the facts:
 					</h3>
 					<h4>
 						Facts on opioids for teens:
@@ -354,7 +354,7 @@ class Resources extends React.Component {
 						Overdose Infographic:
 						<a href="https://www.cdc.gov/drugoverdose/data/overdose.html" >https://www.cdc.gov/drugoverdose/data/overdose.html</a>
 				</h4>
-					<h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To find assistance:
+					<h3>To find assistance:
 					</h3>
 					<h4>Behavioral Treatment services locator: <a href="https://findtreatment.samhsa.gov/">https://findtreatment.samhsa.gov</a></h4>
 					<h4>SAMHSA's National Helpline: <a href="https://www.samhsa.gov/find-help/national-helpline">https://www.samhsa.gov/find-help/national-helpline</a></h4>
@@ -381,7 +381,7 @@ class Collaborate extends React.Component {
 				<Navigation setPage={this.props.setPage} currentPanel={this.props.currentPage}/>
 				<div class="topCopy">
 					<h2><i>Are you a researcher, activist, or citizen scientist?</i></h2>
-					<h3>&nbsp;&nbsp;&nbsp;&nbsp;We would love to collaborate with you! </h3>
+					<h3>We would love to collaborate with you! </h3>
 					<h4>
 					tHOR App becomes more robust every time new data is added, or analytical techniques applied.
 					</h4>
@@ -393,7 +393,7 @@ class Collaborate extends React.Component {
 					</ul>
 					</h4>
 				    <h3>
-						&nbsp;&nbsp;&nbsp;&nbsp;Looking to go further?
+						Looking to go further?
 					</h3>
 					<h4>
 						UNC participates in a number of Clinical Data Research Networks (CDRNs)--groups of academic institutions who have agreed to share their clinical data with one another, and with researchers. These CDRNs can you guide you through the regulatory processes to request data from several institutions, enabling big data-driven clinical research. We'd love to help you combine CDRN data with THOR app to answer your opioid research question.
@@ -488,7 +488,7 @@ class Feedback extends React.Component {
 class Navigation extends React.Component {
     constructor(props) {
         super(props);
-        let currentPanel = 1;
+        let currentPanel = 0;
         if( props.currentPage )
             currentPanel = props.currentPage;
 
@@ -508,7 +508,7 @@ class Navigation extends React.Component {
 			<Navbar fixedTop collapseOnSelect>
 				<Navbar.Header>
 					<Navbar.Brand>
-						<a href='/' onClick={(e)=>{this.props.setPage(0),e.preventDefault();return(false);}}>tHOR App</a>
+						<a href='/' onClick={(e)=>{this.props.setPage(0),e.preventDefault();return(false);}}>&nbsp;<Glyphicon glyph="flash" />&nbsp;tHOR App</a>
 					</Navbar.Brand>
 					<Navbar.Toggle />
 				</Navbar.Header>
