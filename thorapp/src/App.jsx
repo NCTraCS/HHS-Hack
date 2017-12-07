@@ -284,20 +284,27 @@ class Resources extends React.Component {
 			<div className="Resources">
 				<Navigation setPage={this.props.setPage} currentPanel={this.props.currentPage}/>
 				<div class="topCopy">
+					<Panel>
+					<p>
 					Though opioids can be safe and effective if taken exactly as described by a physician, they carry a risk of abuse and overdose. Now that you've examined your risk, learn more at the links below.
-					
+					</p>
+					<p>
 					To get the facts:
-
+					</p>
+					<p>
 					Facts on opioids for teens: https://teens.drugabuse.gov/sites/default/files/peerx/pdf/PEERx_Toolkit_FactSheets_Opioids.pdf
 					Recent opioids research: https://www.drugabuse.gov/drugs-abuse/opioids/nida-funded-opioid-research
 					Overdose infographic: https://www.cdc.gov/drugoverdose/data/overdose.html
-					
+					</p>
+					<p>
 					To find assistance: 
-					
+					</p>
+					<p>
 					Behavioral Treatment services locator: https://findtreatment.samhsa.gov/
 					SAMHSA's National Helpline: https://www.samhsa.gov/find-help/national-helpline
 					Buprenorphine (medication-assisted) treatment locator: https://www.samhsa.gov/medication-assisted-treatment/physician-program-data/treatment-physician-locator
-
+					</p>
+					</Panel>
 				</div>
 			</div>
 
