@@ -1,8 +1,11 @@
 import React from 'react';
+import FormGroup from 'react-bootstrap/lib/FormGroup';
 import ControlLabel from 'react-bootstrap/lib/Form';
+import FormControl from 'react-bootstrap/lib/FormControl';
 import {ButtonToolbar, ButtonGroup, Button, ToggleButtonGroup, ToggleButton} from 'react-bootstrap';
 import DynamicRange from './DynamicRange';
 import {log} from './GlobalFunctions';
+import {flaskHost} from './GlobalFunctions';
 
 const style = {width: '70%', margin: 50};
 const style2 = {width: '30%', margin: 20, float:'left'};
@@ -23,16 +26,52 @@ export default class ControlItem extends React.Component {
             selectMax: this.props.selectMax,
             propDefValue: this.props.propDefValue,
             propValue: this.props.propDefValue,
-            showCriteria: this.props.showCriteria
+            showCriteria: this.props.showCriteria,
+            coDxList: []
         });
+        this.getOptions('coDx');
+
         this.setDataCall = this.props.setDataCall;
         this.getDataCall = this.props.getDataCall;
         this.toggleCriteria = this.toggleCriteria.bind(this);
         this.propUpdate = this.props.handler;
+        this.drawOptions = this.drawOptions.bind(this);
+        //this.getOptions = this.getOptions.bind(this);
+    }
+
+    getOptions(optionType) {
+        var options = [];
+        console.log('Option Type: ', optionType);
+        if ( optionType === 'coDx' ) {
+            var Request = require('request');
+            //console.log(flaskHost+'/st');
+            Request.get(flaskHost+'/co_occur_list', (error, response, body) => {
+                //console.log('HERE');
+                if(error) {
+                    return console.log("WHAT ERROR?");
+                }
+                else {
+                    console.log('Call Made:', JSON.parse(body));
+                    options = JSON.parse(body);
+                    for(var i = 0; i<options.length; i++){
+                        options[i].key = i;
+                    }
+                    this.setState({coDxList: options});
+                    return options;
+                }
+            });
+        };
+    }
+
+    drawOptions(optionType) {
+        if(optionType === 'coDx') {
+            var options = this.state.coDxList;
+            console.log('drawOptions: ', options);
+            return options.map((item, idx) => <option key={idx} value={item.co_dx_code}>{item.co_dx}</option>);
+        }
     }
 
     drawCriteria() {
-
         console.log(this.state)
         if(this.state.type === 'range') {
             return (
@@ -52,6 +91,16 @@ export default class ControlItem extends React.Component {
                     <ToggleButton value={0} onChange={this.toggleCriteria}>No</ToggleButton>
                 </ToggleButtonGroup>
             </ButtonToolbar>
+            )
+        }
+        else if (this.state.type ==='dropdown') {
+            return (
+                <FormGroup>
+                    <FormControl defaultValue='Select A Value...' componentClass="select" placeholder="select" onChange={this.handleClick} inputRef={ref => {this.input= 'drop_select'}}>
+                        <option key='default' disabled={true}>Select A Value...</option>
+                        {this.drawOptions('coDx')}
+                    </FormControl>
+                </FormGroup>
             )
         }
     }

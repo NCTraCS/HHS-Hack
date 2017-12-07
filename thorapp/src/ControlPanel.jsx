@@ -26,14 +26,13 @@ export default class ControlPanel extends React.Component {
             currentState: 2,
             propVal: this.props.propConstraints
         });
-        this.getOptions('state');
-        this.drawOptions = this.drawOptions.bind(this);
+        //this.drawOptions = this.drawOptions.bind(this);
         //this.getOptions = this.props.callbacks.getOptions;
         this.getCounties = this.props.callbacks.getCounties;
         this.setPropConstraints = this.props.callbacks.setPropConstraints;
         //this.setPropConstraints(this.state.propVal);
         this.propUpdate = this.propUpdate.bind(this);
-        this.handleClick = this.handleClick.bind(this);
+        //this.handleClick = this.handleClick.bind(this);
         this.setDataCall = this.props.callbacks.setDataCall;
         this.getDataCall = this.props.callbacks.getDataCall;
         //this.toggleCriteria = this.toggleCriteria.bind(this);
@@ -42,27 +41,6 @@ export default class ControlPanel extends React.Component {
         console.log('State List:',this.state.stateList);
     }
 
-    getOptions(optionType) {
-        var options = [];
-        console.log('Option Type: ', optionType);
-        if ( optionType === 'state' ) {
-            var Request = require('request');
-            //console.log(flaskHost+'/st');
-            Request.get(flaskHost+'/st', (error, response, body) => {
-                //console.log('HERE');
-                if(error) {
-                    return console.log("WHAT ERROR?");
-                }
-                else {
-                    console.log('Call Made:', JSON.parse(body));
-                    options = JSON.parse(body);
-                    this.setState({stateList: options});
-                    return;
-                }
-            });
-        };
-        //console.log(this.state.stateList);
-    }
     propUpdate(id, propObj) {
         //console.log('Property ID:', id);
         var tempProps = this.state.propVal;
@@ -102,21 +80,6 @@ export default class ControlPanel extends React.Component {
         }
     }*/
 
-    handleClick(event) {
-        let opt=event.target.value;
-        this.setState({currentOption: opt});
-        //log(state);
-        //log(this.state.currentState);
-        var dataCallConfig = {dataCallId: '1', params: [opt]};
-        this.setDataCall(dataCallConfig);
-        return;
-    }
-
-    drawOptions(optionType) {
-        if(optionType === 'state')
-            return this.state.stateList.map((item) => <option key={item.state_fips} value={item.state_fips}>{item.usps}</option>);
-    }
-
     render() {
         console.log('Contorl panel Render');
         console.log('');
@@ -124,11 +87,11 @@ export default class ControlPanel extends React.Component {
             <div className="App">
                 <FormGroup bsSize='small' controlId="formControlsSelect">
                     <div style={style2}>
-                        <ControlLabel>State Options</ControlLabel>
-                        <FormControl defaultValue='Select A State...' componentClass="select" placeholder="select" onChange={this.handleClick} inputRef={ref => {this.input= 'state_select'}}>
-                            <option key='default' disabled={true}>Select A State...</option>
-                            {this.drawOptions('state')}
-                        </FormControl>
+                        <ControlItem id={0} name={'Diagnosis'}
+                             display={'Test'}
+                             type={'dropdown'}
+                             handler={this.propUpdate}
+                             showCriteria={true}/>
                     </div>
                     <div style={style2}>
                         <ControlItem id={0} name='Population Per Square Mile'
@@ -162,6 +125,30 @@ export default class ControlPanel extends React.Component {
                             getDataCall={this.getDataCall}
                         />
                     </div>
+						 <div style={style2}>
+							 <ControlItem id={4}
+											  name='educational_level'
+											  display='Your Highest Educational Level'
+											  type= 'toggle'
+											  propDefValue={0}
+											  showCriteria={false}
+											  handler = {this.propUpdate}
+											  setDataCall= {this.setDataCall}
+											  getDataCall={this.getDataCall}
+							 />
+						 </div>
+						 <div style={style2}>
+							 <ControlItem id={4}
+											  name='current_employment'
+											  display='Your Employmnent Status'
+											  type= 'toggle'
+											  propDefValue={0}
+											  showCriteria={false}
+											  handler = {this.propUpdate}
+											  setDataCall= {this.setDataCall}
+											  getDataCall={this.getDataCall}
+							 />
+						 </div>
                 </FormGroup>
                 {/*<Panel header={'Result Panel'}>
                         { this.state.showCounties ? resultDisplay : loadDisplay }
