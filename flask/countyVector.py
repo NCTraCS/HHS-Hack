@@ -3,6 +3,14 @@ import sys
 import pymysql
 import dbconnect
 
+def countyList():
+	conn = dbconnect.connect()
+	sql="select county_fips,PatientCountyName as county_name, concat(PatientCountyName,' County, NY') as full_name from countyvector where county_fips like '36%'"
+	cursor = conn.cursor()
+	cursor.execute(sql)
+	result = cursor.fetchall()
+	return(result)
+
 def deathPerCap(id_county=None):
 	#SCORING
 	# 0 - 0.02 => 0
@@ -81,12 +89,13 @@ def opDischPerCap(id_county=None):
 
 def test():
 	#res = deathPerCap('OsWeGo')
-	res = opDischPerCap('erie')
-	print("id county:")
-	print(res['id_county'])
-	print("score:")
-	print(res['score'])
-	for county in res['data']:
+	##res = opDischPerCap('erie')
+	##print("id county:")
+	##print(res['id_county'])
+	##print("score:")
+	##print(res['score'])
+	res = countyList()
+	for county in res:
 		print(county)
 
 if len(sys.argv) > 1 and sys.argv[1] == 'test':
