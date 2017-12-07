@@ -91,8 +91,11 @@ export default class ControlPanel extends React.Component {
                              display={'Test'}
                              type={'dropdown'}
                              handler={this.propUpdate}
-                             showCriteria={true}/>
+                             setDataCall= {this.setDataCall}
+                             getDataCall={this.getDataCall}
+                             showCriteria={true} />
                     </div>
+                    {/*
                     <div style={style2}>
                         <ControlItem id={0} name='Population Per Square Mile'
                             display='Population Per Square Mile'
@@ -102,17 +105,7 @@ export default class ControlPanel extends React.Component {
                             showCriteria={true}
                             handler = {this.propUpdate}
                         />
-                    </div>
-                    <div style={style2}>
-                        <ControlItem id={3} name='num_rats'
-                                     display='Number of Rats'
-                                     type= 'range'
-                                     propMin= {10}
-                                     propMax= {50}
-                                     showCriteria={true}
-                                     handler = {this.propUpdate}
-                        />
-                    </div>
+                    </div>  */}
                     <div style={style2}>
                         <ControlItem id={1}
                             name='rx_rates'

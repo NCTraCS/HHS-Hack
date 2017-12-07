@@ -128,7 +128,7 @@ class RiskApp extends React.Component {
 			setDataCall: this.setDataCall.bind(this),
 			getDataCall: this.getDataCall.bind(this),
 			checkCallId: this.checkCallId.bind(this),
-			getCounties: this.getCounties.bind(this) ,
+			callFlask: this.callFlask.bind(this) ,
 			//getOptions: this.getOptions.bind(this) ,
 			getData: this.getData.bind(this),
 			getAppState: this.getAppState.bind(this),
@@ -141,7 +141,7 @@ class RiskApp extends React.Component {
     }
 	componentDidUpdate(prevProps, prevState) {
 		if(prevState.dataCallConfig !== this.state.dataCallConfig) {
-			this.getCounties();
+			this.callFlask();
 		}
 		if(prevState.data !== this.state.data && this.state.data !== undefined) {
             this.setState({showResults: true});
@@ -197,7 +197,7 @@ class RiskApp extends React.Component {
 		1 = Counties + PopSqMile
 		2 = Counties + PopSqMile + Rx Rate
 	 */
-    getCounties() {
+    callFlask() {
         console.log('GetCounties',this.state.propVal[1].propValue);
         console.log('Get Counties Props', this.state.propVal);
         console.log('Get Counties DataConfig: ', this.state.dataCallConfig);
@@ -205,23 +205,34 @@ class RiskApp extends React.Component {
         var callId = this.state.dataCallConfig['dataCallId'];
         var params = this.state.dataCallConfig['params'];
         var Request = require('request');
-        if(callId === '2') {
-        	var flaskCall = flaskHost+'/cdc/rates';
-        	if(params[0] !== undefined) {
-        		flaskCall = flaskCall+'/'+params[0];
+        if(callId === '1') {
+        	var flaskCall = flaskHost+'/death_per_cap?id_county=orange';
+        	if(params !== undefined && params.length > 0) {
+        		flaskCall = flaskCall+'?';
+        		for(var i=0; i<params.length; i++){
+        			if(i > 0)
+        				flaskCall = flaskCall+'&';
+        			flaskCall = flaskCall+params[i].key+'='+params[i].value;
+				}
 			}
             Request.get(flaskCall, (error, response, body) => {
+
                 if(error) {
                     return console.log("WHAT ERROR?");
                 }
                 else {
-                    this.setState({data: JSON.parse(body)});
+                    var newData = this.state.data;
+                    if (newData === undefined || newData.length > 0)
+                        newData = {callId: JSON.parse(body)};
+                    else
+                        newData.callId = JSON.parse(body);
+                    this.setState({data: newData});
                 }
                 //console.log('Data Here:', this.state.data);
             });
         }
-        else if (callId === '1') {
-        	console.log('Making Call 1...');
+        else if (callId === '2') {
+        	console.log('Making Call 2...');
             Request.get(flaskHost+'/gaz/'+params[0], (error, response, body) => {
                 if(error) {
                     return console.log("WHAT ERROR?");

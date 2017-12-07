@@ -34,6 +34,7 @@ export default class ControlItem extends React.Component {
         this.setDataCall = this.props.setDataCall;
         this.getDataCall = this.props.getDataCall;
         this.toggleCriteria = this.toggleCriteria.bind(this);
+        this.handleClick = this.handleClick.bind(this);
         this.propUpdate = this.props.handler;
         this.drawOptions = this.drawOptions.bind(this);
         //this.getOptions = this.getOptions.bind(this);
@@ -63,11 +64,11 @@ export default class ControlItem extends React.Component {
         };
     }
 
-    drawOptions(optionType) {
+    drawOptions(optionType, dataCallId) {
         if(optionType === 'coDx') {
             var options = this.state.coDxList;
             console.log('drawOptions: ', options);
-            return options.map((item, idx) => <option key={idx} value={item.co_dx_code}>{item.co_dx}</option>);
+            return options.map((item, idx) => <option key={idx} value={[dataCallId, item.co_dx_code]}>{item.co_dx}</option>);
         }
     }
 
@@ -98,7 +99,7 @@ export default class ControlItem extends React.Component {
                 <FormGroup>
                     <FormControl defaultValue='Select A Value...' componentClass="select" placeholder="select" onChange={this.handleClick} inputRef={ref => {this.input= 'drop_select'}}>
                         <option key='default' disabled={true}>Select A Value...</option>
-                        {this.drawOptions('coDx')}
+                        {this.drawOptions('coDx',1)}
                     </FormControl>
                 </FormGroup>
             )
@@ -122,6 +123,19 @@ export default class ControlItem extends React.Component {
         }
         console.log('PropValue:', propValue);
     }
+
+    handleClick(event) {
+        let opt=event.target.value[1];
+        let call=event.target.value[0];
+        this.setState({currentOption: opt});
+        //log(state);
+        //log(this.state.currentState);
+        var dataCallConfig = {dataCallId: call, params: [opt]};
+        console.log('HandleClick: Data Call Config:', dataCallConfig);
+        this.setDataCall(dataCallConfig);
+        return;
+    }
+
     render() {
         return (
             <div>
