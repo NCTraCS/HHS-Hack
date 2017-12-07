@@ -40,3 +40,4 @@ usr/marshall/demo/.idea/workspace.xml
 usr/robert/demo/.idea/workspace.xml
 flask/__pycache__/dbcalls.cpython-36.pyc
 thorapp/src/App.jsx
+.idea/jsLinters/jshint.xml

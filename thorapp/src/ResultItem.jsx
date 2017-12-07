@@ -1,6 +1,7 @@
 import React from 'react';
 import Table from 'react-bootstrap/lib/Table';
 import { VictoryChart, VictoryBar, VictoryAxis, VictoryTheme, VictoryTooltip } from 'victory';
+import EduChart from './EduChart';
 import OverallScore from './OverallScore'
 //import C3Chart from 'react-c3js';
 //import 'c3/c3.css';
@@ -11,25 +12,22 @@ export default class ResultItem extends React.Component {
     constructor(props) {
         super(props);
         console.log('Result Item Props: ', this.props);
-        this.state = ({showResult: this.props.showResult, showRow: true, propVal: this.props.propConstraints});
+        this.state = ({showResult: this.props.showResult, showRow: true, propVal: this.props.propConstraints,
+            chartData:{} });
+
         this.checkDisplay;
         this.drawResult = this.drawResult.bind(this);
-        //this.drawTable  = this.drawTable.bind(this);
-        //this.propConstraints = this.props.propConstraints();
-        //console.log('Data:', this.props.data);
-        //this.calcValues();
     }
-    /*calcValues() {
-        if(this.props.rowData !== undefined) {
-            this.setState({popSqMile: (this.props.rowData['pop2010'] / this.props.rowData['aland_sqmi']).toFixed(2)});
-        }
-    }*/
+
     componentWillReceiveProps(nextProps) {
         if(this.state.showResult !== nextProps.showResult && nextProps.showResult !== undefined){
             this.setState({showResult: nextProps.showResult});
         }
         if(this.state.propVal !== nextProps.propVal && nextProps.propVal !== undefined){
             this.setState({propVal: nextProps.propVal});
+        }
+        if(this.state.chartData !== nextProps.data && nextProps.data !== undefined){
+            this.setState({chartData: nextProps.chartData});
         }
     }
     checkDisplay() {
@@ -71,29 +69,7 @@ export default class ResultItem extends React.Component {
         }
         return chartData;
     }
-    /*drawTable() {
-        var renderTable = [];
-        console.log('drawTable Data: ', this.props.data);
-        var renderRows = this.props.data.map((row,idx) => {return this.drawRow(row,idx)});
-        console.log('renderRows: ', renderRows);
-    }*/
-    /*drawRow(){
-        var renderTD = [];
-        var renderTR = [];
-        var popSqMile = this.state.popSqMile;
-        var rx_rate = this.props.rowData['rx_rate'];
-        var renderCnty = this.props.rowData['name'];
-        //console.log('DrawRow PropVa:', this.state.propVal);
-        if(this.checkProperty(0,popSqMile)){
-            renderTD.push(<td key='cnty'>{renderCnty}</td>);
-            renderTD.push(<td key='pop'>{popSqMile}</td>);
-            if(this.state.propVal[1]['propValue']==='1') {
-                renderTD.push(<td key='rx'>{rx_rate}</td>);
-            }
-        }
-        renderTR.push(<tr>{renderTD}</tr>);
-        return renderTR;
-    }*/
+
     drawChart(chartType){
         var render = [];
         render.push(<h1>This is C3 JS Chart</h1>);
@@ -165,8 +141,10 @@ export default class ResultItem extends React.Component {
     }
     drawResult() {
         var resultType = this.props.display;
-        if(resultType === 'chart') {
-            return this.drawChart();
+        if(resultType === 'EduChart') {
+            console.log(this.props.data);
+            console.log('ChartData: ',this.state.chartData);
+            return <EduChart ChartData={this.props.data.data} />;
         }
         else if(resultType === 'table') {
             return this.drawTable();
@@ -179,9 +157,6 @@ export default class ResultItem extends React.Component {
         }
         else if (resultType ==='Text') {
             return "This is the Default - What's my Risk?";
-        }
-        else {
-            return 'No Result Type Like That!';
         }
     }
     render() {

@@ -3,20 +3,19 @@ import { VictoryChart, VictoryBar, VictoryAxis, VictoryTheme } from 'victory';
 import { Grid, Row, Col } from 'react-bootstrap';
 
 /************
+		// load employment data
+		Request = require('request');
+		Request.get('http:\/\/localhost:8080/employment?id_emp_status=unemployed', (error, response, body) => {
+		    if(error) {
+		        return console.log("WHAT ERROR?");
+		    }
+		    const chartData = JSON.parse(body);
 
-    var Request = require('request');
-    Request.get('http:\/\/localhost:8080/education?id_ed_level=13_to_15', (error, response, body) => {
-        if(error) {
-            return console.log("WHAT ERROR?");
-        }
-        const chartData = JSON.parse(body);
-
-        //console.log(chartData);
-        this.setState({ 'educationChart': chartData });
-    });
-
+		    //console.log(chartData);
+    		this.setState({ 'employmentChart': chartData });
+		});
 ************/
-class EduChart extends Component {
+class EmployChart extends Component {
 	constructor(props) {
 		super(props);
 
@@ -24,13 +23,13 @@ class EduChart extends Component {
 
 	render() {
 
-    const data = this.props.ChartData;
+    const data = this.props.ChartData.data;
 
     if( data ){
-``
+
 		return(
 			<div>
-      			<h1>Risk by Education Level</h1>
+      			<h1>Risk by Employment Status</h1>
 				<VictoryChart  
 					domainPadding={{x: 50, y: 50}}
 				>
@@ -55,4 +54,4 @@ class EduChart extends Component {
 	}
 }
 
-export default EduChart;
+export default EmployChart;
