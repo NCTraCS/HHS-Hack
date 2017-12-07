@@ -51,8 +51,14 @@ class App extends React.Component {
 			return <Home setPage={this.togglePanel}/>;
 		else if (currentPage === 1)
 			return <RiskApp setPage={this.togglePanel} currentPage={currentPage}/>;
-		else if (currentPage === 1)
+		else if (currentPage === 2)
 			return <Resources setPage={this.togglePanel} currentPage={currentPage}/>;
+		else if (currentPage === 3)
+			return <Collaborate setPage={this.togglePanel} currentPage={currentPage}/>;
+		else if (currentPage === 4)
+			return <About setPage={this.togglePanel} currentPage={currentPage}/>;
+		else if (currentPage === 5)
+			return <Feedback setPage={this.togglePanel} currentPage={currentPage}/>;
 		else
 			return <Home setPage={this.togglePanel} currentPage={currentPage}/>;
 
@@ -77,20 +83,21 @@ class Home extends React.Component {
 		return (
 			<div className="Home">
 				<Navigation setPage={this.props.setPage} currentPanel={this.props.currentPage}/>
+				<div>
+					<Jumbotron className="App-header">
+						<h1 className="App-title">THOR App</h1>
+						<h2>Technical Health Opiod Research</h2>
+						<p>THOR is an application designed to help do awesome things....</p>
+						<p><Button onClick={(e)=>{this.props.setPage(1);e.preventDefault();return(false);}} >Take Me to The App!</Button></p>
+					</Jumbotron>
+					<div class="topCopy">
+						Lorem ipsum dolor sit amet, illum accommodare in sea, possit similique maiestatis ne eos, vocibus praesent has an. Doctus electram suavitate no mei, ea omnesque deseruisse usu, vix ea brute omittam. Id semper phaedrum urbanitas per. Inani menandri cum at, nam ad atomorum sententiae. Simul labitur maiorum ex mel, ex est rebum dicant vituperata.
+						Esse adipisci ne pro, qui ad dictas inermis mediocritatem. Mei an possit delicata. No prima aliquid eam, his case temporibus ei. Voluptaria neglegentur te eos, tation qualisque an ius, et malorum dolores molestiae ius. Usu numquam scaevola eu, quo ullum eligendi id. In vix nulla exerci nominavi, ea vitae eligendi percipit mel, eum assentior signiferumque ut.
+					</div>
+				</div>
 			</div>
 
         	/*
-			<div>
-				<Jumbotron className="App-header">
-					<h1 className="App-title">THOR App</h1>
-					<h2>Technical Health Opiod Research</h2>
-					<p>THOR is an application designed to help do awesome things....</p>
-					<p><Button onClick={(e)=>{this.props.setPage(1);e.preventDefault();return(false);}} >Take Me to The App!</Button></p>
-				</Jumbotron>
-					<p>...understanding risk of opioid misuse, see: <a href="/" onClick={(e)=>{this.props.setPage(1);e.preventDefault();return(false);}} >My Risk</a></p>
-					<p>...seeking resource to help prevent opioid misuse, see: <a href="/" onClick={(e)=>{this.props.setPage(2);e.preventDefault();return(false);}} >Resources</a></p>
-					<p>...want to collaborate with us?, see: <a href="/" onClick={(e)=>{this.props.setPage(3);e.preventDefault();return(false);}} >Collaborate</a></p>
-			</div>
 */
         );
     }
@@ -276,19 +283,13 @@ class Resources extends React.Component {
 		return (
 			<div className="Resources">
 				<Navigation setPage={this.props.setPage} currentPanel={this.props.currentPage}/>
-				<Grid>
-					<Row>
-						<Col xs={12}>
-							<Well header={controlPanelTitle}>
-								Lorem ipsum dolor sit amet, ad error noster antiopam ius. Everti labitur neglegentur an his. Nulla senserit no his, cum alia volumus fabellas ne, ea has detracto pertinax. Tota tamquam disputando has id, his at saepe nonumes concludaturque.
+				<div class="topCopy">
+					Lorem ipsum dolor sit amet, ad error noster antiopam ius. Everti labitur neglegentur an his. Nulla senserit no his, cum alia volumus fabellas ne, ea has detracto pertinax. Tota tamquam disputando has id, his at saepe nonumes concludaturque.
 
-								Quo choro instructior te, etiam aliquam ex quo. Ut eos dolor aliquando, mel invenire iracundia in. Vel ea mundi tractatos. In convenire patrioque vel, ea nostrud accusamus splendide has.
+					Quo choro instructior te, etiam aliquam ex quo. Ut eos dolor aliquando, mel invenire iracundia in. Vel ea mundi tractatos. In convenire patrioque vel, ea nostrud accusamus splendide has.
 
-								Et vis legendos interpretaris, erroribus comprehensam ad pri. Has odio aperiam inermis at, pri id equidem evertitur. Nonumes verterem mel in, id pri docendi ullamcorper. Tation fuisset eos at, eu nec accumsan molestie elaboraret. Lorem convenire ea vix.
-							</Well>
-						</Col>
-					</Row>
-				</Grid>
+					Et vis legendos interpretaris, erroribus comprehensam ad pri. Has odio aperiam inermis at, pri id equidem evertitur. Nonumes verterem mel in, id pri docendi ullamcorper. Tation fuisset eos at, eu nec accumsan molestie elaboraret. Lorem convenire ea vix.
+				</div>
 			</div>
 
 		);
@@ -299,29 +300,94 @@ class Collaborate extends React.Component {
 	constructor(props) {
 		super(props);
 		log(props);
+		this.state = ({name: this.props.name})
 	}
 	render() {
-		const controlPanelTitle='Resources';
-		console.log('Resources:');
+		const controlPanelTitle='Collaborate';
+		console.log('Collaborate:');
 		console.log(this.state.dataCallConfig);
 		return (
 			<div className="Collaborate">
 				<Navigation setPage={this.props.setPage} currentPanel={this.props.currentPage}/>
-				<Grid>
-					<Row>
-						<Col xs={12}>
-							<Well header={controlPanelTitle}>
-								Lorem ipsum dolor sit amet, ad error noster antiopam ius. Everti labitur neglegentur an his. Nulla senserit no his, cum alia volumus fabellas ne, ea has detracto pertinax. Tota tamquam disputando has id, his at saepe nonumes concludaturque.
+				<div class="topCopy">
+					Lorem ipsum dolor sit amet, vis id consul intellegebat, eu ubique postea eos. An eripuit eruditi perpetua vis, gloriatur percipitur vis at, meis inermis no his. Veri dignissim efficiantur ut mei, nam velit eripuit ne. Duo sonet minimum ut, facilis contentiones id vis.
 
-								Quo choro instructior te, etiam aliquam ex quo. Ut eos dolor aliquando, mel invenire iracundia in. Vel ea mundi tractatos. In convenire patrioque vel, ea nostrud accusamus splendide has.
+					Id has dolore quaestio. Vide adhuc partem ne nam, per id impedit invenire, quod sensibus evertitur at vix. Ea quo scripta prompta equidem. Vix eu eligendi platonem. Sed nostrum conclusionemque eu, vim cu deterruisset mediocritatem. Ius ut cibo commune.
 
-								Et vis legendos interpretaris, erroribus comprehensam ad pri. Has odio aperiam inermis at, pri id equidem evertitur. Nonumes verterem mel in, id pri docendi ullamcorper. Tation fuisset eos at, eu nec accumsan molestie elaboraret. Lorem convenire ea vix.
-							</Well>
-						</Col>
-					</Row>
-				</Grid>
+					In minim veniam voluptatum per. Cum ad verear viderer volutpat. Assum oblique dissentiunt no mei. Errem propriae efficiendi duo an. Illum graeco disputationi per an, te dicat qualisque vis. Ut dolore utamur delicata eos, vis an erat explicari, ex alii tibique philosophia per.
+
+					At eam vitae latine convenire, veri civibus qui ut. Essent vituperata mel an, affert menandri sea in. Vix ludus forensibus ex, vidit perfecto invenire pri et. Cum quis harum scriptorem cu, et his errem bonorum. An nec elit mandamus, magna labore id his.
+
+					Ne dolorum prodesset mel, vix id quas sonet lucilius. Id per choro repudiandae accommodare. Duo at doming consulatu. Molestiae moderatius vel at. Illum aeterno accommodare sea et, cu dolor aliquam mea. Te eam tation molestie, eum sumo velit legimus id.
+
+					Nibh aperiam feugait te usu, duis aperiam repudiandae has ad. Atqui essent est eu, nostro alterum eu per, saepe audire eu pro. Posse semper petentium eu pri, nec no sanctus conclusionemque. Nihil alienum quo te, nec ea alia stet eius. Mei scribentur dissentiet no. Eirmod feugiat id nam, alterum accusamus dissentiet per ex.
+
+				</div>
 			</div>
+		);
+	}
+}
 
+class About extends React.Component {
+	constructor(props) {
+		super(props);
+		log(props);
+		this.state = ({name: this.props.name})
+	}
+	render() {
+		const controlPanelTitle='About';
+		console.log('About:');
+		console.log(this.state.dataCallConfig);
+		return (
+			<div className="About">
+				<Navigation setPage={this.props.setPage} currentPanel={this.props.currentPage}/>
+				<div class="topCopy">
+					Lorem ipsum dolor sit amet, vis id consul intellegebat, eu ubique postea eos. An eripuit eruditi perpetua vis, gloriatur percipitur vis at, meis inermis no his. Veri dignissim efficiantur ut mei, nam velit eripuit ne. Duo sonet minimum ut, facilis contentiones id vis.
+
+					Id has dolore quaestio. Vide adhuc partem ne nam, per id impedit invenire, quod sensibus evertitur at vix. Ea quo scripta prompta equidem. Vix eu eligendi platonem. Sed nostrum conclusionemque eu, vim cu deterruisset mediocritatem. Ius ut cibo commune.
+
+					In minim veniam voluptatum per. Cum ad verear viderer volutpat. Assum oblique dissentiunt no mei. Errem propriae efficiendi duo an. Illum graeco disputationi per an, te dicat qualisque vis. Ut dolore utamur delicata eos, vis an erat explicari, ex alii tibique philosophia per.
+
+					At eam vitae latine convenire, veri civibus qui ut. Essent vituperata mel an, affert menandri sea in. Vix ludus forensibus ex, vidit perfecto invenire pri et. Cum quis harum scriptorem cu, et his errem bonorum. An nec elit mandamus, magna labore id his.
+
+					Ne dolorum prodesset mel, vix id quas sonet lucilius. Id per choro repudiandae accommodare. Duo at doming consulatu. Molestiae moderatius vel at. Illum aeterno accommodare sea et, cu dolor aliquam mea. Te eam tation molestie, eum sumo velit legimus id.
+
+					Nibh aperiam feugait te usu, duis aperiam repudiandae has ad. Atqui essent est eu, nostro alterum eu per, saepe audire eu pro. Posse semper petentium eu pri, nec no sanctus conclusionemque. Nihil alienum quo te, nec ea alia stet eius. Mei scribentur dissentiet no. Eirmod feugiat id nam, alterum accusamus dissentiet per ex.
+
+				</div>
+			</div>
+		);
+	}
+}
+
+class Feedback extends React.Component {
+	constructor(props) {
+		super(props);
+		log(props);
+		this.state = ({name: this.props.name})
+	}
+	render() {
+		const controlPanelTitle='Feedback';
+		console.log('Feedback:');
+		console.log(this.state.dataCallConfig);
+		return (
+			<div className="Feedback">
+				<Navigation setPage={this.props.setPage} currentPanel={this.props.currentPage}/>
+				<div class="topCopy">
+					Lorem ipsum dolor sit amet, vis id consul intellegebat, eu ubique postea eos. An eripuit eruditi perpetua vis, gloriatur percipitur vis at, meis inermis no his. Veri dignissim efficiantur ut mei, nam velit eripuit ne. Duo sonet minimum ut, facilis contentiones id vis.
+
+					Id has dolore quaestio. Vide adhuc partem ne nam, per id impedit invenire, quod sensibus evertitur at vix. Ea quo scripta prompta equidem. Vix eu eligendi platonem. Sed nostrum conclusionemque eu, vim cu deterruisset mediocritatem. Ius ut cibo commune.
+
+					In minim veniam voluptatum per. Cum ad verear viderer volutpat. Assum oblique dissentiunt no mei. Errem propriae efficiendi duo an. Illum graeco disputationi per an, te dicat qualisque vis. Ut dolore utamur delicata eos, vis an erat explicari, ex alii tibique philosophia per.
+
+					At eam vitae latine convenire, veri civibus qui ut. Essent vituperata mel an, affert menandri sea in. Vix ludus forensibus ex, vidit perfecto invenire pri et. Cum quis harum scriptorem cu, et his errem bonorum. An nec elit mandamus, magna labore id his.
+
+					Ne dolorum prodesset mel, vix id quas sonet lucilius. Id per choro repudiandae accommodare. Duo at doming consulatu. Molestiae moderatius vel at. Illum aeterno accommodare sea et, cu dolor aliquam mea. Te eam tation molestie, eum sumo velit legimus id.
+
+					Nibh aperiam feugait te usu, duis aperiam repudiandae has ad. Atqui essent est eu, nostro alterum eu per, saepe audire eu pro. Posse semper petentium eu pri, nec no sanctus conclusionemque. Nihil alienum quo te, nec ea alia stet eius. Mei scribentur dissentiet no. Eirmod feugiat id nam, alterum accusamus dissentiet per ex.
+
+				</div>
+			</div>
 		);
 	}
 }
