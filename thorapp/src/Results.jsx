@@ -30,34 +30,33 @@ export default class Result extends React.Component {
         console.log('showResults: ', this.state.resultPanelStatus);
         return(
             <div>
-                {/*<ResultItem panelId={0} display={'text'} showResult={this.state.resultPanelStatus[0]}/>*/}
                 <ResultItem panelId={0} display={'gauge'} showResult={this.state.resultPanelStatus[0]}/>
                 <ResultItem panelId={1}
-                    display='chart'
+                    display='EduChart'
                     type='bar'
                     data={this.state.data[1]}
                     propConstraints={this.state.propVal}
                     showResult={this.state.resultPanelStatus[1]}/>
                 <ResultItem panelId={2}
-                            display='chart'
+                            display='EmployChart'
                             type='bar'
-                            data={this.state.data[1]}
+                            data={this.state.data[2]}
                             propConstraints={this.state.propVal}
-                            showResult={this.state.resultPanelStatus[1]}/>
+                            showResult={this.state.resultPanelStatus[2]}/>
                 <ResultItem panelId={3}
-                            display='EduChart'
+                            display='OpDeathChart'
                             type='bar'
                             data={this.state.data[3]}
                             propConstraints={this.state.propVal}
-                            showResult={this.state.resultPanelStatus[1]}/>
+                            showResult={this.state.resultPanelStatus[3]}/>
                 <ResultItem panelId={4}
-                            display='chart'
+                            display='OpDischChart'
                             type='bar'
-                            data={this.state.data[1]}
+                            data={this.state.data[4]}
                             propConstraints={this.state.propVal}
-                            showResult={this.state.resultPanelStatus[1]}/>
+                            showResult={this.state.resultPanelStatus[4]}/>
                 <ResultItem panelId={5}
-                            display='chart'
+                            display='OpDischChart'
                             type='bar'
                             data={this.state.data[1]}
                             propConstraints={this.state.propVal}

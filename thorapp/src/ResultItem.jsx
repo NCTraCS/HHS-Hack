@@ -2,7 +2,10 @@ import React from 'react';
 import Table from 'react-bootstrap/lib/Table';
 import { VictoryChart, VictoryBar, VictoryAxis, VictoryTheme, VictoryTooltip } from 'victory';
 import EduChart from './EduChart';
-import OverallScore from './OverallScore'
+import EmployChart from './EmployChart';
+import OpDeathChart from './OpDeathChart';
+import OpDischChart from './OpDischChart';
+import OverallScore from './OverallScore';
 //import C3Chart from 'react-c3js';
 //import 'c3/c3.css';
 
@@ -13,7 +16,7 @@ export default class ResultItem extends React.Component {
         super(props);
         console.log('Result Item Props: ', this.props);
         this.state = ({showResult: this.props.showResult, showRow: true, propVal: this.props.propConstraints,
-            chartData:{} });
+            chartData:this.props.data });
 
         this.checkDisplay;
         this.drawResult = this.drawResult.bind(this);
@@ -27,7 +30,8 @@ export default class ResultItem extends React.Component {
             this.setState({propVal: nextProps.propVal});
         }
         if(this.state.chartData !== nextProps.data && nextProps.data !== undefined){
-            this.setState({chartData: nextProps.chartData});
+            this.setState({chartData: nextProps.data});
+            console.log('Update Chart Data:',this.state.chartData);
         }
     }
     checkDisplay() {
@@ -144,13 +148,16 @@ export default class ResultItem extends React.Component {
         if(resultType === 'EduChart') {
             console.log(this.props.data);
             console.log('ChartData: ',this.state.chartData);
-            return <EduChart ChartData={this.props.data.data} />;
+            return <EduChart ChartData={this.props.data} />;
         }
-        else if(resultType === 'table') {
-            return this.drawTable();
+        else if(resultType === 'EmployChart') {
+            return <EmployChart ChartData={this.props.data} />;
         }
-        else if (resultType === 'scatter') {
-            return 'Not Available';
+        else if (resultType === 'OpDeathChart') {
+            return <OpDeathChart ChartData={this.props.data} />;
+        }
+        else if (resultType ==='OpDischChart') {
+            return <OpDischChart ChartData={this.props.data} />;
         }
         else if (resultType ==='gauge') {
             return this.getGauge();

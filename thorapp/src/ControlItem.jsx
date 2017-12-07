@@ -55,10 +55,10 @@ export default class ControlItem extends React.Component {
 		else if ( optionType === 'county_name' ) {
 			flaskCall = flaskHost+'/county_list';
 		}
-
+        console.log('HERE : ', flaskCall);
 		var Request = require('request');
 		Request.get(flaskCall, (error, response, body) => {
-			//console.log('HERE');
+
 			if(error) {
 				return console.log("WHAT ERROR?");
 			}
@@ -167,6 +167,7 @@ export default class ControlItem extends React.Component {
 		//log(state);
 		console.log(event.target.value);
 		var dataCalls = this.state.dataCallId;
+
 		console.log('current Data Call ID: ', dataCalls);
 		let defDataCallConfig = this.props.defCallConfig;
 		for(var i=0; i<dataCalls.length; i++){
