@@ -38,6 +38,43 @@ export default class Result extends React.Component {
                     data={this.state.data[1]}
                     propConstraints={this.state.propVal}
                     showResult={this.state.resultPanelStatus[1]}/>
+                <ResultItem panelId={2}
+                            display='chart'
+                            type='bar'
+                            data={this.state.data[1]}
+                            propConstraints={this.state.propVal}
+                            showResult={this.state.resultPanelStatus[1]}/>
+                <ResultItem panelId={3}
+                            display='EduChart'
+                            type='bar'
+                            data={this.state.data[3]}
+                            propConstraints={this.state.propVal}
+                            showResult={this.state.resultPanelStatus[1]}/>
+                <ResultItem panelId={4}
+                            display='chart'
+                            type='bar'
+                            data={this.state.data[1]}
+                            propConstraints={this.state.propVal}
+                            showResult={this.state.resultPanelStatus[1]}/>
+                <ResultItem panelId={5}
+                            display='chart'
+                            type='bar'
+                            data={this.state.data[1]}
+                            propConstraints={this.state.propVal}
+                            showResult={this.state.resultPanelStatus[1]}/>
+                <ResultItem panelId={6}
+                            display='text'
+                            textvalue=''
+                            data={this.state.data[1]}
+                            propConstraints={this.state.propVal}
+                            showResult={this.state.resultPanelStatus[1]}/>
+                <ResultItem panelId={7}
+                            display='text'
+                            textvalue=''
+                            type='bar'
+                            data={this.state.data[1]}
+                            propConstraints={this.state.propVal}
+                            showResult={this.state.resultPanelStatus[1]}/>
             </div>
         );
     }
