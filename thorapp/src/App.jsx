@@ -292,27 +292,35 @@ class Resources extends React.Component {
 			<div className="Resources">
 				<Navigation setPage={this.props.setPage} currentPanel={this.props.currentPage}/>
 				<div class="topCopy">
-					<Panel>
-					<p>
-					Though opioids can be safe and effective if taken exactly as described by a physician, they carry a risk of abuse and overdose. Now that you've examined your risk, learn more at the links below.
-					</p>
-					<p>
-					To get the facts:
-					</p>
-					<p>
-					Facts on opioids for teens: https://teens.drugabuse.gov/sites/default/files/peerx/pdf/PEERx_Toolkit_FactSheets_Opioids.pdf
-					Recent opioids research: https://www.drugabuse.gov/drugs-abuse/opioids/nida-funded-opioid-research
-					Overdose infographic: https://www.cdc.gov/drugoverdose/data/overdose.html
-					</p>
-					<p>
-					To find assistance: 
-					</p>
-					<p>
-					Behavioral Treatment services locator: https://findtreatment.samhsa.gov/
-					SAMHSA's National Helpline: https://www.samhsa.gov/find-help/national-helpline
-					Buprenorphine (medication-assisted) treatment locator: https://www.samhsa.gov/medication-assisted-treatment/physician-program-data/treatment-physician-locator
-					</p>
-					</Panel>
+					<h2>
+						<i>I know my risk ... now what?</i>
+					</h2>
+					<h4>
+					Though opioids can be safe and effective if taken exactly as described by a physician, they carry a risk of abuse and overdose.
+					</h4>
+				   <h4>
+					Now that you've examined your risk, learn more at the links below.
+					</h4>
+					<h3>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To get the facts:
+					</h3>
+					<h4>
+						Facts on opioids for teens:
+						<a href="https://teens.drugabuse.gov/sites/default/files/peerx/pdf/PEERx_Toolkit_FactSheets_Opioids.pdf">
+							https://teens.drugabuse.gov/sites/default/files/peerx/pdf/PEERx_Toolkit_FactSheets_Opioids.pdf </a>
+				</h4><h4>
+							Recent opioids research:
+				<a href="https://www.drugabuse.gov/drugs-abuse/opioids/nida-funded-opioid-research">
+					https://www.drugabuse.gov/drugs-abuse/opioids/nida-funded-opioid-research </a>
+				</h4><h4>
+						Overdose Infographic:
+						<a href="https://www.cdc.gov/drugoverdose/data/overdose.html" >https://www.cdc.gov/drugoverdose/data/overdose.html</a>
+				</h4>
+					<h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To find assistance:
+					</h3>
+					<h4>Behavioral Treatment services locator: <a href="https://findtreatment.samhsa.gov/">https://findtreatment.samhsa.gov</a></h4>
+					<h4>SAMHSA's National Helpline: <a href="https://www.samhsa.gov/find-help/national-helpline">https://www.samhsa.gov/find-help/national-helpline</a></h4>
+					<h4>Buprenorphine (medication-assisted) treatment locator: <a href="https://www.samhsa.gov/medication-assisted-treatment/physician-program-data/treatment-physician-locator"> https://www.samhsa.gov/medication-assisted-treatment/physician-program-data/treatment-physician-locator</a> </h4>
 				</div>
 			</div>
 
@@ -337,13 +345,13 @@ class Collaborate extends React.Component {
 					<h2><i>Are you a researcher, activist, or citizen scientist?</i></h2>
 					<h3>&nbsp;&nbsp;&nbsp;&nbsp;We would love to collaborate with you! </h3>
 					<h4>
-					THOR app becomes more robust every time new data is added, or analytical techniques applied.
+					tHOR App becomes more robust every time new data is added, or analytical techniques applied.
 					</h4>
 					<h4>
 						Shoot us an email at <a href="mailto:opioiddata@unctest.edu"> opioiddata@unctest.edu</a>:
 					<ul>
 						<li>To discuss contributing a curated dataset of your own</li>
-						<li>For questions on THOR app or the underlying data</li>
+						<li>For questions on tHOR App or the underlying data</li>
 					</ul>
 					</h4>
 				    <h3>
