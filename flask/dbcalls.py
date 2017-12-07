@@ -1,19 +1,21 @@
 #!/usr/bin/python3
 import pymysql
+import dbconnect
 
+#MOVED TO file dbconnect.py
 #connection to local mysql with local credentials
-def connect(cdb='opiod_dev',cclass=pymysql.cursors.DictCursor):
-	connection = pymysql.connect(host='argus.ad.unc.edu',
-			user='webuser',
-			password='Opiod2017@UNC',
-			db=cdb,
-			cursorclass=cclass)
-	return connection
+#def connect(cdb='opiod_dev',cclass=pymysql.cursors.DictCursor):
+#	connection = pymysql.connect(host='argus.ad.unc.edu',
+#			user='webuser',
+#			password='Opiod2017@UNC',
+#			db=cdb,
+#			cursorclass=cclass)
+#	return connection
 
 #get data from gaz_county table
 #return as json
 def gaz(state_fips=None):
-	conn = connect()
+	conn = dbconnect.connect()
 	sql = "select * from gaz_county"
 	if state_fips != None:
 		sql += " where state_fips=%s"
@@ -25,7 +27,7 @@ def gaz(state_fips=None):
 
 #get a list of available states to select from
 def st(state=None):
-    conn = connect()
+    conn = dbconnect.connect()
     sql = "select distinct usps, state_fips from gaz_county"
     if state != None:
         sql += " where state_fips=%s"
@@ -36,7 +38,7 @@ def st(state=None):
     return result
 
 def cdc_rates(state=None, county=None):
-    conn = connect()
+    conn = dbconnect.connect()
     sql = "select distinct * from gaz_county gaz left join cdc_county_rx_rate_2016 cdc on trim(gaz.geoid)=trim(cdc.stcou_fips) where cdc.rx_rate is not null"
     if state != None:
         sql += " and state_fips=%s"
