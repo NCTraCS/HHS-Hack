@@ -17,7 +17,7 @@ export default class ResultPanel extends React.Component {
             currentState: 2,
             propVal: this.props.propConstraints,
             data: this.props.data,
-            resultPanelStatus: [true, false, false, false, false]
+            resultPanelStatus: [true, false, false, false, false, false, false]
         });
         console.log('Result Panel:', this.state.propVal);
         this.getAppState = this.props.callbacks.getAppState;
