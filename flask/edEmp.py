@@ -57,7 +57,7 @@ def employment(empStatus=None):
 	ret = {}
 	ret['id_emp_status'] = empStatus
 	ret['score'] = score
-	ret['employment'] = result
+	ret['data'] = result
 	return ret
 
 def education(edLevel=None):
@@ -119,7 +119,7 @@ def education(edLevel=None):
 	ret = {}
 	ret['id_ed_level'] = edLevel
 	ret['score'] = score
-	ret['education'] = result
+	ret['data'] = result
 	return ret
 
 def test():
@@ -129,7 +129,7 @@ def test():
 	print(res['id_emp_status'])
 	print("score:")
 	print(res['score'])
-	for ed in res['employment']:
+	for ed in res['data']:
 		print(ed)
 
 if len(sys.argv) > 1 and sys.argv[1] == 'test':
