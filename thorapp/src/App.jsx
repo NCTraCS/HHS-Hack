@@ -300,7 +300,7 @@ class RiskApp extends React.Component {
 				<Navigation setPage={this.props.setPage} currentPanel={this.props.currentPage}/>
 				<Grid>
 					<Row>
-						<Col xs={10}>
+						<Col>
 							<Well header={controlPanelTitle}>
 								<ControlPanel callbacks={this.callbacks} propConstraints={this.state.propVal}/>
 							</Well>
