@@ -27,9 +27,10 @@ export default class ControlItem extends React.Component {
             propDefValue: this.props.propDefValue,
             propValue: this.props.propDefValue,
             showCriteria: this.props.showCriteria,
-            coDxList: []
+            optionsList: [],
+            dataCallId: this.props.dataCallId
         });
-        this.getOptions('coDx');
+        this.getOptions(this.state.name);
 
         this.setDataCall = this.props.setDataCall;
         this.getDataCall = this.props.getDataCall;
@@ -47,33 +48,38 @@ export default class ControlItem extends React.Component {
     getOptions(optionType) {
         var options = [];
         console.log('Option Type: ', optionType);
-        if ( optionType === 'coDx' ) {
-            var Request = require('request');
-            //console.log(flaskHost+'/st');
-            Request.get(flaskHost+'/co_occur_list', (error, response, body) => {
-                //console.log('HERE');
-                if(error) {
-                    return console.log("WHAT ERROR?");
+        var flaskCall =  flaskHost;
+        if ( optionType === 'co_dx' ) {
+            flaskCall = flaskHost+'/co_occur_list';
+        }
+        else if ( optionType === 'county_name' ) {
+            flaskCall = flaskHost+'/';
+        }
+
+        var Request = require('request');
+        Request.get(flaskCall, (error, response, body) => {
+            //console.log('HERE');
+            if(error) {
+                return console.log("WHAT ERROR?");
+            }
+            else {
+                console.log('Call Made:', JSON.parse(body));
+                options = JSON.parse(body);
+                for(var i = 0; i<options.length; i++){
+                    options[i].key = i;
                 }
-                else {
-                    console.log('Call Made:', JSON.parse(body));
-                    options = JSON.parse(body);
-                    for(var i = 0; i<options.length; i++){
-                        options[i].key = i;
-                    }
-                    this.setState({coDxList: options});
-                    return options;
-                }
-            });
-        };
+                this.setState({optionsList: options});
+                return options;
+            }
+        });
     }
 
     drawOptions(optionType, dataCallId) {
-        if(optionType === 'coDx') {
-            var options = this.state.coDxList;
+        //if(optionType === 'co_dx') {
+            var options = this.state.optionsList;
             console.log('drawOptions: ', options);
             return options.map((item, idx) => <option key={idx} value={dataCallId}>{item.co_dx}</option>);
-        }
+        //}
     }
 
     drawCriteria() {
@@ -114,7 +120,7 @@ export default class ControlItem extends React.Component {
                 <FormGroup>
                     <FormControl defaultValue='Select A Value...' componentClass="select" placeholder="select" onChange={this.handleClick} inputRef={ref => {this.input= 'drop_select'}}>
                         <option key='default' disabled={true}>Select A Value...</option>
-                        {this.drawOptions('coDx',1)}
+                        {this.drawOptions(this.state.name,this.state.dataCallId)}
                     </FormControl>
                 </FormGroup>
             )
