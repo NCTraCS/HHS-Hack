@@ -462,7 +462,7 @@ class Navigation extends React.Component {
 			<Navbar fixedTop collapseOnSelect>
 				<Navbar.Header>
 					<Navbar.Brand>
-						<a href='/' onClick={(e)=>{this.props.setPage(0),e.preventDefault();return(false);}}>THOR App Home</a>
+						<a href='/' onClick={(e)=>{this.props.setPage(0),e.preventDefault();return(false);}}>tHOR App</a>
 					</Navbar.Brand>
 					<Navbar.Toggle />
 				</Navbar.Header>
