@@ -30,7 +30,8 @@ export default class Result extends React.Component {
         console.log('showResults: ', this.state.resultPanelStatus);
         return(
             <div>
-                <ResultItem panelId={0} display={'text'} showResult={this.state.resultPanelStatus[0]}/>
+                {/*<ResultItem panelId={0} display={'text'} showResult={this.state.resultPanelStatus[0]}/>*/}
+                <ResultItem panelId={0} display={'gauge'} showResult={this.state.resultPanelStatus[0]}/>
                 <ResultItem panelId={1}
                     display='chart'
                     type='bar'

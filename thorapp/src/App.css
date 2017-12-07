@@ -42,3 +42,10 @@ div.container {
 	padding: 0;
 	width: 100%;
 }
+
+div.topCopy {
+	margin-top:4em;
+	margin-left:2em;
+	margin-right:2em;
+	text-align:left;
+}
