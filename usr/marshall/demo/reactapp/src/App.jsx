@@ -16,7 +16,8 @@ class App extends Component {
 			//currentHome: 1,
 			chartData: {
 				opRxRateTiles: []
-			}
+			},
+			opRxRateChart: []
 		}
 		this.togglePanel = this.togglePanel.bind(this);
 
@@ -31,6 +32,7 @@ class App extends Component {
 	}
 	getOpRxRateTiles(stCouId){
 		// test data
+		/*
 		const data = [
 		  {decile: 1, rxrate: .3},
 		  {decile: 2, rxrate: 2},
@@ -43,20 +45,22 @@ class App extends Component {
 		  {decile: 9, rxrate: 29},
 		  {decile: 10, rxrate: 37}
 		];
-		/*
+		*/
 		var Request = require('request');
-		Request.get('http:\/\/' + this.flaskHost + '/op_rx_rate_decile', (error, response, body) => {
+		Request.get('http:\/\/' + this.flaskHost + '/op_rx_rate_decile/37?id_stcou_fips=37005', (error, response, body) => {
 		    if(error) {
 		        return console.log("WHAT ERROR?");
 		    }
-    		//this.setState({ counties: JSON.parse(body) });
-			this.setState( {opRxRateTiles: []})
+		    const chartData = JSON.parse(body);
+
+    		this.setState({ opRxRateChart: chartData });
+			//this.setState( {opRxRateTiles: []})
 		});
-		*/
-		this.setState( {chartData: {opRxRateTiles: data} })
+
+		//this.setState( {chartData: {opRxRateTiles: data} })
 	}
 	render() {
-		let page = <NavHome togglePanel={this.togglePanel} currentPanel={this.state.currentPanel} chartData={this.state.chartData} chartCallbacks={this.chartCallbacks}/>
+		let page = <NavHome togglePanel={this.togglePanel} currentPanel={this.state.currentPanel} chartData={this.state.opRxRateChart} chartCallbacks={this.chartCallbacks}/>
 		if( this.state.currentPanel === 0 ) {
 			page = <Home setPage={this.togglePanel}/>;
 		}
