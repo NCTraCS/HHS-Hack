@@ -4,6 +4,7 @@ app = Flask(__name__)
 import dbconnect
 import dbcalls
 import coOccur
+import countyVector
 
 #route for hello world
 @app.route("/")
@@ -13,6 +14,8 @@ def hello():
     	"<a href='http://localhost:5000/gaz'>Try Gaz at localhost:5000/gaz</a><br />"\
     	"<a href='http://localhost:5000/gaz/37'>Try Gaz for NC at localhost:5000/gaz/37</a><br />"
     	"<a href='http://localhost:5000/co_occur_list'>Try co_occur_list</a><br />"
+        "<a href='http://localhost:5000/death_per_cap?id_county=orange'>Try death_per_cap</a><br />"
+        "<a href='http://localhost:5000/op_disch_per_cap?id_county=erie'>Try op_disch_per_cap</a><br />"
     	)
 
 #two route definitions going to one method
@@ -53,3 +56,19 @@ def coOccurList(state_fips=None):
 	response = jsonify(result)
 	response.headers.add('Access-Control-Allow-Origin','*')
 	return response
+
+@app.route('/death_per_cap', methods=['GET'])
+def deathPerCap():
+    id_county = request.args.get('id_county')
+    result = countyVector.deathPerCap(id_county)
+    response = jsonify(result)
+    response.headers.add('Access-Control-Allow-Origin','*')
+    return response
+
+@app.route('/op_disch_per_cap', methods=['GET'])
+def opDischPerCap():
+    id_county = request.args.get('id_county')
+    result = countyVector.opDischPerCap(id_county)
+    response = jsonify(result)
+    response.headers.add('Access-Control-Allow-Origin','*')
+    return response

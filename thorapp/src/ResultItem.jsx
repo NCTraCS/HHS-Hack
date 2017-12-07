@@ -27,6 +27,9 @@ export default class ResultItem extends React.Component {
         if(this.state.showResult !== nextProps.showResult && nextProps.showResult !== undefined){
             this.setState({showResult: nextProps.showResult});
         }
+        if(this.state.propVal !== nextProps.propVal && nextProps.propVal !== undefined){
+            this.setState({propVal: nextProps.propVal});
+        }
     }
     checkDisplay() {
         if(!this.checkProperty(0, this.state.popSqMile))
@@ -34,11 +37,10 @@ export default class ResultItem extends React.Component {
     }
 
     checkProperty(propId, propVal) {
-        //console.log(this.props);
-        var propMin  = this.state.propVal[propId]['selectMin'];
-        var propMax = this.state.propVal[propId]['selectMax'];
+        var propMin  = this.state.propVal[propId]['propMin'];
+        var propMax = this.state.propVal[propId]['propMax'];
         //log('Here',propMin, propMax);
-        //log(popSqMile,this.props.propMin,this.props.propDef[propId]['propMin']);
+        console.log('Check Property: ',propVal, '-', propMin,'-',propMax);
         if(propMin !== null && propMax !== null)
         {
             if (propVal < propMin || propVal > propMax) {
@@ -52,10 +54,12 @@ export default class ResultItem extends React.Component {
     getChartData(chartChecks) {
         var rawData = this.props.data;
         var chartData = []
+        console.log('Raw Data - getChart: ', rawData);
         for(var i = 0; i<rawData.length; i++){
             var drawRow = true;
             for(var j=0; j<chartChecks.length; j++) {
-                if (!this.checkProperty(chartChecks[j].propId,chartChecks[j].propVal)) {
+                console.log('Chart Prop Check:', chartChecks[j].propId,'-',chartChecks[j].propVal,'-',rawData[i][chartChecks[j].propVal]);
+                if (!this.checkProperty(chartChecks[j].propId,rawData[i][chartChecks[j].propVal])) {
                     drawRow = false;
                     break;
                 }
@@ -100,56 +104,60 @@ export default class ResultItem extends React.Component {
         var chartLabels = this.props.data.map((data) => { return data.name; });
         console.log('Chart Data: ', chartData);
         //console.log('Manual Data: ', testData);
-        return (<div height={200} width={200}>
-                <VictoryChart height={200}
-                              theme={VictoryTheme.material}
-                              domainPadding={{x: 30, y: 20}}
-                >
-                    <VictoryAxis
-                        tickFormat={chartLabels}
-                    />
-                    <VictoryAxis
-                        dependentAxis
-                    />
-                    <VictoryBar
-                        //padding={{top: 3, bottom: 3}}
-                        data={chartData}
-                        labelComponent={<VictoryTooltip/>}
-                        labels={(d) => d.name}
-                        //TESTdata={data}
-                        x="name"
-                        y="popSqMil"
-                        events={[{
-                            target: "data",
-                            eventHandlers: {
-                                onMouseOver: () => {
-                                    return [
-                                        {
-                                            target: "data",
-                                            mutation: () => ({style: {fill: "red"}})
-                                        }, {
-                                            target: "labels",
-                                            mutation: () => ({ active: true })
-                                        }
-                                    ];
-                                },
-                                onMouseOut: () => {
-                                    return [
-                                        {
-                                            target: "data",
-                                            mutation: () => {}
-                                        }, {
-                                            target: "labels",
-                                            mutation: () => ({ active: false })
-                                        }
-                                    ];
+        if(chartData.length < 10)
+            return  (<div>The Parameters Chosen Were Too Restrictive and Did Not Provide Enough Results</div>);
+        else {
+            return (<div height={200} width={200}>
+                    <VictoryChart height={200}
+                                  theme={VictoryTheme.material}
+                                  domainPadding={{x: 30, y: 20}}
+                    >
+                        <VictoryAxis
+                            tickFormat={chartLabels}
+                        />
+                        <VictoryAxis
+                            dependentAxis
+                        />
+                        <VictoryBar
+                            //padding={{top: 3, bottom: 3}}
+                            data={chartData}
+                            labelComponent={<VictoryTooltip/>}
+                            labels={(d) => d.name}
+                            //TESTdata={data}
+                            x="name"
+                            y="popSqMile"
+                            events={[{
+                                target: "data",
+                                eventHandlers: {
+                                    onMouseOver: () => {
+                                        return [
+                                            {
+                                                target: "data",
+                                                mutation: () => ({style: {fill: "red"}})
+                                            }, {
+                                                target: "labels",
+                                                mutation: () => ({active: true})
+                                            }
+                                        ];
+                                    },
+                                    onMouseOut: () => {
+                                        return [
+                                            {
+                                                target: "data",
+                                                mutation: () => {
+                                                }
+                                            }, {
+                                                target: "labels",
+                                                mutation: () => ({active: false})
+                                            }
+                                        ];
+                                    }
                                 }
-                            }
-                        }]}
-                    />
-                </VictoryChart></div>
-        );
-        //return render;
+                            }]}
+                        />
+                    </VictoryChart></div>
+            );
+        }
     }
     getGauge () {
         return <marshallgauge/>
