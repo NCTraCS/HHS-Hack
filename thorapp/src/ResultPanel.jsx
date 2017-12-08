@@ -53,49 +53,44 @@ export default class ResultPanel extends React.Component {
         console.log('showResult resultStatus: ', this.state.resultPanelStatus);
     }
     render() {
+        const panelStyle = {textAlign: 'left'};
         var loadDisplay = 'Loading';/*(<LoadingBar displayType={this.state.displayType}/>)*/
         console.log('Result Panel render Prop Val: ',this.state.propVal);
         var resultDisplay = (
             <Result data={this.state.data} propConstraints={this.state.propVal} resultPanelStatus={this.state.resultPanelStatus}/>
         );
         return (
-            <div>
-                <Row>
-<<<<<<< HEAD
-                    <Col xs={3}>
-=======
-                    <Col xs={4}>
->>>>>>> 98d712bbf1fe3f076aed4b8406ca0759af507f6f
-                        <ButtonToolbar>
-                            <ToggleButtonGroup vertical type="radio" defaultValue={0} name={'Result Sidebar'} onChange={this.menuSelect}>
-                                <ToggleButton value={0}>Overall Risk</ToggleButton>
-                                <ToggleButton value={1}>Education</ToggleButton>
-                                <ToggleButton value={2}>Employment</ToggleButton>
-                                <ToggleButton value={3}>Opioid Related Death per Capita</ToggleButton>
-                                <ToggleButton value={4}>Opioid Related Discharges per Capita</ToggleButton>
-                                <ToggleButton value={5}>Opiod Risk Tool</ToggleButton>
-                                <ToggleButton value={6}>Diagnosis Impact</ToggleButton>
-                                <ToggleButton value={7}>Procedure Impact</ToggleButton>
-                            </ToggleButtonGroup>
-                        </ButtonToolbar>
-                        {/*
-                        <Navbar fixedTop collapseOnSelect>
-                            <Navbar.Collapse>
-                                <Nav stacked activeKey={0} onSelect={this.menuSelect}>
-                                    <NavItem eventKey={0} href="/">One</NavItem>
-                                    <NavItem eventKey={1} href="/">Two</NavItem>
-                                    <NavItem eventKey={2} href="/">Three</NavItem>
-                                </Nav>
-                            </Navbar.Collapse>
-                        </Navbar>*/}
-                    </Col>
-                    <Col xs={7}>
-                        <Well>
-                            {resultDisplay}
-                        </Well>
-                    </Col>
-                </Row>
-
-            </div>
+            <Panel clearfix pull-left style={panelStyle} header={'My Risk Assesment'}>
+                <Col xs={2}>
+                    <ButtonToolbar>
+                        <ToggleButtonGroup vertical type="radio" defaultValue={0} name={'Result Sidebar'} onChange={this.menuSelect}>
+                            <ToggleButton value={0}>Overall Risk</ToggleButton>
+                            <ToggleButton value={1}>Education</ToggleButton>
+                            <ToggleButton value={2}>Employment</ToggleButton>
+                            <ToggleButton value={3}>Opioid Related Death per Capita</ToggleButton>
+                            <ToggleButton value={4}>Opioid Related Discharges per Capita</ToggleButton>
+                            <ToggleButton value={5}>Opiod Risk Tool</ToggleButton>
+                            <ToggleButton value={6}>Diagnosis Impact</ToggleButton>
+                            <ToggleButton value={7}>Procedure Impact</ToggleButton>
+                        </ToggleButtonGroup>
+                    </ButtonToolbar>
+                    {/*
+                    <Navbar fixedTop collapseOnSelect>
+                        <Navbar.Collapse>
+                            <Nav stacked activeKey={0} onSelect={this.menuSelect}>
+                                <NavItem eventKey={0} href="/">One</NavItem>
+                                <NavItem eventKey={1} href="/">Two</NavItem>
+                                <NavItem eventKey={2} href="/">Three</NavItem>
+                            </Nav>
+                        </Navbar.Collapse>
+                    </Navbar>*/}
+                </Col>
+                <Col xs={9} xsOffset={1}>
+                    <Well footer={'this exist?'}>
+                        {resultDisplay}
+                    </Well>
+                </Col>
+            </Panel>
         )
     }
+}

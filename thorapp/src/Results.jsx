@@ -11,6 +11,7 @@ export default class Result extends React.Component {
         super(props);
         this.state = ({ propOpt: [],
             data: this.props.data ,
+            scores: this.props.scores,
             propVal: this.props.propConstraints,
             resultPanelStatus: this.props.resultPanelStatus});
         console.log('Result Construct resultStatus: ', this.props.resultPanelStatus);
@@ -30,7 +31,7 @@ export default class Result extends React.Component {
         console.log('showResults: ', this.state.resultPanelStatus);
         return(
             <div>
-                <ResultItem panelId={0} display={'gauge'} showResult={this.state.resultPanelStatus[0]}/>
+                <ResultItem panelId={0} display={'gauge'} scores={this.props.scores} showResult={this.state.resultPanelStatus[0]}/>
                 <ResultItem panelId={1}
                     display='EduChart'
                     type='bar'

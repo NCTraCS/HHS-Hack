@@ -10,8 +10,8 @@ import actlogo from './assets/ACT.JPG';
 import tracslogo from './assets/tracs.png';
 /* Page Layout - ;Bootstrap*/
 import { Nav, Navbar, NavItem, NavbarHeader } from 'react-bootstrap';
-import { Jumbotron, Grid, Row, Col } from 'react-bootstrap';
-import { Panel, Well, Button, Image, Glyphicon } from 'react-bootstrap';
+import { Jumbotron, Grid, Row, Col , Button} from 'react-bootstrap';
+import { Panel, Well, Image, Glyphicon } from 'react-bootstrap';
 
 class App extends React.Component {
 
@@ -339,6 +339,7 @@ class RiskApp extends React.Component {
 
     render() {
 		const controlPanelTitle='Risk Assesment Controls';
+
 		console.log('Risk App Render:');
 		console.log(this.state.dataCallConfig);
         return (
@@ -346,15 +347,20 @@ class RiskApp extends React.Component {
 				<Navigation setPage={this.props.setPage} currentPanel={this.props.currentPage}/>
 				<Grid>
 					<Row>
-						<Col xs={10}>
+						<Col xs={10} xsOffset={1}>
 							<Well header={controlPanelTitle}>
 								<ControlPanel callbacks={this.callbacks} propConstraints={this.state.propVal}/>
 							</Well>
 						</Col>
 					</Row>
-                    {this.state.data !== undefined ?
-						<ResultPanel callbacks={this.callbacks} data={this.state.data} propConstraints={this.state.propVal} dataCallId={this.state.dataCallId}/>
-                        : 'Please Select a State'}
+                    <Row>
+                        <Col xs={10} xsOffset={1}>
+                        {this.state.data.length > 0 ?
+                            <ResultPanel callbacks={this.callbacks} data={this.state.data} scores={this.state.allScores} propConstraints={this.state.propVal} dataCallId={this.state.dataCallId}/>
+                            : <Panel>We need additional information before we can provide results.</Panel>}
+
+                        </Col>
+                    </Row>
 				</Grid>
 			</div>
 
