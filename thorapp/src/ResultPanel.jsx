@@ -61,17 +61,17 @@ export default class ResultPanel extends React.Component {
         );
         return (
             <Panel clearfix pull-left style={panelStyle} header={'My Risk Assesment'}>
-                <Col xs={2}>
+                <Col sm={2} xs={2} clearfix>
                     <ButtonToolbar>
-                        <ToggleButtonGroup vertical type="radio" defaultValue={0} name={'Result Sidebar'} onChange={this.menuSelect}>
-                            <ToggleButton value={0}>Overall Risk</ToggleButton>
-                            <ToggleButton value={1}>Education</ToggleButton>
-                            <ToggleButton value={2}>Employment</ToggleButton>
-                            <ToggleButton value={3}>Opioid Related Death per Capita</ToggleButton>
-                            <ToggleButton value={4}>Opioid Related Discharges per Capita</ToggleButton>
-                            <ToggleButton value={5}>Opiod Risk Tool</ToggleButton>
-                            <ToggleButton value={6}>Diagnosis Impact</ToggleButton>
-                            <ToggleButton value={7}>Procedure Impact</ToggleButton>
+                        <ToggleButtonGroup vertical block type="radio" defaultValue={0} name={'Result Sidebar'} onChange={this.menuSelect}>
+                            <ToggleButton style={{whiteSpace: 'normal'}} value={0}>Overall Risk</ToggleButton>
+                            <ToggleButton style={{whiteSpace: 'normal'}} value={1}>Education</ToggleButton>
+                            <ToggleButton style={{whiteSpace: 'normal'}} value={2}>Employment</ToggleButton>
+                            <ToggleButton style={{whiteSpace: 'normal'}} value={3}>Opioid Related Death per Capita</ToggleButton>
+                            <ToggleButton style={{whiteSpace: 'normal'}} value={4}>Opioid Related Discharges per Capita</ToggleButton>
+                            <ToggleButton style={{whiteSpace: 'normal'}} value={5}>Opiod Risk Tool</ToggleButton>
+                            <ToggleButton style={{whiteSpace: 'normal'}} value={6}>Diagnosis Impact</ToggleButton>
+                            <ToggleButton style={{whiteSpace: 'normal'}} value={7}>Procedure Impact</ToggleButton>
                         </ToggleButtonGroup>
                     </ButtonToolbar>
                     {/*
@@ -85,7 +85,7 @@ export default class ResultPanel extends React.Component {
                         </Navbar.Collapse>
                     </Navbar>*/}
                 </Col>
-                <Col xs={9} xsOffset={1}>
+                <Col sm={10} xs={10} clearfix>
                     <Well footer={'this exist?'}>
                         {resultDisplay}
                     </Well>
