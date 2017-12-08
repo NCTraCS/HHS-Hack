@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { VictoryChart, VictoryBar, VictoryAxis, VictoryTheme } from 'victory';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Grid, Row, Col, Panel } from 'react-bootstrap';
 
 /************
 // load op death data
@@ -27,9 +27,10 @@ class OpDeathChart extends Component {
 
     if( data ){
 
-		return(
-			<div>
-      			<h1>Risk by Opioid Related Deaths by County</h1>
+        const footerStyle={margin: '40px', width: '100%', textAlign:'center'};
+        const headerStyle={textAlign: 'center'};
+        return(
+			<Panel header={'Opiod Related Deaths per Capita by County'} style={headerStyle}>
 				<VictoryChart  
 				>
 					<VictoryAxis 
@@ -45,7 +46,7 @@ class OpDeathChart extends Component {
 							y="per_capita_deaths"
 					/>
 				</VictoryChart>						
-	      	</div>
+	      	</Panel>
       	);
 
   		}
