@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import { VictoryChart, VictoryBar, VictoryAxis, VictoryTheme } from 'victory';
-<<<<<<< HEAD
 import { Grid, Row, Col, Panel } from 'react-bootstrap';
-=======
-import { Grid, Row, Col } from 'react-bootstrap';
->>>>>>> ebecd9b... adding employment chart
 
 /************
 		// load employment data
@@ -31,16 +27,10 @@ class EmployChart extends Component {
 
     if( data ){
 
-<<<<<<< HEAD
         const footerStyle={margin: '40px', width: '100%', textAlign:'center'};
         const headerStyle={textAlign: 'center'};
         return(
 			<Panel header={'Overall Risk Score'} style={headerStyle}>
-=======
-		return(
-			<div>
-      			<h1>Risk by Employment Status</h1>
->>>>>>> ebecd9b... adding employment chart
 				<VictoryChart  
 					domainPadding={{x: 50, y: 50}}
 				>
@@ -56,11 +46,7 @@ class EmployChart extends Component {
 							y="count"
 					/>
 				</VictoryChart>						
-<<<<<<< HEAD
 	      	</Panel>
-=======
-	      	</div>
->>>>>>> ebecd9b... adding employment chart
       	);
 
   		}

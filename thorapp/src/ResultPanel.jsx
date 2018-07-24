@@ -60,54 +60,6 @@ export default class ResultPanel extends React.Component {
             <Result data={this.state.data} propConstraints={this.state.propVal} resultPanelStatus={this.state.resultPanelStatus}/>
         );
         return (
-<<<<<<< HEAD
-            <div>
-                <Row>
-<<<<<<< HEAD
-                    <Col xs={4}>
-=======
-                    <Col xs={3}>
->>>>>>> a6d10ee... Updates for 0.2.0
-                        <ButtonToolbar>
-                            <ToggleButtonGroup vertical type="radio" defaultValue={0} name={'Result Sidebar'} onChange={this.menuSelect}>
-                                <ToggleButton value={0}>Overall Risk</ToggleButton>
-                                <ToggleButton value={1}>Education</ToggleButton>
-                                <ToggleButton value={2}>Employment</ToggleButton>
-<<<<<<< HEAD
-                                <ToggleButton value={3}>Opioid Related Death per Capita</ToggleButton>
-                                <ToggleButton value={4}>Opioid Related Discharges per Capita</ToggleButton>
-                                <ToggleButton value={5}>Opiod Risk Tool</ToggleButton>
-                                <ToggleButton value={6}>Diagnosis Impact</ToggleButton>
-                                <ToggleButton value={7}>Procedure Impact</ToggleButton>
-=======
-                                <ToggleButton value={4}>Opioid Related Death per Capita</ToggleButton>
-                                <ToggleButton value={5}>Opioid Related Discharges per Capita</ToggleButton>
-                                <ToggleButton value={6}>Opioid Risk Tool</ToggleButton>
-                                <ToggleButton value={7}>Diagnosis Impact</ToggleButton>
-                                <ToggleButton value={8}>Procedure Impact</ToggleButton>
->>>>>>> a382d0d... update spelling errors
-                            </ToggleButtonGroup>
-                        </ButtonToolbar>
-                        {/*
-                        <Navbar fixedTop collapseOnSelect>
-                            <Navbar.Collapse>
-                                <Nav stacked activeKey={0} onSelect={this.menuSelect}>
-                                    <NavItem eventKey={0} href="/">One</NavItem>
-                                    <NavItem eventKey={1} href="/">Two</NavItem>
-                                    <NavItem eventKey={2} href="/">Three</NavItem>
-                                </Nav>
-                            </Navbar.Collapse>
-                        </Navbar>*/}
-                    </Col>
-                    <Col xs={7}>
-                        <Well>
-                            {resultDisplay}
-                        </Well>
-                    </Col>
-                </Row>
-
-            </div>
-=======
             <Panel clearfix pull-left style={panelStyle} header={'My Risk Assesment'}>
                 <Col sm={2} xs={2} clearfix>
                     <ButtonToolbar>
@@ -139,7 +91,6 @@ export default class ResultPanel extends React.Component {
                     </Well>
                 </Col>
             </Panel>
->>>>>>> cfb4be2... Adding some styling changes and tweaking the displays and trigger - 0.2.1
         )
     }
 }
