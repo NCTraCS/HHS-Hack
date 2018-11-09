@@ -110,8 +110,8 @@ export default class ControlPanel extends React.Component {
 						<div className="inLineFormYesNo">
 							<ControlItem id={6}
 											 name='educational_level'
-											 display='Select the highest level of education you have received.'
-											 type= 'toggle'
+											 display='A Select the highest level of education you have received.'
+											 type= 'educational_level'
 											 propDefValue={0}
 											 showCriteria={false}
 											 handler = {this.propUpdate}

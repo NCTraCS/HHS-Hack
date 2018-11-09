@@ -151,6 +151,19 @@ export default class ControlItem extends React.Component {
 				</ButtonToolbar>
 			)
 		}
+        else if (this.state.type === 'educational_level') {
+            return (
+                <FormGroup>
+                    <FormControl defaultValue='Select A Value...' componentClass="select" placeholder="select" onChange={this.handleClick} inputRef={ref => {this.input= 'drop_select'}}>
+                        <option key='default' disabled={true}>Select A Value...</option>
+                        <option key='highschool' disabled={false}>High school</option>
+                        <option key='undergrad' disabled={false}>Undergraduate (BA, BS...)</option>
+                        <option key='grad' disabled={false}>Graduate (PhD, MD, AuD, ...)</option>
+                        <option key='other' disabled={true}>Not Listed</option>
+                    </FormControl>
+                </FormGroup>
+            )
+        }
 		else if (this.state.type ==='dropdown') {
 			return (
 				<FormGroup>
